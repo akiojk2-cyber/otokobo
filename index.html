@@ -154,8 +154,15 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
   .globe{width:42px;height:42px}
   nav{gap:4px}
   #s-rec,#s-play{flex-direction:column;gap:14px}
+  #s-rec{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 2px 4px}
+  #s-rec>*{flex-shrink:0}
+  .side{flex:0 0 auto;gap:12px}
+  .empty-card{height:60px;font-size:14px}
+  .drawer{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;overflow:visible;padding:10px}
+  .preset{flex:none;height:72px;font-size:12px}
+  .go{position:sticky;bottom:0;z-index:2;margin-top:4px}
   .mic-col{flex:0 0 auto;gap:10px}
-  .mic-wrap{width:min(30vh,240px)}
+  .mic-wrap{width:min(26vh,210px)}
   .mic-label{font-size:19px}
   .cards{max-height:none;grid-template-columns:repeat(2,minmax(0,1fr))}
   .card{height:76px;gap:8px;padding:0 10px}
