@@ -483,38 +483,49 @@ function addTrack(soundId, pattern) {
   return tr;
 }
 
-/* ---------- recording ---------- */
-var R = { stream: null, src: null, proc: null, sink: null, chunks: [], on: false, pressing: false, level: 0, start: 0, autoStop: null };
+/* ---------- recording (MediaRecorder: works on iOS Safari) ---------- */
+var R = { stream: null, rec: null, an: null, src: null, parts: [], on: false, pressing: false, level: 0, autoStop: null, mime: '' };
+function pickMime() {
+  if (!window.MediaRecorder) return null;
+  var c = ['audio/mp4', 'audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus'];
+  for (var i = 0; i < c.length; i++) { try { if (MediaRecorder.isTypeSupported(c[i])) return c[i]; } catch (err) {} }
+  return '';
+}
 async function micDown(ev) {
   ev.preventDefault();
   if (!ensureAudio()) return;
+  if (R.on) return;
   R.pressing = true;
   try {
-    if (!R.stream) {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('no gUM');
+    if (!R.stream || !R.stream.active) {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('NoGetUserMedia');
+      R.mime = pickMime();
+      if (R.mime === null) throw new Error('NoMediaRecorder');
       setSession('play-and-record');
       R.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
-      if (ctx.state !== 'running') await ctx.resume();
-      R.src = ctx.createMediaStreamSource(R.stream);
-      R.proc = ctx.createScriptProcessor(2048, 1, 1);
-      R.sink = ctx.createGain(); R.sink.gain.value = 0;
-      R.proc.onaudioprocess = function (e) {
-        var d = e.inputBuffer.getChannelData(0), pk = 0;
-        for (var i = 0; i < d.length; i++) { var a = d[i] < 0 ? -d[i] : d[i]; if (a > pk) pk = a; }
-        R.level = R.level * 0.6 + pk * 0.4;
-        if (R.on) R.chunks.push(new Float32Array(d));
-      };
-      R.src.connect(R.proc); R.proc.connect(R.sink); R.sink.connect(ctx.destination);
+      if (ctx.state !== 'running') { try { await ctx.resume(); } catch (err) {} }
+      try { R.src = ctx.createMediaStreamSource(R.stream); R.an = ctx.createAnalyser(); R.an.fftSize = 1024; R.src.connect(R.an); } catch (err) { R.an = null; }
       if (!R.pressing) { toast(t('again')); return; }
     }
   } catch (err) {
     console.warn('mic error', err);
     R.pressing = false; releaseMic();
-    toast(t('noMic'));
+    toast(t('noMic') + ' (' + (err && err.name || 'error') + ')');
     return;
   }
   if (!R.pressing) return;
-  R.chunks = []; R.on = true; R.start = performance.now();
+  try {
+    R.parts = [];
+    R.rec = R.mime ? new MediaRecorder(R.stream, { mimeType: R.mime }) : new MediaRecorder(R.stream);
+    R.rec.ondataavailable = function (e) { if (e.data && e.data.size) R.parts.push(e.data); };
+    R.rec.onstop = finishRecording;
+    R.rec.start();
+  } catch (err) {
+    console.warn('recorder error', err);
+    toast(t('noMic') + ' (' + (err && err.name || 'rec') + ')');
+    return;
+  }
+  R.on = true;
   document.getElementById('micBtn').classList.add('rec');
   renderRecCards(true);
   clearTimeout(R.autoStop); R.autoStop = setTimeout(micUp, 4000);
@@ -525,21 +536,41 @@ function micUp() {
   if (!R.on) return;
   R.on = false;
   var btn = document.getElementById('micBtn'); if (btn) btn.classList.remove('rec');
-  var snd = buildSample(R.chunks); R.chunks = [];
+  try { if (R.rec && R.rec.state !== 'inactive') R.rec.stop(); } catch (err) { console.warn(err); }
+}
+function decode(ab) {
+  return new Promise(function (res, rej) {
+    var p = ctx.decodeAudioData(ab, res, rej);
+    if (p && p.then) p.then(res, rej);
+  });
+}
+async function finishRecording() {
+  var parts = R.parts; R.parts = [];
+  var type = (R.rec && R.rec.mimeType) || R.mime || 'audio/mp4';
+  var snd = null;
+  try {
+    var blob = new Blob(parts, { type: type });
+    window.__okDebug.lastRec = { size: blob.size, type: type };
+    if (blob.size > 0) {
+      var audio = await decode(await blob.arrayBuffer());
+      var len = audio.length, mono = new Float32Array(len);
+      for (var ch = 0; ch < audio.numberOfChannels; ch++) { var d = audio.getChannelData(ch); for (var i = 0; i < len; i++) mono[i] += d[i] / audio.numberOfChannels; }
+      snd = buildSample(mono, audio.sampleRate);
+    }
+  } catch (err) { console.warn('decode error', err); }
   if (!snd) { toast(t('nothing')); renderRecCards(false); return; }
   S.recs.unshift(snd); S.sel = snd.id;
   renderRecCards(false); renderDrawer();
+  ensureAudio();
   voice(ctx, snd, 3, ctx.currentTime + 0.02, liveBus);
 }
-function buildSample(chunks) {
-  var len = 0; chunks.forEach(function (c) { len += c.length; });
+function buildSample(all, sr) {
+  var len = all.length;
   if (!len) return null;
-  var all = new Float32Array(len), o = 0;
-  chunks.forEach(function (c) { all.set(c, o); o += c.length; });
-  var sr = ctx.sampleRate, peak = 0, i;
+  var peak = 0, i;
   for (i = 0; i < len; i++) { var a = Math.abs(all[i]); if (a > peak) peak = a; }
-  if (peak < 0.02) return null;
-  var th = Math.max(0.015, peak * 0.08), s = 0, en = len - 1;
+  if (peak < 0.01) return null;
+  var th = Math.max(0.008, peak * 0.08), s = 0, en = len - 1;
   while (s < len && Math.abs(all[s]) < th) s++;
   while (en > s && Math.abs(all[en]) < th * 0.5) en--;
   s = Math.max(0, s - Math.round(sr * 0.004));
@@ -560,10 +591,18 @@ function buildSample(chunks) {
   S.recCount++;
   return { id: 'r' + S.recCount, n: S.recCount, kind: 'sample', buffer: buf, peaks: peaks, icon: 'mic', color: COLORS[(S.recCount - 1) % COLORS.length] };
 }
+function readLevel() {
+  if (!R.an) return 0;
+  var b = R._lb || (R._lb = new Float32Array(R.an.fftSize));
+  R.an.getFloatTimeDomainData(b);
+  var p = 0; for (var i = 0; i < b.length; i++) { var a = b[i] < 0 ? -b[i] : b[i]; if (a > p) p = a; }
+  return p;
+}
 function releaseMic() {
+  try { if (R.rec && R.rec.state !== 'inactive') { R.rec.onstop = null; R.rec.stop(); } } catch (err) {}
   if (R.stream) R.stream.getTracks().forEach(function (tr) { tr.stop(); });
-  try { if (R.src) R.src.disconnect(); if (R.proc) R.proc.disconnect(); if (R.sink) R.sink.disconnect(); } catch (err) {}
-  R.stream = R.src = R.proc = R.sink = null; R.on = false;
+  try { if (R.src) R.src.disconnect(); } catch (err) {}
+  R.stream = R.src = R.an = R.rec = null; R.on = false; R.parts = [];
   setSession('playback');
 }
 
@@ -820,6 +859,7 @@ document.addEventListener('visibilitychange', function () { if (document.hidden)
 var lastStep = -2;
 function frame() {
   if (S.screen === 'rec' && R.on) {
+    R.level = R.level * 0.6 + readLevel() * 0.4;
     var lv = Math.min(1, R.level * 2.2);
     var r1 = $('ring1'), r2 = $('ring2');
     if (r1) r1.style.transform = 'scale(' + (1 + lv * 0.12) + ')';
