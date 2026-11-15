@@ -5,29 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>OTO KOBO おと工房</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Fredoka:wght@500;700&family=Yomogi&display=swap" rel="stylesheet">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-neiKjMCxo2m6CGa6mrXYpvy9mWhzdBo34vF5zVOuSnA='; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;background:#47291a}
-body{font-family:'M PLUS Rounded 1c','Fredoka',system-ui,sans-serif;color:#fbf1df;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overscroll-behavior:none}
+body{font-family:'Hiragino Maru Gothic ProN','Hiragino Maru Gothic Pro','Arial Rounded MT Bold','Yu Gothic UI','Meiryo',system-ui,sans-serif;color:#fbf1df;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overscroll-behavior:none}
 button{font-family:inherit;border:0;cursor:pointer;color:inherit;padding:0;background:none}
 button:focus-visible{outline:3px solid #fbf1df;outline-offset:3px}
 .walnut{background-color:#47291a;background-image:radial-gradient(ellipse 60% 40% at 25% 30%,rgba(255,190,130,.10),transparent 70%),radial-gradient(ellipse 50% 30% at 80% 75%,rgba(0,0,0,.25),transparent 70%),repeating-linear-gradient(91deg,rgba(0,0,0,0) 0 11px,rgba(0,0,0,.16) 11px 13px,rgba(255,220,180,.04) 13px 26px,rgba(0,0,0,.08) 26px 27px),repeating-linear-gradient(89deg,rgba(0,0,0,.07) 0 2px,transparent 2px 7px)}
 .maple{background-color:#e3c08d;background-image:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 40%,rgba(80,40,10,.08)),repeating-linear-gradient(96deg,rgba(130,75,30,.10) 0 2px,transparent 2px 6px,rgba(130,75,30,.06) 6px 7px,transparent 7px 15px);box-shadow:inset 0 -6px 0 rgba(110,60,20,.35),inset 0 2px 0 rgba(255,255,255,.55),0 7px 14px rgba(0,0,0,.45);color:#3b2312}
 .brass{background:linear-gradient(160deg,#f0d38a,#c49a3e 45%,#8f6a22 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -2px 0 rgba(0,0,0,.25),0 4px 10px rgba(0,0,0,.4);color:#3a220f}
-.hand{font-family:'Yomogi','M PLUS Rounded 1c',sans-serif}
+.hand{font-family:'Klee','Klee One','Hiragino Maru Gothic ProN',sans-serif;font-weight:600}
 .press{transition:transform .08s}
 .press:active{transform:translateY(3px)}
 
 #app{position:fixed;inset:0;display:flex;flex-direction:column;padding:max(16px,env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left));gap:14px}
 header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0}
 .logo{display:flex;flex-direction:column;line-height:1;padding:8px 14px;border-radius:12px}
-.logo b{font-family:'Fredoka',sans-serif;font-size:20px;letter-spacing:2px}
+.logo b{font-family:'Arial Rounded MT Bold','Hiragino Maru Gothic ProN',sans-serif;font-size:20px;letter-spacing:2px}
 .logo small{font-size:10px;font-weight:700;margin-top:3px;letter-spacing:3px}
 nav{display:flex;align-items:center;gap:8px}
 .step{display:flex;align-items:center;gap:8px;white-space:nowrap;height:50px;padding:0 16px 0 7px;border-radius:25px;background:rgba(0,0,0,.28);color:#e8d3b0;box-shadow:inset 0 2px 4px rgba(0,0,0,.4);font-size:18px;font-weight:800}
-.step .n{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fredoka',sans-serif;font-size:19px;background:rgba(255,255,255,.1)}
+.step .n{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Arial Rounded MT Bold','Hiragino Maru Gothic ProN',sans-serif;font-size:19px;background:rgba(255,255,255,.1)}
 .step.on{background:linear-gradient(160deg,#f6dc95,#d6ad4e 50%,#a77d2c);color:#3a220f;box-shadow:0 0 0 3px #fbf1df,0 0 26px rgba(255,210,110,.6)}
 .step.on .n{background:#3a220f;color:#f6dc95}
 .arrow{color:#c49a3e;flex-shrink:0}
@@ -98,7 +98,7 @@ main{flex:1;min-height:0;position:relative}
 @keyframes drop{0%{transform:translateY(-60px) rotate(-8deg);opacity:0}100%{transform:none;opacity:1}}
 .label{flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:0 10px;transform:rotate(-1deg);background:#f6ecd2;background-image:repeating-linear-gradient(0deg,rgba(150,110,60,.08) 0 1px,transparent 1px 4px);clip-path:polygon(2% 0,98% 0,100% 18%,98% 34%,100% 50%,98% 66%,100% 82%,98% 100%,2% 100%,0 82%,2% 66%,0 50%,2% 34%,0 18%);color:#3b2312}
 .mini .label{height:42px;font-size:16px}
-.num{flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fredoka',sans-serif;font-weight:700;background:linear-gradient(160deg,#f0d38a,#c49a3e 50%,#8f6a22);color:#3a220f}
+.num{flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Arial Rounded MT Bold','Hiragino Maru Gothic ProN',sans-serif;font-weight:700;background:linear-gradient(160deg,#f0d38a,#c49a3e 50%,#8f6a22);color:#3a220f}
 .mini .num{width:24px;height:24px;font-size:14px}
 .reels{flex-shrink:0;width:50px;height:22px;border-radius:11px;background:#2b190d;display:flex;align-items:center;justify-content:space-around}
 .reels i{width:13px;height:13px;border-radius:50%;border:3px solid #fbf1df}
@@ -222,13 +222,13 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
 
 /* ---------- i18n ---------- */
 var T = {
-  ja: { lang: 'にほんご', rec: 'ろくおん', play: 'えんそう', song: 'きょく', hold: 'おしてるあいだ ろくおん', holdSub: 'こえ・ものおと・なんでも OK', mine: 'とったおと', mineEmpty: 'まだ ないよ。マイクを おしてみて！', drawer: 'ひきだしのおと', drawerSub: 'ろくおんしなくても あそべるよ', playThis: 'このおとで えんそう', listening: 'きいてるよ', keep: 'いまの、テープにのこす！', toSong: 'きょくにする', addRec: 'もう1ぽん ろくおん', save: 'できた！ ほぞん', seno: 'せーの！', stop: 'ストップ', recording: 'ろくおんちゅう…', nothing: 'なにも きこえなかったよ', noMic: 'マイクが つかえないよ', again: 'もういちど おしてね', kept: 'テープに のこしたよ！', full: 'テープが いっぱいだよ', rackEmpty: 'たたいて あそんだら\n⭐ を おしてね', deckEmpty: 'まだ テープが ないよ\n「えんそう」で ⭐ を おしてね', saved: 'ほぞんしたよ！', saving: 'ほぞんちゅう…', sound: 'おと', del: 'けす', muteOn: 'おとをけす', muteOff: 'おとをだす', vol: 'おおきさ', back: 'もどる',
+  ja: { lang: 'にほんご', recFull: 'おとが いっぱいだよ。いらないのを けしてね', rec: 'ろくおん', play: 'えんそう', song: 'きょく', hold: 'おしてるあいだ ろくおん', holdSub: 'こえ・ものおと・なんでも OK', mine: 'とったおと', mineEmpty: 'まだ ないよ。マイクを おしてみて！', drawer: 'ひきだしのおと', drawerSub: 'ろくおんしなくても あそべるよ', playThis: 'このおとで えんそう', listening: 'きいてるよ', keep: 'いまの、テープにのこす！', toSong: 'きょくにする', addRec: 'もう1ぽん ろくおん', save: 'できた！ ほぞん', seno: 'せーの！', stop: 'ストップ', recording: 'ろくおんちゅう…', nothing: 'なにも きこえなかったよ', noMic: 'マイクが つかえないよ', again: 'もういちど おしてね', kept: 'テープに のこしたよ！', full: 'テープが いっぱいだよ', rackEmpty: 'たたいて あそんだら\n⭐ を おしてね', deckEmpty: 'まだ テープが ないよ\n「えんそう」で ⭐ を おしてね', saved: 'ほぞんしたよ！', saving: 'ほぞんちゅう…', sound: 'おと', del: 'けす', muteOn: 'おとをけす', muteOff: 'おとをだす', vol: 'おおきさ', back: 'もどる',
     names: { drum: 'ドラム', mokkin: 'もっきん', piano: 'ピアノ', bass: 'ベース', frog: 'カエル', robot: 'ロボット' } },
-  en: { lang: 'English', rec: 'Record', play: 'Play', song: 'Song', hold: 'Hold to record', holdSub: 'Voices, noises, anything!', mine: 'My sounds', mineEmpty: 'Nothing yet. Try the mic!', drawer: 'Sound drawer', drawerSub: 'Play without recording', playThis: 'Play this sound', listening: 'Listening', keep: 'Keep that on tape!', toSong: 'Make a song', addRec: 'Record another', save: 'Done! Save', seno: 'Ready, go!', stop: 'Stop', recording: 'Recording…', nothing: "I didn't hear anything", noMic: "Can't use the mic", again: 'Press it again', kept: 'Saved on tape!', full: 'The tapes are full', rackEmpty: 'Tap and play,\nthen press the star', deckEmpty: 'No tapes yet\nPress the star in "Play"', saved: 'Saved!', saving: 'Saving…', sound: 'Sound', del: 'Delete', muteOn: 'Mute', muteOff: 'Unmute', vol: 'Volume', back: 'Back',
+  en: { lang: 'English', recFull: 'Too many sounds. Delete one first', rec: 'Record', play: 'Play', song: 'Song', hold: 'Hold to record', holdSub: 'Voices, noises, anything!', mine: 'My sounds', mineEmpty: 'Nothing yet. Try the mic!', drawer: 'Sound drawer', drawerSub: 'Play without recording', playThis: 'Play this sound', listening: 'Listening', keep: 'Keep that on tape!', toSong: 'Make a song', addRec: 'Record another', save: 'Done! Save', seno: 'Ready, go!', stop: 'Stop', recording: 'Recording…', nothing: "I didn't hear anything", noMic: "Can't use the mic", again: 'Press it again', kept: 'Saved on tape!', full: 'The tapes are full', rackEmpty: 'Tap and play,\nthen press the star', deckEmpty: 'No tapes yet\nPress the star in "Play"', saved: 'Saved!', saving: 'Saving…', sound: 'Sound', del: 'Delete', muteOn: 'Mute', muteOff: 'Unmute', vol: 'Volume', back: 'Back',
     names: { drum: 'Drums', mokkin: 'Xylophone', piano: 'Piano', bass: 'Bass', frog: 'Frog', robot: 'Robot' } },
-  zh: { lang: '中文', rec: '录音', play: '演奏', song: '歌曲', hold: '按住录音', holdSub: '说话、杂音，什么都可以', mine: '我的声音', mineEmpty: '还没有。按一下麦克风吧！', drawer: '声音抽屉', drawerSub: '不录音也能玩', playThis: '用这个声音演奏', listening: '正在听', keep: '把刚才的留在磁带上！', toSong: '做成歌曲', addRec: '再录一个', save: '完成！保存', seno: '预备，开始！', stop: '停止', recording: '录音中…', nothing: '什么也没听到', noMic: '无法使用麦克风', again: '请再按一次', kept: '留在磁带上了！', full: '磁带满了', rackEmpty: '敲一敲玩一玩\n然后按星星', deckEmpty: '还没有磁带\n在“演奏”里按星星', saved: '保存好了！', saving: '保存中…', sound: '声音', del: '删除', muteOn: '静音', muteOff: '取消静音', vol: '音量', back: '返回',
+  zh: { lang: '中文', recFull: '声音太多了，先删掉一个吧', rec: '录音', play: '演奏', song: '歌曲', hold: '按住录音', holdSub: '说话、杂音，什么都可以', mine: '我的声音', mineEmpty: '还没有。按一下麦克风吧！', drawer: '声音抽屉', drawerSub: '不录音也能玩', playThis: '用这个声音演奏', listening: '正在听', keep: '把刚才的留在磁带上！', toSong: '做成歌曲', addRec: '再录一个', save: '完成！保存', seno: '预备，开始！', stop: '停止', recording: '录音中…', nothing: '什么也没听到', noMic: '无法使用麦克风', again: '请再按一次', kept: '留在磁带上了！', full: '磁带满了', rackEmpty: '敲一敲玩一玩\n然后按星星', deckEmpty: '还没有磁带\n在“演奏”里按星星', saved: '保存好了！', saving: '保存中…', sound: '声音', del: '删除', muteOn: '静音', muteOff: '取消静音', vol: '音量', back: '返回',
     names: { drum: '鼓', mokkin: '木琴', piano: '钢琴', bass: '贝斯', frog: '青蛙', robot: '机器人' } },
-  ko: { lang: '한국어', rec: '녹음', play: '연주', song: '노래', hold: '누르는 동안 녹음', holdSub: '목소리, 물건 소리, 뭐든지 OK', mine: '내 소리', mineEmpty: '아직 없어. 마이크를 눌러 봐!', drawer: '소리 서랍', drawerSub: '녹음 안 해도 놀 수 있어', playThis: '이 소리로 연주', listening: '듣고 있어', keep: '방금 거 테이프에 남기기!', toSong: '노래 만들기', addRec: '하나 더 녹음', save: '완성! 저장', seno: '하나 둘 셋!', stop: '멈춰', recording: '녹음 중…', nothing: '아무것도 안 들렸어', noMic: '마이크를 쓸 수 없어', again: '다시 눌러 줘', kept: '테이프에 남겼어!', full: '테이프가 꽉 찼어', rackEmpty: '두드리며 놀다가\n별을 눌러 봐', deckEmpty: '아직 테이프가 없어\n"연주"에서 별을 눌러 봐', saved: '저장했어!', saving: '저장 중…', sound: '소리', del: '지우기', muteOn: '소리 끄기', muteOff: '소리 켜기', vol: '크기', back: '뒤로',
+  ko: { lang: '한국어', recFull: '소리가 너무 많아. 하나 지워 줘', rec: '녹음', play: '연주', song: '노래', hold: '누르는 동안 녹음', holdSub: '목소리, 물건 소리, 뭐든지 OK', mine: '내 소리', mineEmpty: '아직 없어. 마이크를 눌러 봐!', drawer: '소리 서랍', drawerSub: '녹음 안 해도 놀 수 있어', playThis: '이 소리로 연주', listening: '듣고 있어', keep: '방금 거 테이프에 남기기!', toSong: '노래 만들기', addRec: '하나 더 녹음', save: '완성! 저장', seno: '하나 둘 셋!', stop: '멈춰', recording: '녹음 중…', nothing: '아무것도 안 들렸어', noMic: '마이크를 쓸 수 없어', again: '다시 눌러 줘', kept: '테이프에 남겼어!', full: '테이프가 꽉 찼어', rackEmpty: '두드리며 놀다가\n별을 눌러 봐', deckEmpty: '아직 테이프가 없어\n"연주"에서 별을 눌러 봐', saved: '저장했어!', saving: '저장 중…', sound: '소리', del: '지우기', muteOn: '소리 끄기', muteOff: '소리 켜기', vol: '크기', back: '뒤로',
     names: { drum: '드럼', mokkin: '실로폰', piano: '피아노', bass: '베이스', frog: '개구리', robot: '로봇' } }
 };
 var LANGS = ['ja', 'en', 'zh', 'ko'];
@@ -274,6 +274,9 @@ var STOP_SVG = '<svg width="36" height="36" viewBox="0 0 48 48" fill="currentCol
 var BPM = 100, STEP = 60 / BPM / 2, NSTEP = 16, LOOP = STEP * NSTEP;
 var PENTA = [0, 2, 4, 7, 9, 12, 14, 16];
 var ctx = null, master = null, liveBus = null;
+var DBG = {};
+var FRAMED = (function () { try { return window.top !== window.self; } catch (err) { return true; } })();
+var MAX_RECS = 12, MIC_IDLE_MS = 60000;
 var noiseCache = typeof WeakMap !== 'undefined' ? new WeakMap() : null;
 
 function setSession(type) { try { if (navigator.audioSession) navigator.audioSession.type = type; } catch (err) {} }
@@ -286,7 +289,7 @@ function ensureAudio() {
     master = ctx.createGain(); master.gain.value = 0.8;
     outChain(ctx, master, ctx.destination);
     liveBus = ctx.createGain(); liveBus.gain.value = 1; liveBus.connect(master);
-    window.__okDebug.ctx = ctx;
+    DBG.ctx = ctx;
   }
   if (ctx.state !== 'running') ctx.resume();
   return ctx;
@@ -495,6 +498,9 @@ async function micDown(ev) {
   ev.preventDefault();
   if (!ensureAudio()) return;
   if (R.on) return;
+  if (FRAMED || !window.isSecureContext) { toast(t('noMic') + (FRAMED ? ' (frame)' : ' (https)')); return; }
+  if (S.recs.length >= MAX_RECS) { toast(t('recFull')); return; }
+  clearTimeout(R.idle);
   R.pressing = true;
   try {
     if (!R.stream || !R.stream.active) {
@@ -550,7 +556,7 @@ async function finishRecording() {
   var snd = null;
   try {
     var blob = new Blob(parts, { type: type });
-    window.__okDebug.lastRec = { size: blob.size, type: type };
+    DBG.lastRec = { size: blob.size, type: type };
     if (blob.size > 0) {
       var audio = await decode(await blob.arrayBuffer());
       var len = audio.length, mono = new Float32Array(len);
@@ -558,9 +564,10 @@ async function finishRecording() {
       snd = buildSample(mono, audio.sampleRate);
     }
   } catch (err) { console.warn('decode error', err); }
-  if (!snd) { toast(t('nothing')); renderRecCards(false); return; }
+  if (!snd) { toast(t('nothing')); renderRecCards(false); clearTimeout(R.idle); R.idle = setTimeout(releaseMic, MIC_IDLE_MS); return; }
   S.recs.unshift(snd); S.sel = snd.id;
   renderRecCards(false); renderDrawer();
+  clearTimeout(R.idle); R.idle = setTimeout(releaseMic, MIC_IDLE_MS);
   ensureAudio();
   voice(ctx, snd, 3, ctx.currentTime + 0.02, liveBus);
 }
@@ -599,6 +606,8 @@ function readLevel() {
   return p;
 }
 function releaseMic() {
+  clearTimeout(R.idle); clearTimeout(R.autoStop); R.pressing = false;
+  var btn = document.getElementById('micBtn'); if (btn) btn.classList.remove('rec');
   try { if (R.rec && R.rec.state !== 'inactive') { R.rec.onstop = null; R.rec.stop(); } } catch (err) {}
   if (R.stream) R.stream.getTracks().forEach(function (tr) { tr.stop(); });
   try { if (R.src) R.src.disconnect(); } catch (err) {}
@@ -625,7 +634,7 @@ async function saveSong() {
   });
   var rendered = await oc.startRendering();
   var blob = wav(rendered);
-  window.__okDebug.lastWav = { size: blob.size, duration: rendered.duration, peak: peakOf(rendered) };
+  DBG.lastWav = { size: blob.size, duration: rendered.duration, peak: peakOf(rendered) };
   var a = document.createElement('a');
   a.href = URL.createObjectURL(blob); a.download = 'otokobo-song.wav';
   document.body.appendChild(a); a.click(); a.remove();
@@ -781,7 +790,8 @@ function renderSong() {
   var deck = $('deck');
   deck.addEventListener('input', function (ev) {
     var id = ev.target.getAttribute('data-vol'); if (!id) return;
-    var tr = trackById(id); tr.vol = +ev.target.value;
+    var tr = trackById(id); if (!tr || !ctx) return;
+    var v = +ev.target.value; tr.vol = (v >= 0 && v <= 1) ? v : 0.8;
     if (!tr.muted) tr.gain.gain.setTargetAtTime(tr.vol, ctx.currentTime, 0.02);
   });
   deck.classList.toggle('playing', S.songPlaying);
@@ -825,13 +835,15 @@ document.addEventListener('click', function (ev) {
   }
   if (el.hasAttribute('data-go')) { go(el.getAttribute('data-go')); return; }
   if (el.hasAttribute('data-pick')) {
-    S.sel = el.getAttribute('data-pick');
-    ensureAudio(); voice(ctx, soundById(S.sel), 3, ctx.currentTime + 0.01, liveBus);
+    var pick = el.getAttribute('data-pick');
+    if (!soundById(pick) || !ensureAudio()) return;
+    S.sel = pick; voice(ctx, soundById(S.sel), 3, ctx.currentTime + 0.01, liveBus);
     renderRecCards(false); renderDrawer();
     return;
   }
   if (el.hasAttribute('data-mute')) {
     var tr = trackById(el.getAttribute('data-mute'));
+    if (!tr || !ensureAudio()) return;
     tr.muted = !tr.muted;
     tr.gain.gain.setTargetAtTime(tr.muted ? 0 : tr.vol, ctx.currentTime, 0.02);
     renderSong(); return;
@@ -845,6 +857,7 @@ document.addEventListener('click', function (ev) {
   }
   if (el.hasAttribute('data-cell')) {
     var parts = el.getAttribute('data-cell').split(':'), tr3 = trackById(parts[0]), i = +parts[1];
+    if (!tr3 || !(i >= 0 && i < NSTEP) || !ensureAudio()) return;
     var snd = soundById(tr3.soundId);
     if (tr3.pattern[i].length) tr3.pattern[i] = [];
     else { tr3.pattern[i] = [snd.drum ? 0 : 3]; ensureAudio(); voice(ctx, snd, tr3.pattern[i][0], ctx.currentTime, tr3.gain); }
@@ -853,7 +866,8 @@ document.addEventListener('click', function (ev) {
   }
 });
 $('langBtn').addEventListener('click', function () { lang = LANGS[(LANGS.indexOf(lang) + 1) % LANGS.length]; renderAll(); toast(t('lang')); });
-document.addEventListener('visibilitychange', function () { if (document.hidden) { stopTransport(); S.songPlaying = false; if (S.screen === 'song') renderSong(); } else if (S.screen === 'play') startTransport(true); });
+window.addEventListener('pagehide', releaseMic);
+document.addEventListener('visibilitychange', function () { if (document.hidden) { releaseMic(); stopTransport(); S.songPlaying = false; if (S.screen === 'song') renderSong(); } else if (S.screen === 'play') startTransport(true); });
 
 /* ---------- animation loop ---------- */
 var lastStep = -2;
@@ -883,10 +897,14 @@ function frame() {
 }
 
 /* ---------- debug hooks (used by tests) ---------- */
-window.__okDebug = {
-  state: S, go: go, hitPad: hitPad, keepTape: keepTape, curStep: curStep, saveSong: saveSong,
-  get T0() { return T0; }, get master() { return master; }, ctx: null, LOOP: LOOP, STEP: STEP
-};
+// Exposed only for local testing (file://) or with #debug, never by default on the public site.
+if (location.protocol === 'file:' || location.hash === '#debug') {
+  DBG.state = S; DBG.go = go; DBG.hitPad = hitPad; DBG.keepTape = keepTape; DBG.curStep = curStep; DBG.saveSong = saveSong;
+  Object.defineProperty(DBG, 'T0', { get: function () { return T0; } });
+  Object.defineProperty(DBG, 'master', { get: function () { return master; } });
+  DBG.LOOP = LOOP; DBG.STEP = STEP;
+  window.__okDebug = DBG;
+}
 
 renderAll();
 requestAnimationFrame(frame);
