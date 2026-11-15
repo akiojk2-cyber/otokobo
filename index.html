@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>OTO KOBO おと工房</title>
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-neiKjMCxo2m6CGa6mrXYpvy9mWhzdBo34vF5zVOuSnA='; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Xf9MzWIubcc+26OvxbMlh+fUGO/H2BNaSxvPkKNPRSA='; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;background:#47291a}
@@ -71,7 +71,8 @@ main{flex:1;min-height:0;position:relative}
 .play-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .chip{display:flex;align-items:center;gap:10px;height:56px;padding:0 18px 0 7px;border-radius:28px;font-size:22px}
 .chip .badge{width:42px;height:42px}
-.beats{display:flex;gap:12px}
+.beats{display:flex;gap:20px}
+.beats span{display:flex;gap:10px;padding:6px 8px;border-radius:16px;background:rgba(0,0,0,.22)}
 .beats i{width:20px;height:20px;border-radius:50%;background:#2b190d;box-shadow:0 0 0 4px #8f6a22,inset 0 2px 3px rgba(0,0,0,.6);transition:background .05s}
 .beats i.on{background:#ffc531;box-shadow:0 0 0 4px #c49a3e,0 0 18px #ffc531}
 .listen{display:flex;align-items:center;gap:8px;padding:0 16px;height:42px;border-radius:21px;background:rgba(0,0,0,.28);box-shadow:inset 0 2px 4px rgba(0,0,0,.4);font-size:15px;font-weight:700}
@@ -122,6 +123,7 @@ main{flex:1;min-height:0;position:relative}
 .grid{position:relative;flex:1;min-width:0;height:76px;border-radius:14px;background:rgba(0,0,0,.35);box-shadow:inset 0 3px 8px rgba(0,0,0,.6);padding:9px 10px;display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px;align-items:center}
 .cell{height:40%;border-radius:6px;background:rgba(255,255,255,.07);touch-action:manipulation}
 .cell.q{background:rgba(255,255,255,.13)}
+.cell.b2{margin-left:10px}
 .cell.f{height:100%;background:var(--c);box-shadow:inset 0 -4px 0 rgba(0,0,0,.22),inset 0 2px 0 rgba(255,255,255,.35)}
 .cell.f.now{background:#fff;box-shadow:0 0 0 3px var(--c),0 0 20px 6px var(--c)}
 .cell.now:not(.f){background:rgba(255,231,160,.35)}
@@ -180,6 +182,8 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
   .rack .mini{width:160px}
   .play-side .go.wide{display:none}
   .chip{height:48px;font-size:18px}
+  .beats{gap:8px}.beats span{gap:6px;padding:5px 6px}.beats i{width:13px;height:13px}
+  .cell.b2{margin-left:5px}
   .lane{flex-direction:column;align-items:stretch;gap:6px;max-height:none;min-height:0;flex:0 0 auto}
   .tape{flex:0 0 52px;height:52px}
   .tape .label{height:40px}
@@ -222,13 +226,13 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
 
 /* ---------- i18n ---------- */
 var T = {
-  ja: { lang: 'にほんご', recFull: 'おとが いっぱいだよ。いらないのを けしてね', rec: 'ろくおん', play: 'えんそう', song: 'きょく', hold: 'おしてるあいだ ろくおん', holdSub: 'こえ・ものおと・なんでも OK', mine: 'とったおと', mineEmpty: 'まだ ないよ。マイクを おしてみて！', drawer: 'ひきだしのおと', drawerSub: 'ろくおんしなくても あそべるよ', playThis: 'このおとで えんそう', listening: 'きいてるよ', keep: 'いまの、テープにのこす！', toSong: 'きょくにする', addRec: 'もう1ぽん ろくおん', save: 'できた！ ほぞん', seno: 'せーの！', stop: 'ストップ', recording: 'ろくおんちゅう…', nothing: 'なにも きこえなかったよ', noMic: 'マイクが つかえないよ', again: 'もういちど おしてね', kept: 'テープに のこしたよ！', full: 'テープが いっぱいだよ', rackEmpty: 'たたいて あそんだら\n⭐ を おしてね', deckEmpty: 'まだ テープが ないよ\n「えんそう」で ⭐ を おしてね', saved: 'ほぞんしたよ！', saving: 'ほぞんちゅう…', sound: 'おと', del: 'けす', muteOn: 'おとをけす', muteOff: 'おとをだす', vol: 'おおきさ', back: 'もどる',
+  ja: { lang: 'にほんご', tapStop: 'もういちど おすと とまるよ', recFull: 'おとが いっぱいだよ。いらないのを けしてね', rec: 'ろくおん', play: 'えんそう', song: 'きょく', hold: 'おしてるあいだ ろくおん', holdSub: 'こえ・ものおと・なんでも OK', mine: 'とったおと', mineEmpty: 'まだ ないよ。マイクを おしてみて！', drawer: 'ひきだしのおと', drawerSub: 'ろくおんしなくても あそべるよ', playThis: 'このおとで えんそう', listening: 'きいてるよ', keep: 'いまの、テープにのこす！', toSong: 'きょくにする', addRec: 'もう1ぽん ろくおん', save: 'できた！ ほぞん', seno: 'せーの！', stop: 'ストップ', recording: 'ろくおんちゅう…', nothing: 'なにも きこえなかったよ', noMic: 'マイクが つかえないよ', again: 'もういちど おしてね', kept: 'テープに のこしたよ！', full: 'テープが いっぱいだよ', rackEmpty: 'たたいて あそんだら\n⭐ を おしてね', deckEmpty: 'まだ テープが ないよ\n「えんそう」で ⭐ を おしてね', saved: 'ほぞんしたよ！', saving: 'ほぞんちゅう…', sound: 'おと', del: 'けす', muteOn: 'おとをけす', muteOff: 'おとをだす', vol: 'おおきさ', back: 'もどる',
     names: { drum: 'ドラム', mokkin: 'もっきん', piano: 'ピアノ', bass: 'ベース', frog: 'カエル', robot: 'ロボット' } },
-  en: { lang: 'English', recFull: 'Too many sounds. Delete one first', rec: 'Record', play: 'Play', song: 'Song', hold: 'Hold to record', holdSub: 'Voices, noises, anything!', mine: 'My sounds', mineEmpty: 'Nothing yet. Try the mic!', drawer: 'Sound drawer', drawerSub: 'Play without recording', playThis: 'Play this sound', listening: 'Listening', keep: 'Keep that on tape!', toSong: 'Make a song', addRec: 'Record another', save: 'Done! Save', seno: 'Ready, go!', stop: 'Stop', recording: 'Recording…', nothing: "I didn't hear anything", noMic: "Can't use the mic", again: 'Press it again', kept: 'Saved on tape!', full: 'The tapes are full', rackEmpty: 'Tap and play,\nthen press the star', deckEmpty: 'No tapes yet\nPress the star in "Play"', saved: 'Saved!', saving: 'Saving…', sound: 'Sound', del: 'Delete', muteOn: 'Mute', muteOff: 'Unmute', vol: 'Volume', back: 'Back',
+  en: { lang: 'English', tapStop: 'Tap again to stop', recFull: 'Too many sounds. Delete one first', rec: 'Record', play: 'Play', song: 'Song', hold: 'Hold to record', holdSub: 'Voices, noises, anything!', mine: 'My sounds', mineEmpty: 'Nothing yet. Try the mic!', drawer: 'Sound drawer', drawerSub: 'Play without recording', playThis: 'Play this sound', listening: 'Listening', keep: 'Keep that on tape!', toSong: 'Make a song', addRec: 'Record another', save: 'Done! Save', seno: 'Ready, go!', stop: 'Stop', recording: 'Recording…', nothing: "I didn't hear anything", noMic: "Can't use the mic", again: 'Press it again', kept: 'Saved on tape!', full: 'The tapes are full', rackEmpty: 'Tap and play,\nthen press the star', deckEmpty: 'No tapes yet\nPress the star in "Play"', saved: 'Saved!', saving: 'Saving…', sound: 'Sound', del: 'Delete', muteOn: 'Mute', muteOff: 'Unmute', vol: 'Volume', back: 'Back',
     names: { drum: 'Drums', mokkin: 'Xylophone', piano: 'Piano', bass: 'Bass', frog: 'Frog', robot: 'Robot' } },
-  zh: { lang: '中文', recFull: '声音太多了，先删掉一个吧', rec: '录音', play: '演奏', song: '歌曲', hold: '按住录音', holdSub: '说话、杂音，什么都可以', mine: '我的声音', mineEmpty: '还没有。按一下麦克风吧！', drawer: '声音抽屉', drawerSub: '不录音也能玩', playThis: '用这个声音演奏', listening: '正在听', keep: '把刚才的留在磁带上！', toSong: '做成歌曲', addRec: '再录一个', save: '完成！保存', seno: '预备，开始！', stop: '停止', recording: '录音中…', nothing: '什么也没听到', noMic: '无法使用麦克风', again: '请再按一次', kept: '留在磁带上了！', full: '磁带满了', rackEmpty: '敲一敲玩一玩\n然后按星星', deckEmpty: '还没有磁带\n在“演奏”里按星星', saved: '保存好了！', saving: '保存中…', sound: '声音', del: '删除', muteOn: '静音', muteOff: '取消静音', vol: '音量', back: '返回',
+  zh: { lang: '中文', tapStop: '再按一次就停止', recFull: '声音太多了，先删掉一个吧', rec: '录音', play: '演奏', song: '歌曲', hold: '按住录音', holdSub: '说话、杂音，什么都可以', mine: '我的声音', mineEmpty: '还没有。按一下麦克风吧！', drawer: '声音抽屉', drawerSub: '不录音也能玩', playThis: '用这个声音演奏', listening: '正在听', keep: '把刚才的留在磁带上！', toSong: '做成歌曲', addRec: '再录一个', save: '完成！保存', seno: '预备，开始！', stop: '停止', recording: '录音中…', nothing: '什么也没听到', noMic: '无法使用麦克风', again: '请再按一次', kept: '留在磁带上了！', full: '磁带满了', rackEmpty: '敲一敲玩一玩\n然后按星星', deckEmpty: '还没有磁带\n在“演奏”里按星星', saved: '保存好了！', saving: '保存中…', sound: '声音', del: '删除', muteOn: '静音', muteOff: '取消静音', vol: '音量', back: '返回',
     names: { drum: '鼓', mokkin: '木琴', piano: '钢琴', bass: '贝斯', frog: '青蛙', robot: '机器人' } },
-  ko: { lang: '한국어', recFull: '소리가 너무 많아. 하나 지워 줘', rec: '녹음', play: '연주', song: '노래', hold: '누르는 동안 녹음', holdSub: '목소리, 물건 소리, 뭐든지 OK', mine: '내 소리', mineEmpty: '아직 없어. 마이크를 눌러 봐!', drawer: '소리 서랍', drawerSub: '녹음 안 해도 놀 수 있어', playThis: '이 소리로 연주', listening: '듣고 있어', keep: '방금 거 테이프에 남기기!', toSong: '노래 만들기', addRec: '하나 더 녹음', save: '완성! 저장', seno: '하나 둘 셋!', stop: '멈춰', recording: '녹음 중…', nothing: '아무것도 안 들렸어', noMic: '마이크를 쓸 수 없어', again: '다시 눌러 줘', kept: '테이프에 남겼어!', full: '테이프가 꽉 찼어', rackEmpty: '두드리며 놀다가\n별을 눌러 봐', deckEmpty: '아직 테이프가 없어\n"연주"에서 별을 눌러 봐', saved: '저장했어!', saving: '저장 중…', sound: '소리', del: '지우기', muteOn: '소리 끄기', muteOff: '소리 켜기', vol: '크기', back: '뒤로',
+  ko: { lang: '한국어', tapStop: '한 번 더 누르면 멈춰', recFull: '소리가 너무 많아. 하나 지워 줘', rec: '녹음', play: '연주', song: '노래', hold: '누르는 동안 녹음', holdSub: '목소리, 물건 소리, 뭐든지 OK', mine: '내 소리', mineEmpty: '아직 없어. 마이크를 눌러 봐!', drawer: '소리 서랍', drawerSub: '녹음 안 해도 놀 수 있어', playThis: '이 소리로 연주', listening: '듣고 있어', keep: '방금 거 테이프에 남기기!', toSong: '노래 만들기', addRec: '하나 더 녹음', save: '완성! 저장', seno: '하나 둘 셋!', stop: '멈춰', recording: '녹음 중…', nothing: '아무것도 안 들렸어', noMic: '마이크를 쓸 수 없어', again: '다시 눌러 줘', kept: '테이프에 남겼어!', full: '테이프가 꽉 찼어', rackEmpty: '두드리며 놀다가\n별을 눌러 봐', deckEmpty: '아직 테이프가 없어\n"연주"에서 별을 눌러 봐', saved: '저장했어!', saving: '저장 중…', sound: '소리', del: '지우기', muteOn: '소리 끄기', muteOff: '소리 켜기', vol: '크기', back: '뒤로',
     names: { drum: '드럼', mokkin: '실로폰', piano: '피아노', bass: '베이스', frog: '개구리', robot: '로봇' } }
 };
 var LANGS = ['ja', 'en', 'zh', 'ko'];
@@ -284,7 +288,6 @@ function ensureAudio() {
   if (!ctx) {
     var AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) { toast(t('noMic')); return null; }
-    setSession('playback');
     ctx = new AC();
     master = ctx.createGain(); master.gain.value = 0.8;
     outChain(ctx, master, ctx.destination);
@@ -486,31 +489,48 @@ function addTrack(soundId, pattern) {
   return tr;
 }
 
-/* ---------- recording (MediaRecorder: works on iOS Safari) ---------- */
-var R = { stream: null, rec: null, an: null, src: null, parts: [], on: false, pressing: false, level: 0, autoStop: null, mime: '' };
+/* ---------- recording ----------
+   Two captures run side by side so iOS quirks can't leave us empty-handed:
+   A) MediaRecorder -> decodeAudioData   B) raw PCM from a dedicated 48kHz AudioContext.
+   The first one that yields a non-silent sound is used. */
+var R = { stream: null, rec: null, rc: null, src: null, proc: null, sink: null, an: null, parts: [], pcm: [], on: false, pressing: false, toggle: false, t0: 0, level: 0, autoStop: null, idle: null, mime: '' };
 function pickMime() {
   if (!window.MediaRecorder) return null;
   var c = ['audio/mp4', 'audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus'];
   for (var i = 0; i < c.length; i++) { try { if (MediaRecorder.isTypeSupported(c[i])) return c[i]; } catch (err) {} }
   return '';
 }
+function recCtx() {
+  if (R.rc && R.rc.state !== 'closed') return R.rc;
+  var AC = window.AudioContext || window.webkitAudioContext;
+  try { R.rc = new AC({ sampleRate: 48000 }); } catch (err) { R.rc = new AC(); }
+  return R.rc;
+}
 async function micDown(ev) {
   ev.preventDefault();
   if (!ensureAudio()) return;
-  if (R.on) return;
+  if (R.on) { if (R.toggle) stopRec(); return; }
   if (FRAMED || !window.isSecureContext) { toast(t('noMic') + (FRAMED ? ' (frame)' : ' (https)')); return; }
   if (S.recs.length >= MAX_RECS) { toast(t('recFull')); return; }
   clearTimeout(R.idle);
   R.pressing = true;
+  var rc = recCtx();
+  if (rc.state !== 'running') { try { rc.resume(); } catch (err) {} }   // inside the user gesture
   try {
     if (!R.stream || !R.stream.active) {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('NoGetUserMedia');
       R.mime = pickMime();
-      if (R.mime === null) throw new Error('NoMediaRecorder');
       setSession('play-and-record');
       R.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
-      if (ctx.state !== 'running') { try { await ctx.resume(); } catch (err) {} }
-      try { R.src = ctx.createMediaStreamSource(R.stream); R.an = ctx.createAnalyser(); R.an.fftSize = 1024; R.src.connect(R.an); } catch (err) { R.an = null; }
+      try {
+        if (rc.state !== 'running') await rc.resume();
+        R.src = rc.createMediaStreamSource(R.stream);
+        R.an = rc.createAnalyser(); R.an.fftSize = 1024;
+        R.proc = rc.createScriptProcessor(4096, 1, 1);
+        R.sink = rc.createGain(); R.sink.gain.value = 0;
+        R.proc.onaudioprocess = function (e) { if (R.on) R.pcm.push(new Float32Array(e.inputBuffer.getChannelData(0))); };
+        R.src.connect(R.an); R.src.connect(R.proc); R.proc.connect(R.sink); R.sink.connect(rc.destination);
+      } catch (err) { console.warn('pcm path unavailable', err); }
       if (!R.pressing) { toast(t('again')); return; }
     }
   } catch (err) {
@@ -520,29 +540,37 @@ async function micDown(ev) {
     return;
   }
   if (!R.pressing) return;
-  try {
-    R.parts = [];
-    R.rec = R.mime ? new MediaRecorder(R.stream, { mimeType: R.mime }) : new MediaRecorder(R.stream);
-    R.rec.ondataavailable = function (e) { if (e.data && e.data.size) R.parts.push(e.data); };
-    R.rec.onstop = finishRecording;
-    R.rec.start();
-  } catch (err) {
-    console.warn('recorder error', err);
-    toast(t('noMic') + ' (' + (err && err.name || 'rec') + ')');
-    return;
+  R.parts = []; R.pcm = []; R.rec = null;
+  if (R.mime !== null) {
+    try {
+      R.rec = R.mime ? new MediaRecorder(R.stream, { mimeType: R.mime }) : new MediaRecorder(R.stream);
+      R.rec.ondataavailable = function (e) { if (e.data && e.data.size) R.parts.push(e.data); };
+      R.rec.start(250);
+    } catch (err) { console.warn('recorder error', err); R.rec = null; }
   }
-  R.on = true;
+  if (!R.rec && !R.proc) { toast(t('noMic') + ' (rec)'); return; }
+  R.on = true; R.toggle = false; R.t0 = performance.now();
   document.getElementById('micBtn').classList.add('rec');
   renderRecCards(true);
-  clearTimeout(R.autoStop); R.autoStop = setTimeout(micUp, 4000);
+  clearTimeout(R.autoStop); R.autoStop = setTimeout(stopRec, 5000);
 }
+// Finger lifted. A quick tap switches to "tap again to stop" instead of a 0.1s recording.
 function micUp() {
   R.pressing = false;
+  if (!R.on || R.toggle) return;
+  if (performance.now() - R.t0 < 350) { R.toggle = true; toast(t('tapStop')); return; }
+  stopRec();
+}
+function stopRec() {
   clearTimeout(R.autoStop);
   if (!R.on) return;
-  R.on = false;
+  R.on = false; R.toggle = false;
   var btn = document.getElementById('micBtn'); if (btn) btn.classList.remove('rec');
-  try { if (R.rec && R.rec.state !== 'inactive') R.rec.stop(); } catch (err) { console.warn(err); }
+  var rec = R.rec;
+  if (rec && rec.state !== 'inactive') {
+    rec.onstop = finishRecording;
+    try { rec.stop(); } catch (err) { finishRecording(); }
+  } else finishRecording();
 }
 function decode(ab) {
   return new Promise(function (res, rej) {
@@ -550,34 +578,47 @@ function decode(ab) {
     if (p && p.then) p.then(res, rej);
   });
 }
+function peakOfArr(a) { var p = 0; for (var i = 0; i < a.length; i++) { var v = a[i] < 0 ? -a[i] : a[i]; if (v > p) p = v; } return p; }
 async function finishRecording() {
-  var parts = R.parts; R.parts = [];
-  var type = (R.rec && R.rec.mimeType) || R.mime || 'audio/mp4';
-  var snd = null;
-  try {
-    var blob = new Blob(parts, { type: type });
-    DBG.lastRec = { size: blob.size, type: type };
-    if (blob.size > 0) {
-      var audio = await decode(await blob.arrayBuffer());
-      var len = audio.length, mono = new Float32Array(len);
-      for (var ch = 0; ch < audio.numberOfChannels; ch++) { var d = audio.getChannelData(ch); for (var i = 0; i < len; i++) mono[i] += d[i] / audio.numberOfChannels; }
-      snd = buildSample(mono, audio.sampleRate);
-    }
-  } catch (err) { console.warn('decode error', err); }
-  if (!snd) { toast(t('nothing')); renderRecCards(false); clearTimeout(R.idle); R.idle = setTimeout(releaseMic, MIC_IDLE_MS); return; }
+  var parts = R.parts, pcm = R.pcm, rec = R.rec;
+  R.parts = []; R.pcm = []; R.rec = null;
+  var snd = null, diag = [];
+  if (rec) {
+    try {
+      var blob = new Blob(parts, { type: rec.mimeType || R.mime || 'audio/mp4' });
+      diag.push('A' + Math.round(blob.size / 1024) + 'k');
+      if (blob.size > 0) {
+        var audio = await decode(await blob.arrayBuffer());
+        var len = audio.length, mono = new Float32Array(len);
+        for (var ch = 0; ch < audio.numberOfChannels; ch++) { var d = audio.getChannelData(ch); for (var i = 0; i < len; i++) mono[i] += d[i] / audio.numberOfChannels; }
+        snd = buildSample(mono, audio.sampleRate);
+        if (!snd) diag.push('A~' + peakOfArr(mono).toFixed(3));
+        else snd.via = 'A';
+      }
+    } catch (err) { diag.push('A!' + (err && err.name || 'err')); }
+  }
+  if (!snd) {
+    var n = 0; pcm.forEach(function (c) { n += c.length; });
+    var all = new Float32Array(n), o = 0;
+    pcm.forEach(function (c) { all.set(c, o); o += c.length; });
+    snd = n ? buildSample(all, R.rc ? R.rc.sampleRate : 48000) : null;
+    if (snd) snd.via = 'B';
+    else diag.push('B' + (n ? '~' + peakOfArr(all).toFixed(3) : '0'));
+  }
+  DBG.lastRec = { via: snd && snd.via, diag: diag.join(' ') };
+  clearTimeout(R.idle); R.idle = setTimeout(releaseMic, MIC_IDLE_MS);
+  if (!snd) { toast(t('nothing') + '  [' + diag.join(' ') + ']'); renderRecCards(false); return; }
   S.recs.unshift(snd); S.sel = snd.id;
   renderRecCards(false); renderDrawer();
-  clearTimeout(R.idle); R.idle = setTimeout(releaseMic, MIC_IDLE_MS);
   ensureAudio();
   voice(ctx, snd, 3, ctx.currentTime + 0.02, liveBus);
 }
 function buildSample(all, sr) {
   var len = all.length;
   if (!len) return null;
-  var peak = 0, i;
-  for (i = 0; i < len; i++) { var a = Math.abs(all[i]); if (a > peak) peak = a; }
-  if (peak < 0.01) return null;
-  var th = Math.max(0.008, peak * 0.08), s = 0, en = len - 1;
+  var peak = peakOfArr(all), i;
+  if (peak < 0.004) return null;
+  var th = Math.max(0.003, peak * 0.08), s = 0, en = len - 1;
   while (s < len && Math.abs(all[s]) < th) s++;
   while (en > s && Math.abs(all[en]) < th * 0.5) en--;
   s = Math.max(0, s - Math.round(sr * 0.004));
@@ -602,17 +643,17 @@ function readLevel() {
   if (!R.an) return 0;
   var b = R._lb || (R._lb = new Float32Array(R.an.fftSize));
   R.an.getFloatTimeDomainData(b);
-  var p = 0; for (var i = 0; i < b.length; i++) { var a = b[i] < 0 ? -b[i] : b[i]; if (a > p) p = a; }
-  return p;
+  return peakOfArr(b);
 }
 function releaseMic() {
-  clearTimeout(R.idle); clearTimeout(R.autoStop); R.pressing = false;
+  clearTimeout(R.idle); clearTimeout(R.autoStop); R.pressing = false; R.toggle = false;
   var btn = document.getElementById('micBtn'); if (btn) btn.classList.remove('rec');
   try { if (R.rec && R.rec.state !== 'inactive') { R.rec.onstop = null; R.rec.stop(); } } catch (err) {}
   if (R.stream) R.stream.getTracks().forEach(function (tr) { tr.stop(); });
-  try { if (R.src) R.src.disconnect(); } catch (err) {}
-  R.stream = R.src = R.an = R.rec = null; R.on = false; R.parts = [];
-  setSession('playback');
+  try { if (R.src) R.src.disconnect(); if (R.proc) R.proc.disconnect(); if (R.sink) R.sink.disconnect(); } catch (err) {}
+  try { if (R.rc && R.rc.state !== 'closed') R.rc.close(); } catch (err) {}
+  R.stream = R.src = R.proc = R.sink = R.an = R.rec = R.rc = null; R.on = false; R.parts = []; R.pcm = [];
+  setSession('auto');
 }
 
 /* ---------- export ---------- */
@@ -733,7 +774,7 @@ function renderPlay() {
     '<div class="play-main">' +
       '<div class="play-top">' +
         '<button class="chip maple press" data-go="rec" aria-label="' + esc(t('back')) + '" style="box-shadow:inset 0 -6px 0 rgba(110,60,20,.35),0 0 0 4px ' + s.color + ',0 7px 14px rgba(0,0,0,.45)">' + badge(s, 24) + '<span class="hand">' + esc(soundName(s)) + '</span></button>' +
-        '<div style="display:flex;align-items:center;gap:16px"><div class="beats" id="beats" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="listen"><i></i>' + esc(t('listening')) + '</div></div>' +
+        '<div style="display:flex;align-items:center;gap:16px"><div class="beats" id="beats" aria-hidden="true"><span><i></i><i></i><i></i><i></i></span><span><i></i><i></i><i></i><i></i></span></div><div class="listen"><i></i>' + esc(t('listening')) + '</div></div>' +
       '</div>' + pads +
     '</div>' +
     '<div class="play-side">' +
@@ -767,7 +808,7 @@ function renderRack() {
 function renderSong() {
   var lanes = S.tracks.map(function (tr) {
     var s = soundById(tr.soundId);
-    var cells = tr.pattern.map(function (p, i) { return '<div class="cell' + (p.length ? ' f' : '') + (i % 4 === 0 ? ' q' : '') + '" data-cell="' + tr.id + ':' + i + '"></div>'; }).join('');
+    var cells = tr.pattern.map(function (p, i) { return '<div class="cell' + (p.length ? ' f' : '') + (i % 2 === 0 ? ' q' : '') + (i === 8 ? ' b2' : '') + '" data-cell="' + tr.id + ':' + i + '"></div>'; }).join('');
     return '<div class="lane' + (tr.muted ? ' mute' : '') + '" id="lane-' + tr.id + '" style="--c:' + s.color + '">' +
       '<div class="tape"><span class="x" role="button" tabindex="0" aria-label="' + esc(t('del')) + '" data-deltrack="' + tr.id + '">' + svg('x', 16, 5) + '</span>' +
         '<div class="label"><span class="num">' + tr.n + '</span><div style="min-width:0"><div class="nm hand">' + esc(soundName(s)) + '</div>' + waveHTML(s.peaks, 14) + '</div></div>' +
@@ -885,7 +926,7 @@ function frame() {
   if (st !== lastStep) {
     lastStep = st;
     if (S.screen === 'play') {
-      var bs = document.querySelectorAll('#beats i'), beat = st < 0 ? -1 : Math.floor(st / 2) % 4;
+      var bs = document.querySelectorAll('#beats i'), beat = st < 0 ? -1 : Math.floor(st / 2) % 8;
       for (var b = 0; b < bs.length; b++) bs[b].classList.toggle('on', b === beat);
     }
     if (S.screen === 'song') {
