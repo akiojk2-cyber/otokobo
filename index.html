@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>OTO KOBO おと工房</title>
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-90Qf+dqbn/UK2IGaTSPP7BkbB8ww1IpKpX5my6oMfeU='; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TIRa+42kr011f5/6n/5bQrmSbcA67/vjxbM/04tsBbo='; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;background:#47291a}
@@ -124,8 +124,24 @@ main{flex:1;min-height:0;position:relative}
 .num{flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Arial Rounded MT Bold','Hiragino Maru Gothic ProN',sans-serif;font-weight:700;background:linear-gradient(160deg,#f0d38a,#c49a3e 50%,#8f6a22);color:#3a220f}
 .mini .num{width:24px;height:24px;font-size:14px}
 .reels{flex-shrink:0;width:50px;height:22px;border-radius:11px;background:#2b190d;display:flex;align-items:center;justify-content:space-around}
-.reels i{width:13px;height:13px;border-radius:50%;border:3px solid #fbf1df}
-.playing .reels i{border-style:dashed;animation:spin 1.2s linear infinite}
+.reels i{width:15px;height:15px;border-radius:50%;border:3px solid #fbf1df;background:conic-gradient(#fbf1df 0 22deg,transparent 22deg 120deg,#fbf1df 120deg 142deg,transparent 142deg 240deg,#fbf1df 240deg 262deg,transparent 262deg)}
+.spinning .reels i{animation:spin var(--spin,1.2s) linear infinite}
+.spinning .lane.mute .reels i{animation:none}
+.reels.big{width:92px;height:40px;border-radius:20px;gap:4px;justify-content:space-between;padding:0 6px}
+.reels.big i{width:26px;height:26px;border-width:4px}
+.ricon{color:#fbf1df;display:flex}
+.spark{position:absolute;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--c);pointer-events:none;animation:spark .55s ease-out forwards}
+@keyframes spark{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+.seno.bump .disc{animation:bump .18s ease-out}
+@keyframes bump{40%{transform:scale(1.14)}}
+.fxwrap{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.fxrow{width:100%}
+.fxrow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.fxbtn{height:70px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;font-weight:800;min-width:0}
+.fxbtn.on{box-shadow:0 0 0 3px #fbf1df,0 0 18px rgba(255,210,110,.6)}
+.sheet-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px;opacity:.85;border-top:2px dashed rgba(110,60,20,.3);padding-top:12px}
+.reset-btn{display:flex;align-items:center;gap:6px;height:42px;padding:0 14px;border-radius:21px;font-size:14px;font-weight:800}
+.reset-btn.armed{background:#e2412c;color:#fff}
 @keyframes spin{to{transform:rotate(360deg)}}
 .rack-empty{margin:auto;text-align:center;color:#e8d3b0;font-size:15px;line-height:1.6;padding:8px}
 .go.wide{width:100%;justify-content:space-between;align-self:stretch;font-size:20px;height:64px}
@@ -252,6 +268,9 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
   .tape{flex:0 0 52px;height:52px}
   .tape .label{height:40px}
   .tape .wave{display:none}
+  .reels.big{width:70px;height:32px}.reels.big i{width:20px;height:20px;border-width:3px}.ricon svg{width:14px;height:14px}
+  .fxrow{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .fxbtn{height:60px}
   .tape .nm{font-size:17px}
   .tape .num{width:24px;height:24px;font-size:14px}
   .ctl-row{display:flex;gap:8px;align-items:center}
@@ -292,15 +311,15 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
 
 /* ---------- i18n ---------- */
 var T = {
-  ja: { lang: 'にほんご', help: 'つかいかた', ok: 'わかった！', langTitle: 'ことば', tempo: 'はやさ', slower: 'ゆっくり', faster: 'はやく', tapStop: 'もういちど おすと とまるよ', recFull: 'おとが いっぱいだよ。いらないのを けしてね', rec: 'ろくおん', play: 'えんそう', song: 'きょく', hold: 'おすと 4つ かぞえて ろくおん', holdSub: 'こえ・ものおと・なんでも OK', mine: 'とったおと', mineEmpty: 'まだ ないよ。マイクを おしてみて！', drawer: 'ひきだしのおと', drawerSub: 'ろくおんしなくても あそべるよ', playThis: 'このおとで えんそう', listening: 'きいてるよ', keep: 'テープに ろくおん！', ready: 'よーい…', recNow: 'ろくおんちゅう！', cancel: 'やめる', toSong: 'きょくにする', addRec: 'もう1ぽん ろくおん', save: 'できた！ ほぞん', seno: 'せーの！', stop: 'ストップ', recording: 'ろくおんちゅう…', nothing: 'なにも きこえなかったよ', noMic: 'マイクが つかえないよ', again: 'もういちど おしてね', kept: 'テープに のこしたよ！', full: 'テープが いっぱいだよ', rackEmpty: '⭐ を おすと 4つ かぞえて\n2しょうせつ ろくおん するよ', deckEmpty: 'まだ テープが ないよ\n「えんそう」で ⭐ を おしてね', saved: 'ほぞんしたよ！', saving: 'ほぞんちゅう…', sound: 'おと', del: 'けす', muteOn: 'おとをけす', muteOff: 'おとをだす', vol: 'おおきさ', back: 'もどる',
+  ja: { lang: 'にほんご', fxTitle: 'こえの へんしん', fx_normal: 'ふつう', fx_robot: 'ロボット', fx_mouse: 'ねずみ', fx_bear: 'くま', fx_echo: 'やまびこ', fx_reverse: 'さかさま', reset: 'はじめから つくる', resetSure: 'もういちど おすと ぜんぶ けすよ', welcome: 'おかえり！ つづきから あそべるよ', localOnly: 'このiPad・スマホの なかだけに ほぞんしているよ', help: 'つかいかた', ok: 'わかった！', langTitle: 'ことば', tempo: 'はやさ', slower: 'ゆっくり', faster: 'はやく', tapStop: 'もういちど おすと とまるよ', recFull: 'おとが いっぱいだよ。いらないのを けしてね', rec: 'ろくおん', play: 'えんそう', song: 'きょく', hold: 'おすと 4つ かぞえて ろくおん', holdSub: 'こえ・ものおと・なんでも OK', mine: 'とったおと', mineEmpty: 'まだ ないよ。マイクを おしてみて！', drawer: 'ひきだしのおと', drawerSub: 'ろくおんしなくても あそべるよ', playThis: 'このおとで えんそう', listening: 'きいてるよ', keep: 'テープに ろくおん！', ready: 'よーい…', recNow: 'ろくおんちゅう！', cancel: 'やめる', toSong: 'きょくにする', addRec: 'もう1ぽん ろくおん', save: 'できた！ ほぞん', seno: 'せーの！', stop: 'ストップ', recording: 'ろくおんちゅう…', nothing: 'なにも きこえなかったよ', noMic: 'マイクが つかえないよ', again: 'もういちど おしてね', kept: 'テープに のこしたよ！', full: 'テープが いっぱいだよ', rackEmpty: '⭐ を おすと 4つ かぞえて\n2しょうせつ ろくおん するよ', deckEmpty: 'まだ テープが ないよ\n「えんそう」で ⭐ を おしてね', saved: 'ほぞんしたよ！', saving: 'ほぞんちゅう…', sound: 'おと', del: 'けす', muteOn: 'おとをけす', muteOff: 'おとをだす', vol: 'おおきさ', back: 'もどる',
     names: { drum: 'ドラム', mokkin: 'もっきん', piano: 'ピアノ', bass: 'ベース', frog: 'カエル', robot: 'ロボット', guitar: 'ギター', trumpet: 'ラッパ', organ: 'オルガン', cat: 'ネコ', spring: 'ビヨーン', laser: 'レーザー', drop: 'しずく', suzu: 'すず' } },
-  en: { lang: 'English', help: 'How to play', ok: 'Got it!', langTitle: 'Language', tempo: 'Speed', slower: 'Slower', faster: 'Faster', tapStop: 'Tap again to stop', recFull: 'Too many sounds. Delete one first', rec: 'Record', play: 'Play', song: 'Song', hold: 'Tap: count 4, then record', holdSub: 'Voices, noises, anything!', mine: 'My sounds', mineEmpty: 'Nothing yet. Try the mic!', drawer: 'Sound drawer', drawerSub: 'Play without recording', playThis: 'Play this sound', listening: 'Listening', keep: 'Record to tape!', ready: 'Get ready…', recNow: 'Recording!', cancel: 'Cancel', toSong: 'Make a song', addRec: 'Record another', save: 'Done! Save', seno: 'Ready, go!', stop: 'Stop', recording: 'Recording…', nothing: "I didn't hear anything", noMic: "Can't use the mic", again: 'Press it again', kept: 'Saved on tape!', full: 'The tapes are full', rackEmpty: 'Press the star: count 4,\nthen 2 bars are recorded', deckEmpty: 'No tapes yet\nPress the star in "Play"', saved: 'Saved!', saving: 'Saving…', sound: 'Sound', del: 'Delete', muteOn: 'Mute', muteOff: 'Unmute', vol: 'Volume', back: 'Back',
+  en: { lang: 'English', fxTitle: 'Voice magic', fx_normal: 'Normal', fx_robot: 'Robot', fx_mouse: 'Mouse', fx_bear: 'Bear', fx_echo: 'Echo', fx_reverse: 'Backwards', reset: 'Start over', resetSure: 'Tap again to erase everything', welcome: 'Welcome back! Carry on playing', localOnly: 'Saved only on this device', help: 'How to play', ok: 'Got it!', langTitle: 'Language', tempo: 'Speed', slower: 'Slower', faster: 'Faster', tapStop: 'Tap again to stop', recFull: 'Too many sounds. Delete one first', rec: 'Record', play: 'Play', song: 'Song', hold: 'Tap: count 4, then record', holdSub: 'Voices, noises, anything!', mine: 'My sounds', mineEmpty: 'Nothing yet. Try the mic!', drawer: 'Sound drawer', drawerSub: 'Play without recording', playThis: 'Play this sound', listening: 'Listening', keep: 'Record to tape!', ready: 'Get ready…', recNow: 'Recording!', cancel: 'Cancel', toSong: 'Make a song', addRec: 'Record another', save: 'Done! Save', seno: 'Ready, go!', stop: 'Stop', recording: 'Recording…', nothing: "I didn't hear anything", noMic: "Can't use the mic", again: 'Press it again', kept: 'Saved on tape!', full: 'The tapes are full', rackEmpty: 'Press the star: count 4,\nthen 2 bars are recorded', deckEmpty: 'No tapes yet\nPress the star in "Play"', saved: 'Saved!', saving: 'Saving…', sound: 'Sound', del: 'Delete', muteOn: 'Mute', muteOff: 'Unmute', vol: 'Volume', back: 'Back',
     names: { drum: 'Drums', mokkin: 'Xylophone', piano: 'Piano', bass: 'Bass', frog: 'Frog', robot: 'Robot', guitar: 'Guitar', trumpet: 'Trumpet', organ: 'Organ', cat: 'Cat', spring: 'Boing', laser: 'Laser', drop: 'Drop', suzu: 'Bells' } },
-  zh: { lang: '中文', help: '怎么玩', ok: '知道了！', langTitle: '语言', tempo: '速度', slower: '慢一点', faster: '快一点', tapStop: '再按一次就停止', recFull: '声音太多了，先删掉一个吧', rec: '录音', play: '演奏', song: '歌曲', hold: '按一下：数4下后录音', holdSub: '说话、杂音，什么都可以', mine: '我的声音', mineEmpty: '还没有。按一下麦克风吧！', drawer: '声音抽屉', drawerSub: '不录音也能玩', playThis: '用这个声音演奏', listening: '正在听', keep: '录到磁带上！', ready: '准备…', recNow: '录音中！', cancel: '取消', toSong: '做成歌曲', addRec: '再录一个', save: '完成！保存', seno: '预备，开始！', stop: '停止', recording: '录音中…', nothing: '什么也没听到', noMic: '无法使用麦克风', again: '请再按一次', kept: '留在磁带上了！', full: '磁带满了', rackEmpty: '按星星：数4下\n然后录2小节', deckEmpty: '还没有磁带\n在“演奏”里按星星', saved: '保存好了！', saving: '保存中…', sound: '声音', del: '删除', muteOn: '静音', muteOff: '取消静音', vol: '音量', back: '返回',
+  zh: { lang: '中文', fxTitle: '变声魔法', fx_normal: '原声', fx_robot: '机器人', fx_mouse: '老鼠', fx_bear: '熊', fx_echo: '回声', fx_reverse: '倒放', reset: '从头开始', resetSure: '再按一次就全部删除', welcome: '欢迎回来！可以接着玩', localOnly: '只保存在这台设备上', help: '怎么玩', ok: '知道了！', langTitle: '语言', tempo: '速度', slower: '慢一点', faster: '快一点', tapStop: '再按一次就停止', recFull: '声音太多了，先删掉一个吧', rec: '录音', play: '演奏', song: '歌曲', hold: '按一下：数4下后录音', holdSub: '说话、杂音，什么都可以', mine: '我的声音', mineEmpty: '还没有。按一下麦克风吧！', drawer: '声音抽屉', drawerSub: '不录音也能玩', playThis: '用这个声音演奏', listening: '正在听', keep: '录到磁带上！', ready: '准备…', recNow: '录音中！', cancel: '取消', toSong: '做成歌曲', addRec: '再录一个', save: '完成！保存', seno: '预备，开始！', stop: '停止', recording: '录音中…', nothing: '什么也没听到', noMic: '无法使用麦克风', again: '请再按一次', kept: '留在磁带上了！', full: '磁带满了', rackEmpty: '按星星：数4下\n然后录2小节', deckEmpty: '还没有磁带\n在“演奏”里按星星', saved: '保存好了！', saving: '保存中…', sound: '声音', del: '删除', muteOn: '静音', muteOff: '取消静音', vol: '音量', back: '返回',
     names: { drum: '鼓', mokkin: '木琴', piano: '钢琴', bass: '贝斯', frog: '青蛙', robot: '机器人', guitar: '吉他', trumpet: '小号', organ: '风琴', cat: '猫咪', spring: '弹簧', laser: '激光', drop: '水滴', suzu: '铃铛' } },
-  ko: { lang: '한국어', help: '사용법', ok: '알겠어!', langTitle: '언어', tempo: '빠르기', slower: '느리게', faster: '빠르게', tapStop: '한 번 더 누르면 멈춰', recFull: '소리가 너무 많아. 하나 지워 줘', rec: '녹음', play: '연주', song: '노래', hold: '누르면 4번 세고 녹음', holdSub: '목소리, 물건 소리, 뭐든지 OK', mine: '내 소리', mineEmpty: '아직 없어. 마이크를 눌러 봐!', drawer: '소리 서랍', drawerSub: '녹음 안 해도 놀 수 있어', playThis: '이 소리로 연주', listening: '듣고 있어', keep: '테이프에 녹음!', ready: '준비…', recNow: '녹음 중!', cancel: '취소', toSong: '노래 만들기', addRec: '하나 더 녹음', save: '완성! 저장', seno: '하나 둘 셋!', stop: '멈춰', recording: '녹음 중…', nothing: '아무것도 안 들렸어', noMic: '마이크를 쓸 수 없어', again: '다시 눌러 줘', kept: '테이프에 남겼어!', full: '테이프가 꽉 찼어', rackEmpty: '별을 누르면 4번 세고\n2마디를 녹음해', deckEmpty: '아직 테이프가 없어\n"연주"에서 별을 눌러 봐', saved: '저장했어!', saving: '저장 중…', sound: '소리', del: '지우기', muteOn: '소리 끄기', muteOff: '소리 켜기', vol: '크기', back: '뒤로',
+  ko: { lang: '한국어', fxTitle: '목소리 변신', fx_normal: '그대로', fx_robot: '로봇', fx_mouse: '생쥐', fx_bear: '곰', fx_echo: '메아리', fx_reverse: '거꾸로', reset: '처음부터 만들기', resetSure: '한 번 더 누르면 모두 지워져', welcome: '어서 와! 이어서 놀 수 있어', localOnly: '이 기기에만 저장돼', help: '사용법', ok: '알겠어!', langTitle: '언어', tempo: '빠르기', slower: '느리게', faster: '빠르게', tapStop: '한 번 더 누르면 멈춰', recFull: '소리가 너무 많아. 하나 지워 줘', rec: '녹음', play: '연주', song: '노래', hold: '누르면 4번 세고 녹음', holdSub: '목소리, 물건 소리, 뭐든지 OK', mine: '내 소리', mineEmpty: '아직 없어. 마이크를 눌러 봐!', drawer: '소리 서랍', drawerSub: '녹음 안 해도 놀 수 있어', playThis: '이 소리로 연주', listening: '듣고 있어', keep: '테이프에 녹음!', ready: '준비…', recNow: '녹음 중!', cancel: '취소', toSong: '노래 만들기', addRec: '하나 더 녹음', save: '완성! 저장', seno: '하나 둘 셋!', stop: '멈춰', recording: '녹음 중…', nothing: '아무것도 안 들렸어', noMic: '마이크를 쓸 수 없어', again: '다시 눌러 줘', kept: '테이프에 남겼어!', full: '테이프가 꽉 찼어', rackEmpty: '별을 누르면 4번 세고\n2마디를 녹음해', deckEmpty: '아직 테이프가 없어\n"연주"에서 별을 눌러 봐', saved: '저장했어!', saving: '저장 중…', sound: '소리', del: '지우기', muteOn: '소리 끄기', muteOff: '소리 켜기', vol: '크기', back: '뒤로',
     names: { drum: '드럼', mokkin: '실로폰', piano: '피아노', bass: '베이스', frog: '개구리', robot: '로봇', guitar: '기타', trumpet: '트럼펫', organ: '오르간', cat: '고양이', spring: '띠용', laser: '레이저', drop: '물방울', suzu: '방울' } },
-  uk: { lang: 'Українська', help: 'Як грати', ok: 'Зрозуміло!', langTitle: 'Мова', tempo: 'Швидкість', slower: 'Повільніше', faster: 'Швидше', tapStop: 'Натисни ще раз, щоб зупинити', recFull: 'Забагато звуків. Спочатку видали один', rec: 'Запис', play: 'Гра', song: 'Пісня', hold: 'Натисни: рахуємо 4 — і запис', holdSub: 'Голос, звуки — що завгодно!', mine: 'Мої звуки', mineEmpty: 'Ще нічого немає. Натисни мікрофон!', drawer: 'Шухляда звуків', drawerSub: 'Можна грати й без запису', playThis: 'Грати цим звуком', listening: 'Слухаю', keep: 'Запис на касету!', ready: 'Готуйся…', recNow: 'Записую!', cancel: 'Скасувати', toSong: 'Зробити пісню', addRec: 'Записати ще', save: 'Готово! Зберегти', seno: 'Три-чотири!', stop: 'Стоп', recording: 'Записую…', nothing: 'Нічого не чути', noMic: 'Мікрофон недоступний', again: 'Натисни ще раз', kept: 'Записано на касету!', full: 'Касет уже забагато', rackEmpty: 'Натисни зірку: рахуємо до 4,\nпотім записуємо 2 такти', deckEmpty: 'Ще немає касет\nНатисни зірку в «Грі»', saved: 'Збережено!', saving: 'Зберігаю…', sound: 'Звук', del: 'Видалити', muteOn: 'Вимкнути звук', muteOff: 'Увімкнути звук', vol: 'Гучність', back: 'Назад',
+  uk: { lang: 'Українська', fxTitle: 'Чарівний голос', fx_normal: 'Звичайний', fx_robot: 'Робот', fx_mouse: 'Мишка', fx_bear: 'Ведмідь', fx_echo: 'Луна', fx_reverse: 'Задом наперед', reset: 'Почати спочатку', resetSure: 'Натисни ще раз — і все зітреться', welcome: 'З поверненням! Грай далі', localOnly: 'Зберігається лише на цьому пристрої', help: 'Як грати', ok: 'Зрозуміло!', langTitle: 'Мова', tempo: 'Швидкість', slower: 'Повільніше', faster: 'Швидше', tapStop: 'Натисни ще раз, щоб зупинити', recFull: 'Забагато звуків. Спочатку видали один', rec: 'Запис', play: 'Гра', song: 'Пісня', hold: 'Натисни: рахуємо 4 — і запис', holdSub: 'Голос, звуки — що завгодно!', mine: 'Мої звуки', mineEmpty: 'Ще нічого немає. Натисни мікрофон!', drawer: 'Шухляда звуків', drawerSub: 'Можна грати й без запису', playThis: 'Грати цим звуком', listening: 'Слухаю', keep: 'Запис на касету!', ready: 'Готуйся…', recNow: 'Записую!', cancel: 'Скасувати', toSong: 'Зробити пісню', addRec: 'Записати ще', save: 'Готово! Зберегти', seno: 'Три-чотири!', stop: 'Стоп', recording: 'Записую…', nothing: 'Нічого не чути', noMic: 'Мікрофон недоступний', again: 'Натисни ще раз', kept: 'Записано на касету!', full: 'Касет уже забагато', rackEmpty: 'Натисни зірку: рахуємо до 4,\nпотім записуємо 2 такти', deckEmpty: 'Ще немає касет\nНатисни зірку в «Грі»', saved: 'Збережено!', saving: 'Зберігаю…', sound: 'Звук', del: 'Видалити', muteOn: 'Вимкнути звук', muteOff: 'Увімкнути звук', vol: 'Гучність', back: 'Назад',
     names: { drum: 'Барабани', mokkin: 'Ксилофон', piano: 'Піаніно', bass: 'Бас', frog: 'Жаба', robot: 'Робот', guitar: 'Гітара', trumpet: 'Труба', organ: 'Орган', cat: 'Кіт', spring: 'Пружина', laser: 'Лазер', drop: 'Крапля', suzu: 'Дзвіночки' } }
 };
 var LANGS = ['ja', 'en', 'zh', 'ko', 'uk'];
@@ -359,6 +378,11 @@ var IC = {
   laser: 'M5 17h22l5 6-5 6H15l-3 9H6zM36 23h8M37 15l6-4M37 31l6 4',
   drop: 'M24 6c6 9 12 15 12 22a12 12 0 0 1-24 0c0-7 6-13 12-22zM19 30a5 5 0 0 0 5 5',
   suzu: c(24, 26, 13) + 'M13 26h22M24 31v5M24 13V7',
+  mouse: c(13, 15, 7) + c(35, 15, 7) + c(24, 29, 12) + c(20, 27, 0.8) + c(28, 27, 0.8) + 'M22 33h4',
+  bear: c(12, 13, 5) + c(36, 13, 5) + c(24, 27, 14) + c(24, 32, 4) + c(19, 23, 0.8) + c(29, 23, 0.8),
+  echo: 'M4 40l13-21 8 12 6-9 13 18zM30 12a5 5 0 0 1 0 6M35 9a10 10 0 0 1 0 12',
+  reverse: 'M38 16H12l7-7M12 16l7 7M10 32h26l-7-7M36 32l-7 7',
+  trash: 'M10 14h28M18 14V9h12v5M14 14l2 26h16l2-26',
   meter: 'M8 40V32M16 40V26M24 40V20M32 40V14M40 40V8',
   stop: 'M14 14h20v20H14z',
   star: 'M24 5l5.9 12 13.1 1.9-9.5 9.3 2.2 13.1L24 35.1 12.3 41.3l2.2-13.1L5 18.9 18.1 17z',
@@ -397,6 +421,7 @@ function ensureAudio() {
     liveBus = ctx.createGain(); liveBus.gain.value = 1; liveBus.connect(master);
     DBG.ctx = ctx;
   }
+  attachGains();
   if (ctx.state !== 'running') ctx.resume();
   return ctx;
 }
@@ -695,6 +720,7 @@ function finishTake(t0, endAt) {
   if (star) { star.classList.remove('pop'); void star.offsetWidth; star.classList.add('pop'); }
   toast(t('kept'));
   renderRack();
+  persist();
 }
 var starState = '';
 function updateStarUI(force) {
@@ -885,8 +911,9 @@ async function finishRecording() {
   DBG.lastRec = { via: snd && snd.via, diag: diag.join(' ') };
   clearTimeout(R.idle); R.idle = setTimeout(releaseMic, MIC_IDLE_MS);
   if (!snd) { toast(t('nothing') + '  [' + diag.join(' ') + ']'); renderRecCards(false); return; }
+  snd.sr = snd.buffer.sampleRate; snd.orig = snd.buffer.getChannelData(0).slice(); snd.fx = 'normal'; snd._dirty = true;
   S.recs.unshift(snd); S.sel = snd.id;
-  renderRecCards(false); renderDrawer();
+  renderRecCards(false); renderDrawer(); persist();
   ensureAudio();
   voice(ctx, snd, 3, ctx.currentTime + 0.02, liveBus);
 }
@@ -932,6 +959,177 @@ function releaseMic() {
   try { if (R.rc && R.rc.state !== 'closed') R.rc.close(); } catch (err) {}
   R.stream = R.src = R.proc = R.sink = R.an = R.rec = R.rc = null; R.on = false; R.parts = []; R.pcm = [];
   setSession('auto');
+}
+
+
+/* ---------- voice magic ---------- */
+var FXS = [['normal', 'mic'], ['robot', 'robot'], ['mouse', 'mouse'], ['bear', 'bear'], ['echo', 'echo'], ['reverse', 'reverse']];
+var fxBusy = false;
+async function renderFx(orig, sr, fx) {
+  if (fx === 'normal') return orig.slice();
+  if (fx === 'reverse') { var r = orig.slice(); r.reverse(); return r; }
+  var OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+  var rate = fx === 'mouse' ? 1.65 : fx === 'bear' ? 0.62 : 1;
+  var tail = fx === 'echo' ? 1.3 : 0.05;
+  var len = Math.ceil((orig.length / sr / rate + tail) * sr);
+  var oc = new OAC(1, len, sr);
+  var b = oc.createBuffer(1, orig.length, sr); b.getChannelData(0).set(orig);
+  var src = oc.createBufferSource(); src.buffer = b; src.playbackRate.value = rate;
+  if (fx === 'robot') {
+    var ring = oc.createGain(); ring.gain.value = 0;
+    var m = oc.createOscillator(); m.type = 'sine'; m.frequency.value = 60;
+    m.connect(ring.gain); m.start(0);
+    var lp = oc.createBiquadFilter(); lp.type = 'bandpass'; lp.frequency.value = 1400; lp.Q.value = 0.7;
+    src.connect(ring); ring.connect(lp); lp.connect(oc.destination);
+  } else if (fx === 'echo') {
+    var d = oc.createDelay(1); d.delayTime.value = 0.26;
+    var fb = oc.createGain(); fb.gain.value = 0.45;
+    var wet = oc.createGain(); wet.gain.value = 0.7;
+    src.connect(oc.destination); src.connect(d); d.connect(fb); fb.connect(d); d.connect(wet); wet.connect(oc.destination);
+  } else src.connect(oc.destination);
+  src.start(0);
+  var out = await oc.startRendering();
+  return out.getChannelData(0).slice();
+}
+function finalizeData(data, sr, keepTail) {
+  var peak = peakOfArr(data); if (peak < 1e-4) return data;
+  var en = data.length - 1, th = peak * 0.02;
+  if (!keepTail) while (en > 0 && Math.abs(data[en]) < th) en--;
+  var n = Math.min(data.length, en + Math.round(sr * 0.05)), g = 0.95 / peak, out = new Float32Array(n);
+  var fo = Math.min(Math.round(sr * 0.03), Math.floor(n / 2));
+  for (var i = 0; i < n; i++) { var v = data[i] * g; if (i > n - fo) v *= (n - i) / fo; out[i] = v; }
+  return out;
+}
+function peaksOf(d) {
+  var peaks = [], bins = 22, step = Math.floor(d.length / bins) || 1;
+  for (var b = 0; b < bins; b++) { var m = 0; for (var j = b * step; j < Math.min(d.length, (b + 1) * step); j++) { var av = Math.abs(d[j]); if (av > m) m = av; } peaks.push(Math.max(0.1, m)); }
+  return peaks;
+}
+function makeBuffer(data, sr) {
+  var ac = ctx;
+  if (!ac) { var OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext; ac = new OAC(1, 1, sr); }
+  var b = ac.createBuffer(1, data.length, sr); b.getChannelData(0).set(data); return b;
+}
+async function applyFx(id, fx) {
+  var snd = soundById(id);
+  if (!snd || snd.kind !== 'sample' || fxBusy || !snd.orig) return;
+  if (FXS.every(function (f) { return f[0] !== fx; })) return;
+  fxBusy = true;
+  try {
+    var data = await renderFx(snd.orig, snd.sr, fx);
+    data = finalizeData(data, snd.sr, fx === 'echo');
+    snd.buffer = makeBuffer(data, snd.sr);
+    snd.peaks = peaksOf(data);
+    snd.fx = fx;
+    snd.icon = fx === 'normal' ? 'mic' : FXS.filter(function (f) { return f[0] === fx; })[0][1];
+    snd._dirty = true;
+    renderRecCards(false);
+    if (ensureAudio()) voice(ctx, snd, 3, ctx.currentTime + 0.02, liveBus);
+    persist();
+  } catch (err) { console.warn('fx error', err); }
+  fxBusy = false;
+}
+function fxRowHTML() {
+  var snd = soundById(S.sel);
+  if (!snd || snd.kind !== 'sample') return '';
+  return '<div class="fxwrap"><span class="tag brass">' + esc(t('fxTitle')) + '</span><div class="fxrow" role="group" aria-label="' + esc(t('fxTitle')) + '">' +
+    FXS.map(function (f) {
+      var on = (snd.fx || 'normal') === f[0];
+      return '<button class="fxbtn ' + (on ? 'brass on' : 'maple') + ' press" data-fx="' + f[0] + '" aria-pressed="' + on + '">' + svg(f[1], 28, f[1] === 'mic' || f[1] === 'robot' ? 3.6 : 3.2) + '<span>' + esc(t('fx_' + f[0])) + '</span></button>';
+    }).join('') + '</div></div>';
+}
+
+
+/* ---------- keep what you made (IndexedDB on this device only; nothing is sent anywhere) ---------- */
+var DBN = 'otokobo', DBV = 1, db = null, savedRecIds = {}, persistTimer = null, restoring = true;
+function idb() {
+  return new Promise(function (res) {
+    try {
+      if (!window.indexedDB) return res(null);
+      var rq = indexedDB.open(DBN, DBV);
+      rq.onupgradeneeded = function () { rq.result.createObjectStore('kv'); };
+      rq.onsuccess = function () { res(rq.result); };
+      rq.onerror = function () { res(null); };
+      rq.onblocked = function () { res(null); };
+    } catch (err) { res(null); }
+  });
+}
+function kvGet(k) { return new Promise(function (res) { try { var r = db.transaction('kv').objectStore('kv').get(k); r.onsuccess = function () { res(r.result); }; r.onerror = function () { res(undefined); }; } catch (err) { res(undefined); } }); }
+function persist() {
+  if (restoring || !db) return;
+  clearTimeout(persistTimer);
+  persistTimer = setTimeout(doPersist, 400);
+}
+function doPersist() {
+  if (!db) return;
+  try {
+    var tx = db.transaction('kv', 'readwrite'), st = tx.objectStore('kv'), now = {};
+    S.recs.forEach(function (r) {
+      now[r.id] = 1;
+      if (r._dirty || !savedRecIds[r.id]) {
+        st.put({ id: r.id, n: r.n, color: r.color, fx: r.fx || 'normal', icon: r.icon, sr: r.sr, orig: r.orig, data: r.buffer.getChannelData(0) }, 'rec:' + r.id);
+        r._dirty = false;
+      }
+    });
+    Object.keys(savedRecIds).forEach(function (id) { if (!now[id]) st.delete('rec:' + id); });
+    savedRecIds = now;
+    st.put({
+      v: 1, bpm: S.bpm, sel: S.sel, lang: lang, recCount: S.recCount, trackCount: S.trackCount,
+      recIds: S.recs.map(function (r) { return r.id; }),
+      tracks: S.tracks.map(function (tr) { return { id: tr.id, n: tr.n, soundId: tr.soundId, pattern: tr.pattern, muted: tr.muted, vol: tr.vol }; })
+    }, 'state');
+  } catch (err) { console.warn('save failed', err); }
+}
+function clean(x, lo, hi, def) { x = +x; return (x >= lo && x <= hi) ? x : def; }
+async function restore() {
+  db = await idb();
+  if (!db) { restoring = false; return; }
+  var st = await kvGet('state');
+  if (st && st.v === 1) {
+    try {
+      var recs = [];
+      for (var i = 0; i < Math.min((st.recIds || []).length, MAX_RECS); i++) {
+        var r = await kvGet('rec:' + st.recIds[i]);
+        if (!r || !(r.data instanceof Float32Array) || !(r.orig instanceof Float32Array)) continue;
+        var sr = clean(r.sr, 8000, 192000, 48000);
+        var fx = FXS.some(function (f) { return f[0] === r.fx; }) ? r.fx : 'normal';
+        recs.push({ id: String(r.id), n: clean(r.n, 1, 1e6, 1), kind: 'sample', buffer: makeBuffer(r.data, sr), orig: r.orig, sr: sr, fx: fx,
+          peaks: peaksOf(r.data), icon: fx === 'normal' ? 'mic' : FXS.filter(function (f) { return f[0] === fx; })[0][1],
+          color: /^#[0-9a-f]{6}$/i.test(r.color) ? r.color : COLORS[0] });
+        savedRecIds[String(r.id)] = 1;
+      }
+      S.recs = recs;
+      S.recCount = clean(st.recCount, 0, 1e6, recs.length);
+      S.trackCount = clean(st.trackCount, 0, 1e6, 0);
+      S.tracks = (st.tracks || []).slice(0, MAX_TRACKS).filter(function (tr) { return soundById(tr.soundId); }).map(function (tr) {
+        var pat = []; for (var s2 = 0; s2 < NSTEP; s2++) pat.push(((tr.pattern || [])[s2] || []).filter(function (x) { return x >= 0 && x < 8; }).slice(0, 8).map(Number));
+        return { id: String(tr.id), n: clean(tr.n, 1, 1e6, 1), soundId: tr.soundId, pattern: pat, muted: !!tr.muted, vol: clean(tr.vol, 0, 1, 0.8), gain: null };
+      });
+      attachGains();
+      if (soundById(st.sel)) S.sel = st.sel;
+      if (LANGS.indexOf(st.lang) >= 0) lang = st.lang;
+      restoring = false;
+      setTempo(clean(st.bpm, 60, 150, 100));
+      if (S.recs.length || S.tracks.length) { renderAll(); toast(t('welcome')); }
+      else renderAll();
+    } catch (err) { console.warn('restore failed', err); }
+  }
+  restoring = false;
+}
+function attachGains() {
+  if (!ctx) return;
+  S.tracks.forEach(function (tr) {
+    if (tr.gain) return;
+    tr.gain = ctx.createGain(); tr.gain.gain.value = tr.muted ? 0 : tr.vol; tr.gain.connect(master);
+  });
+}
+function resetAll() {
+  cancelTake(); stopTransport(); S.songPlaying = false;
+  S.tracks.forEach(function (tr) { try { if (tr.gain) tr.gain.disconnect(); } catch (err) {} });
+  S.recs = []; S.tracks = []; S.recCount = 0; S.trackCount = 0; S.sel = 'p-drum';
+  try { if (db) { var tx = db.transaction('kv', 'readwrite'); tx.objectStore('kv').clear(); } } catch (err) {}
+  savedRecIds = {};
+  closeSheet(); go('rec');
 }
 
 /* ---------- export ---------- */
@@ -1001,7 +1199,7 @@ function renderRec() {
     '</div>' +
     '<div class="side">' +
       '<div><span class="tag brass">' + esc(t('mine')) + '</span></div>' +
-      '<div class="cards" id="cards"></div>' +
+      '<div class="cards" id="cards"></div><div id="fxSlot"></div>' +
       '<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span class="tag brass">' + esc(t('drawer')) + '</span><span class="muted-text">' + esc(t('drawerSub')) + '</span></div>' +
       '<div class="drawer" id="drawer"></div>' +
       '<button class="go maple press" data-go="play"><span>' + esc(t('playThis')) + '</span><div class="badge" id="goBadge" style="background:#1fa3a3">' + svg('arrow', 26, 5) + '</div></button>' +
@@ -1023,6 +1221,7 @@ function renderRecCards(recording) {
       '<span class="x" role="button" aria-label="' + esc(t('del')) + '" data-del="' + s.id + '">' + svg('x', 16, 5) + '</span></button>';
   }).join('');
   el.innerHTML = html;
+  var fr = $('fxSlot'); if (fr) fr.innerHTML = recording ? '' : fxRowHTML();
   updateGoBadge();
 }
 function renderDrawer() {
@@ -1093,7 +1292,7 @@ function renderSong() {
     return '<div class="lane' + (tr.muted ? ' mute' : '') + '" id="lane-' + tr.id + '" style="--c:' + s.color + '">' +
       '<div class="tape"><span class="x" role="button" tabindex="0" aria-label="' + esc(t('del')) + '" data-deltrack="' + tr.id + '">' + svg('x', 16, 5) + '</span>' +
         '<div class="label"><span class="num">' + tr.n + '</span><div style="min-width:0"><div class="nm hand">' + esc(soundName(s)) + '</div>' + waveHTML(s.peaks, 14) + '</div></div>' +
-        '<div class="badge" style="width:40px;height:40px;background:rgba(0,0,0,.25)">' + svg(s.icon, 22) + '</div></div>' +
+        '<div class="reels big"><i></i><span class="ricon">' + svg(s.icon, 18, 4) + '</span><i></i></div></div>' +
       '<div class="ctl-row" style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">' +
         '<div class="grid" data-grid="' + tr.id + '">' + cells + '</div>' +
         '<div class="ctl"><button class="mute-btn maple press" data-mute="' + tr.id + '" aria-label="' + esc(tr.muted ? t('muteOff') : t('muteOn')) + '" aria-pressed="' + tr.muted + '">' + svg(tr.muted ? 'spkOff' : 'spk', 26, 4) + '</button>' +
@@ -1118,6 +1317,7 @@ function renderSong() {
   });
   deck.classList.toggle('playing', S.songPlaying);
   deck.classList.toggle('many', S.tracks.length > 6);
+  deck.classList.toggle('spinning', S.songPlaying);
 }
 function trackById(id) { for (var i = 0; i < S.tracks.length; i++) if (S.tracks[i].id === id) return S.tracks[i]; return null; }
 function toggleSong() {
@@ -1146,8 +1346,9 @@ function renderAll() {
 /* ---------- global events ---------- */
 document.addEventListener('pointerdown', function () { ensureAudio(); }, { capture: true });
 document.addEventListener('click', function (ev) {
-  var el = ev.target.closest('[data-go],[data-pick],[data-del],[data-mute],[data-deltrack],[data-cell],[data-tempo]');
+  var el = ev.target.closest('[data-go],[data-pick],[data-del],[data-mute],[data-deltrack],[data-cell],[data-tempo],[data-fx]');
   if (!el) return;
+  if (el.hasAttribute('data-fx')) { applyFx(S.sel, el.getAttribute('data-fx')); return; }
   if (el.hasAttribute('data-tempo')) { setTempo(S.bpm + (+el.getAttribute('data-tempo') || 0)); return; }
   if (el.hasAttribute('data-del')) {
     ev.stopPropagation();
@@ -1175,7 +1376,7 @@ document.addEventListener('click', function (ev) {
   }
   if (el.hasAttribute('data-deltrack')) {
     var tid = el.getAttribute('data-deltrack'), tr2 = trackById(tid);
-    if (tr2) tr2.gain.disconnect();
+    if (tr2 && tr2.gain) tr2.gain.disconnect();
     S.tracks = S.tracks.filter(function (x) { return x.id !== tid; });
     if (!S.tracks.length) { stopTransport(); S.songPlaying = false; }
     renderSong(); return;
@@ -1197,7 +1398,8 @@ function showHelp() {
   var items = (HELP[lang] || HELP.en)[S.screen] || [];
   openSheet('<h2 id="sheetTitle">' + svg('help', 30, 4.5) + '<span>' + esc(t('help')) + ' ・ ' + esc(t(S.screen)) + '</span></h2><ol class="guide">' +
     items.map(function (it, i) { return '<li><span class="gnum">' + (i + 1) + '</span><span class="gicon">' + svg(it[0], 30, it[0] === 'star' || it[0] === 'play' ? 3 : 3.6) + '</span><span class="gtext">' + esc(it[1]) + '</span></li>'; }).join('') +
-    '</ol><button class="sheet-ok brass press" data-close="1">' + esc(t('ok')) + '</button>');
+    '</ol><button class="sheet-ok brass press" data-close="1">' + esc(t('ok')) + '</button>' +
+    '<div class="sheet-foot"><span>' + esc(t('localOnly')) + '</span><button class="reset-btn maple press" id="resetBtn">' + svg('trash', 20, 4) + '<span>' + esc(t('reset')) + '</span></button></div>');
 }
 function showLang() {
   openSheet('<h2 id="sheetTitle"><span>' + esc(t('langTitle')) + '</span></h2><div class="langs">' +
@@ -1207,9 +1409,13 @@ $('helpBtn').addEventListener('click', showHelp);
 $('langBtn').addEventListener('click', showLang);
 $('overlay').addEventListener('click', function (ev) {
   var lb = ev.target.closest('[data-lang]');
-  if (lb) { var l = lb.getAttribute('data-lang'); if (LANGS.indexOf(l) >= 0) { lang = l; closeSheet(); renderAll(); } return; }
+  if (lb) { var l = lb.getAttribute('data-lang'); if (LANGS.indexOf(l) >= 0) { lang = l; closeSheet(); renderAll(); persist(); } return; }
+  var rb = ev.target.closest('#resetBtn');
+  if (rb) { if (rb.classList.contains('armed')) resetAll(); else { rb.classList.add('armed'); rb.lastChild.textContent = t('resetSure'); } return; }
   if (ev.target.id === 'overlay' || ev.target.closest('[data-close]')) closeSheet();
 });
+document.addEventListener('click', function () { persist(); });
+document.addEventListener('input', function () { persist(); });
 document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && !$('overlay').hidden) closeSheet(); });
 window.addEventListener('pagehide', releaseMic);
 document.addEventListener('visibilitychange', function () { if (document.hidden) { releaseMic(); cancelTake(); stopTransport(); S.songPlaying = false; if (S.screen === 'song') renderSong(); } else if (S.screen === 'play') startTransport(true); });
@@ -1254,24 +1460,45 @@ function frame() {
     }
     if (S.screen === 'song') {
       var olds = document.querySelectorAll('.cell.now'); for (var k = 0; k < olds.length; k++) olds[k].classList.remove('now');
-      if (st >= 0 && S.songPlaying) S.tracks.forEach(function (tr) { var g = document.querySelector('[data-grid="' + tr.id + '"]'); if (g && g.children[st]) g.children[st].classList.add('now'); });
+      if (st >= 0 && S.songPlaying) S.tracks.forEach(function (tr) {
+        var g = document.querySelector('[data-grid="' + tr.id + '"]'); if (!g || !g.children[st]) return;
+        var cell = g.children[st]; cell.classList.add('now');
+        if (!tr.muted && tr.pattern[st].length) sparks(g, cell);
+      });
+      var sb = $('senoBtn');
+      if (sb && S.songPlaying && st % 2 === 0) { sb.classList.remove('bump'); void sb.offsetWidth; sb.classList.add('bump'); }
     }
+    var spin = (60 / S.bpm * 2).toFixed(2) + 's', dk = $('deck'), rk = $('rack');
+    if (dk) dk.style.setProperty('--spin', spin);
+    if (rk) { rk.style.setProperty('--spin', spin); rk.classList.toggle('spinning', T0 !== null && S.screen === 'play'); }
   }
   requestAnimationFrame(frame);
 }
 
+function sparks(grid, cell) {
+  var x = cell.offsetLeft + cell.offsetWidth / 2, y = cell.offsetTop + cell.offsetHeight / 2;
+  for (var i = 0; i < 4; i++) {
+    var sp = document.createElement('i'); sp.className = 'spark';
+    var a = Math.random() * Math.PI * 2, r = 14 + Math.random() * 16;
+    sp.style.left = x + 'px'; sp.style.top = y + 'px';
+    sp.style.setProperty('--dx', Math.round(Math.cos(a) * r) + 'px'); sp.style.setProperty('--dy', Math.round(Math.sin(a) * r - 6) + 'px');
+    grid.appendChild(sp);
+    setTimeout(function (el) { el.remove(); }.bind(null, sp), 600);
+  }
+}
 /* ---------- debug hooks (used by tests) ---------- */
 // Exposed only for local testing (file://) or with #debug, never by default on the public site.
 if (location.protocol === 'file:' || location.hash === '#debug') {
   DBG.state = S; DBG.go = go; DBG.hitPad = hitPad; DBG.starPress = starPress; DBG.addTrack = addTrack; DBG.renderAll = function () { renderAll(); }; Object.defineProperty(DBG, 'take', { get: function () { return take; } }); DBG.curStep = curStep; DBG.saveSong = saveSong;
   Object.defineProperty(DBG, 'T0', { get: function () { return T0; } });
   Object.defineProperty(DBG, 'master', { get: function () { return master; } });
-  DBG.LOOP = LOOP; DBG.STEP = STEP;
+  DBG.LOOP = LOOP; DBG.STEP = STEP; DBG.applyFx = applyFx; DBG.flush = doPersist;
   window.__okDebug = DBG;
 }
 
 renderAll();
 requestAnimationFrame(frame);
+restore();
 })();
 </script>
 </body>
