@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>OTO KOBO おと工房</title>
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Kva1S9ma86AKsxMG2uqaG+sFllmqIcVK4EOdNAkFZBs='; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-4MmupKQ/9fEdeC7Re/U0HJixFzOjZqaMWGENQ6MA5dw='; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;background:#47291a;touch-action:manipulation;-webkit-text-size-adjust:100%}
@@ -285,6 +285,110 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
   .side-btn{flex:1;justify-content:center;height:52px;font-size:14px;padding:0 10px 0 6px;gap:6px}
   .side-btn .badge{width:32px;height:32px}
 }
+/* ---------- ぐりぐりシンセ ---------- */
+#s-synth{--ks:clamp(40px,min(6.1vw,8.6vh),74px)}
+.synth{flex:1;min-width:0;display:flex;border-radius:18px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.55)}
+.cheek{flex:0 0 clamp(10px,2vw,26px);background-color:#7a4a26;background-image:linear-gradient(90deg,rgba(0,0,0,.25),rgba(255,210,160,.18) 40%,rgba(0,0,0,.3)),repeating-linear-gradient(180deg,rgba(0,0,0,.14) 0 3px,transparent 3px 17px,rgba(255,220,180,.06) 17px 19px,transparent 19px 31px)}
+.spanel{flex:1;min-width:0;display:flex;flex-direction:column;gap:clamp(6px,1.4vh,14px);padding:clamp(6px,1.4vh,14px) clamp(8px,1.4vw,18px);background:#26272b;background-image:linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.25)),repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 2px,transparent 2px 5px);box-shadow:inset 0 2px 0 rgba(255,255,255,.08),inset 0 -3px 0 rgba(0,0,0,.4)}
+.stop{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.slogo{display:flex;align-items:baseline;gap:10px;line-height:1;color:#efe3c6}
+.slogo b{font-family:'Arial Rounded MT Bold','Hiragino Maru Gothic ProN',sans-serif;font-size:clamp(16px,2.4vw,24px);letter-spacing:4px;font-style:italic}
+.slogo small{font-size:12px;letter-spacing:2px;color:#e9a13b;font-weight:800}
+.lamps{display:flex;gap:9px;margin-left:auto}
+.lamps i{width:13px;height:13px;border-radius:50%;opacity:.15;transition:opacity .05s}
+#lampLvl{background:#ff5a3c;box-shadow:0 0 10px #ff5a3c}#lampLfo{background:#ffc531;box-shadow:0 0 10px #ffc531}#lampArp{background:#5fe0a0;box-shadow:0 0 10px #5fe0a0}
+.sfx{display:flex;gap:8px}
+.sw{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px 0 9px;border-radius:10px;background:#3a3b40;color:#cfc3a6;font-size:13px;font-weight:800;box-shadow:inset 0 -3px 0 rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.1)}
+.sw .led{width:9px;height:9px;border-radius:50%;background:#4a2a20}
+.sw.on{color:#fff2cf}.sw.on .led{background:#ff6b3c;box-shadow:0 0 10px #ff6b3c}
+.sblocks{display:flex;gap:clamp(6px,1vw,12px);flex-shrink:0}
+.sblock{border-radius:14px;padding:4px clamp(5px,.8vw,10px) 6px;border:2px solid var(--bc);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.15))}
+.b-src{--bc:#c8783a;flex:3.3}.b-col{--bc:#3d9a91;flex:3}.b-mov{--bc:#8a6cc4;flex:6.4}
+.stitle{display:inline-block;padding:1px 10px;border-radius:7px;background:var(--bc);color:#1b1b1f;font-size:11px;font-weight:800;letter-spacing:2px;margin:-14px 0 2px 2px;position:relative;top:-2px}
+.srow{display:flex;justify-content:space-around;align-items:flex-start;gap:clamp(2px,.6vw,8px)}
+.kcell{touch-action:none;cursor:ns-resize}
+.kcell,.wbtns{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+.kicon{color:#e9dcbc;height:22px;display:flex;align-items:center}
+.kicon svg{width:22px;height:22px}
+.klab{font-size:clamp(9px,1.1vw,12px);font-weight:800;color:#bfb293;white-space:nowrap}
+.knob{position:relative;width:var(--ks);height:var(--ks);border-radius:50%;touch-action:none;cursor:ns-resize;flex-shrink:0}
+.kring{position:absolute;inset:-5px;border-radius:50%;background:conic-gradient(from 225deg,#ffb04a 0deg,#ffd27a calc(var(--v) * 270deg),rgba(255,255,255,.09) calc(var(--v) * 270deg) 270deg,transparent 270deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3px));transition:filter .15s}
+.kcap{position:absolute;inset:3px;border-radius:50%;transform:rotate(calc(-135deg + var(--v) * 270deg));background:radial-gradient(circle at 38% 30%,#fffaf0 0,#efe3c8 45%,#cdbb94 100%);box-shadow:0 5px 10px rgba(0,0,0,.6),inset 0 -3px 5px rgba(120,90,40,.35),inset 0 2px 2px rgba(255,255,255,.8)}
+.kcap::before{content:'';position:absolute;inset:14%;border-radius:50%;background:repeating-conic-gradient(rgba(90,70,40,.35) 0 2deg,transparent 2deg 20deg);-webkit-mask:radial-gradient(farthest-side,transparent 80%,#000 82%);mask:radial-gradient(farthest-side,transparent 80%,#000 82%)}
+.kptr{position:absolute;left:50%;top:7%;width:4px;height:36%;margin-left:-2px;border-radius:2px;background:#2b2320}
+.knob.drag .kring,.knob.spin .kring{filter:drop-shadow(0 0 8px #ffb04a) brightness(1.25)}
+.knob.drag .kcap{box-shadow:0 0 0 3px rgba(255,176,74,.5),0 0 22px rgba(255,176,74,.7),0 5px 10px rgba(0,0,0,.6)}
+.knob:focus-visible{outline:3px solid #ffd27a;outline-offset:6px}
+.wbtns{flex-direction:column}
+.wbtns .wbtn{width:max(32px,calc(var(--ks) * .7));height:max(26px,calc(var(--ks) * .5));border-radius:8px;background:#3a3b40;color:#cfc3a6;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 -3px 0 rgba(0,0,0,.45);touch-action:manipulation}
+.wbtns .wbtn svg{width:70%;height:70%}
+.wbtns .wbtn.on{background:#e9a13b;color:#1b1b1f;box-shadow:0 0 12px rgba(233,161,59,.7)}
+.wbtns{display:grid;grid-template-columns:repeat(2,auto);gap:4px;justify-items:center}
+.wbtns .kicon,.wbtns .klab{grid-column:1/-1}
+.pats{grid-template-columns:auto}
+.sbottom{flex:1;min-height:clamp(84px,24vh,260px);display:flex;gap:clamp(8px,1.2vw,14px)}
+.skeybed{flex:1;min-width:0;border-radius:10px;padding:6px 6px 0;background:#141416;box-shadow:inset 0 3px 8px rgba(0,0,0,.8)}
+.skeys{position:relative;height:100%;--kw:calc(100% / var(--n));touch-action:none}
+.skey{position:absolute;top:0;touch-action:none}
+.skey.white{width:var(--kw);height:100%;border-radius:0 0 7px 7px;background:linear-gradient(180deg,#d9cfb8,#f4ecd8 18%,#efe5cc 85%,#d2c6a8);box-shadow:inset -2px 0 0 rgba(0,0,0,.18),inset 0 -6px 0 #cbbd9b}
+.skey.black{width:calc(var(--kw) * .64);height:60%;z-index:2;border-radius:0 0 6px 6px;background:linear-gradient(180deg,#1d1612,#3a2a20 85%,#2a1e17);box-shadow:inset 0 -5px 0 #120c09,0 3px 5px rgba(0,0,0,.6)}
+.skey.white.down{background:linear-gradient(180deg,#d0c3a3,#ffd98f 30%,#ffc864);box-shadow:inset 0 -2px 0 #cbbd9b,0 0 18px rgba(255,190,90,.6)}
+.skey.black.down{background:linear-gradient(180deg,#2a1e17,#a8642e);box-shadow:inset 0 -2px 0 #120c09,0 0 16px rgba(255,150,60,.7)}
+.sbig{flex:0 0 clamp(120px,19vw,220px);display:flex;flex-direction:column;gap:clamp(6px,1.2vh,12px)}
+.bigbtn{flex:1;min-height:42px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:clamp(14px,2vw,20px);font-weight:800;box-shadow:inset 0 -5px 0 rgba(0,0,0,.3),inset 0 2px 0 rgba(255,255,255,.35),0 6px 12px rgba(0,0,0,.5);touch-action:manipulation}
+.bigbtn:active{transform:translateY(3px)}
+.bigbtn.chaos{background:linear-gradient(160deg,#ff8a4a,#e2412c);color:#fff}
+.bigbtn.plain{background:linear-gradient(160deg,#f2e7cc,#cdbb94);color:#2b2320}
+.sstart{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:rgba(20,12,6,.72);border-radius:18px}
+.playbig{width:min(40vh,200px);height:min(40vh,200px);border-radius:50%;color:#fff;background:radial-gradient(circle at 40% 35%,#ff8a62,#e2412c 70%);box-shadow:0 0 0 10px rgba(255,255,255,.12),0 0 60px rgba(255,90,74,.7),inset 0 -10px 0 rgba(120,20,0,.3);display:flex;align-items:center;justify-content:center;padding-left:8%}
+.synthstep{margin-left:10px}
+@media (max-height:520px){
+  #app{padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(8px,env(safe-area-inset-bottom));gap:8px}
+  header .logo{display:none}
+  .step{height:38px;font-size:14px}.step .n{width:28px;height:28px;font-size:15px}
+  .globe{width:40px;height:40px}
+  #s-synth{--ks:clamp(30px,min(5.6vw,9.6vh),60px)}
+  .kicon{height:14px}.kicon svg{width:14px;height:14px}
+  #s-synth .pats{grid-template-columns:repeat(2,auto)}
+  #s-synth .wbtns .wbtn{height:max(24px,calc(var(--ks) * .5))}
+  #s-synth .spanel{gap:5px;padding-top:5px;padding-bottom:5px}
+  #s-synth .stop{height:28px}
+  #s-synth .klab{font-size:9px}
+  #s-synth .stitle{font-size:10px}
+  #s-synth .sbottom{min-height:64px}
+  #s-synth .sblock{padding-bottom:3px}
+  .stop .sw span:last-child{display:none}
+  .sw{height:32px}
+  .slogo small{display:none}
+}
+@media (orientation:portrait),(max-width:760px){
+  .synthstep span:last-child{display:none}
+  .step:not(.on) span:last-child{display:none}
+  .step:not(.on){padding:0 4px}
+  #s-synth .slogo{flex-direction:column;align-items:flex-start;gap:2px}
+  #s-synth .slogo b{font-size:16px;letter-spacing:2px;white-space:nowrap}
+  #s-synth .sw span:last-child{display:none}
+  #s-synth .bigbtn{font-size:15px;padding:0 6px;gap:4px;white-space:nowrap}
+  #s-synth .bigbtn svg{width:22px;height:22px}
+  #s-synth .sbig{flex-basis:132px}
+  .synthstep svg{display:block!important}
+  .synthstep{margin-left:2px;padding:0 8px}
+  #s-synth .spanel{overflow-y:auto}
+  #s-synth .sblocks{flex-wrap:wrap}
+  #s-synth .sblock{flex:1 1 100%}
+  #s-synth .sbottom{min-height:170px;flex:0 0 auto}
+  #s-synth .sbig{flex-basis:110px}
+  .cheek{display:none}
+}
+@media (max-width:1120px){.synthstep span:last-child{display:none}.synthstep{padding:0 10px}}
+@media (orientation:landscape) and (max-height:520px){
+  #s-synth .spanel{overflow:visible}
+  #s-synth .sblocks{flex-wrap:nowrap}
+  #s-synth .b-src{flex:3.3 1 0}#s-synth .b-col{flex:3 1 0}#s-synth .b-mov{flex:6.4 1 0}
+  #s-synth .sbottom{flex:1 1 auto;min-height:64px}
+  #s-synth .cheek{display:block;flex-basis:8px}
+  #s-synth{--ks:clamp(28px,min(5.4vw,9.6vh),60px)}
+}
 </style>
 </head>
 <body class="walnut">
@@ -301,6 +405,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
     <section class="screen" id="s-rec"></section>
     <section class="screen" id="s-play"></section>
     <section class="screen" id="s-song"></section>
+    <section class="screen" id="s-synth"></section>
   </main>
 </div>
 <div id="toast" class="brass" role="status" aria-live="polite"></div>
@@ -312,33 +417,38 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
 
 /* ---------- i18n ---------- */
 var T = {
-  ja: { lang: 'にほんご', fxTitle: 'こえの へんしん', fx_normal: 'ふつう', fx_robot: 'ロボット', fx_mouse: 'ねずみ', fx_bear: 'くま', fx_echo: 'やまびこ', fx_reverse: 'さかさま', reset: 'はじめから つくる', resetSure: 'もういちど おすと ぜんぶ けすよ', welcome: 'おかえり！ つづきから あそべるよ', localOnly: 'このiPad・スマホの なかだけに ほぞんしているよ', help: 'つかいかた', ok: 'わかった！', langTitle: 'ことば', tempo: 'はやさ', slower: 'ゆっくり', faster: 'はやく', tapStop: 'もういちど おすと とまるよ', recFull: 'おとが いっぱいだよ。いらないのを けしてね', rec: 'ろくおん', play: 'えんそう', song: 'きょく', hold: 'おすと 4つ かぞえて ろくおん', holdSub: 'こえ・ものおと・なんでも OK', mine: 'とったおと', mineEmpty: 'まだ ないよ。マイクを おしてみて！', drawer: 'ひきだしのおと', drawerSub: 'ろくおんしなくても あそべるよ', playThis: 'このおとで えんそう', listening: 'きいてるよ', keep: 'テープに ろくおん！', ready: 'よーい…', recNow: 'ろくおんちゅう！', cancel: 'やめる', toSong: 'きょくにする', addRec: 'もう1ぽん ろくおん', save: 'できた！ ほぞん', seno: 'せーの！', stop: 'ストップ', recording: 'ろくおんちゅう…', nothing: 'なにも きこえなかったよ', noMic: 'マイクが つかえないよ', again: 'もういちど おしてね', kept: 'テープに のこしたよ！', full: 'テープが いっぱいだよ', rackEmpty: '⭐ を おすと 4つ かぞえて\n2しょうせつ ろくおん するよ', deckEmpty: 'まだ テープが ないよ\n「えんそう」で ⭐ を おしてね', saved: 'ほぞんしたよ！', saving: 'ほぞんちゅう…', sound: 'おと', del: 'けす', muteOn: 'おとをけす', muteOff: 'おとをだす', vol: 'おおきさ', back: 'もどる',
+  ja: { lang: 'にほんご', synth: 'ぐりぐりシンセ', k_pitch: 'たかさ', k_thick: 'ぶあつさ', k_bright: 'あかるさ', k_reso: 'くせ', k_mywa: 'ミュワッ', k_attack: 'はじまり', k_release: 'おわり', k_lfoRate: 'ゆれのはやさ', k_lfoDepth: 'ゆれのふかさ', k_arp: 'ピロピロ', k_wave: 'かたち', k_pat: 'ならびかた', w_sawtooth: 'のこぎり', w_square: 'しかく', w_triangle: 'さんかく', w_sine: 'まる', p_up: 'あがる', p_down: 'さがる', p_random: 'ばらばら', s_reverb: 'ひろがり', b_src: 'おとのもと', b_col: 'おとのいろ', b_mov: 'おとのうごき', chaos: 'ぐちゃぐちゃ', resetSound: 'もとにもどす', start: 'はじめる', fxTitle: 'こえの へんしん', fx_normal: 'ふつう', fx_robot: 'ロボット', fx_mouse: 'ねずみ', fx_bear: 'くま', fx_echo: 'やまびこ', fx_reverse: 'さかさま', reset: 'はじめから つくる', resetSure: 'もういちど おすと ぜんぶ けすよ', welcome: 'おかえり！ つづきから あそべるよ', localOnly: 'このiPad・スマホの なかだけに ほぞんしているよ', help: 'つかいかた', ok: 'わかった！', langTitle: 'ことば', tempo: 'はやさ', slower: 'ゆっくり', faster: 'はやく', tapStop: 'もういちど おすと とまるよ', recFull: 'おとが いっぱいだよ。いらないのを けしてね', rec: 'ろくおん', play: 'えんそう', song: 'きょく', hold: 'おすと 4つ かぞえて ろくおん', holdSub: 'こえ・ものおと・なんでも OK', mine: 'とったおと', mineEmpty: 'まだ ないよ。マイクを おしてみて！', drawer: 'ひきだしのおと', drawerSub: 'ろくおんしなくても あそべるよ', playThis: 'このおとで えんそう', listening: 'きいてるよ', keep: 'テープに ろくおん！', ready: 'よーい…', recNow: 'ろくおんちゅう！', cancel: 'やめる', toSong: 'きょくにする', addRec: 'もう1ぽん ろくおん', save: 'できた！ ほぞん', seno: 'せーの！', stop: 'ストップ', recording: 'ろくおんちゅう…', nothing: 'なにも きこえなかったよ', noMic: 'マイクが つかえないよ', again: 'もういちど おしてね', kept: 'テープに のこしたよ！', full: 'テープが いっぱいだよ', rackEmpty: '⭐ を おすと 4つ かぞえて\n2しょうせつ ろくおん するよ', deckEmpty: 'まだ テープが ないよ\n「えんそう」で ⭐ を おしてね', saved: 'ほぞんしたよ！', saving: 'ほぞんちゅう…', sound: 'おと', del: 'けす', muteOn: 'おとをけす', muteOff: 'おとをだす', vol: 'おおきさ', back: 'もどる',
     names: { drum: 'ドラム', mokkin: 'もっきん', piano: 'ピアノ', bass: 'ベース', frog: 'カエル', robot: 'ロボット', guitar: 'ギター', trumpet: 'ラッパ', organ: 'オルガン', cat: 'ネコ', spring: 'ビヨーン', laser: 'レーザー', drop: 'しずく', suzu: 'すず' } },
-  en: { lang: 'English', fxTitle: 'Voice magic', fx_normal: 'Normal', fx_robot: 'Robot', fx_mouse: 'Mouse', fx_bear: 'Bear', fx_echo: 'Echo', fx_reverse: 'Backwards', reset: 'Start over', resetSure: 'Tap again to erase everything', welcome: 'Welcome back! Carry on playing', localOnly: 'Saved only on this device', help: 'How to play', ok: 'Got it!', langTitle: 'Language', tempo: 'Speed', slower: 'Slower', faster: 'Faster', tapStop: 'Tap again to stop', recFull: 'Too many sounds. Delete one first', rec: 'Record', play: 'Play', song: 'Song', hold: 'Tap: count 4, then record', holdSub: 'Voices, noises, anything!', mine: 'My sounds', mineEmpty: 'Nothing yet. Try the mic!', drawer: 'Sound drawer', drawerSub: 'Play without recording', playThis: 'Play this sound', listening: 'Listening', keep: 'Record to tape!', ready: 'Get ready…', recNow: 'Recording!', cancel: 'Cancel', toSong: 'Make a song', addRec: 'Record another', save: 'Done! Save', seno: 'Ready, go!', stop: 'Stop', recording: 'Recording…', nothing: "I didn't hear anything", noMic: "Can't use the mic", again: 'Press it again', kept: 'Saved on tape!', full: 'The tapes are full', rackEmpty: 'Press the star: count 4,\nthen 2 bars are recorded', deckEmpty: 'No tapes yet\nPress the star in "Play"', saved: 'Saved!', saving: 'Saving…', sound: 'Sound', del: 'Delete', muteOn: 'Mute', muteOff: 'Unmute', vol: 'Volume', back: 'Back',
+  en: { lang: 'English', synth: 'Knob Synth', k_pitch: 'Pitch', k_thick: 'Thick', k_bright: 'Bright', k_reso: 'Quirk', k_mywa: 'Wow', k_attack: 'Start', k_release: 'End', k_lfoRate: 'Wobble speed', k_lfoDepth: 'Wobble depth', k_arp: 'Arpeggio', k_wave: 'Shape', k_pat: 'Pattern', w_sawtooth: 'Saw', w_square: 'Square', w_triangle: 'Triangle', w_sine: 'Round', p_up: 'Up', p_down: 'Down', p_random: 'Random', s_reverb: 'Space', b_src: 'Sound source', b_col: 'Sound colour', b_mov: 'Sound motion', chaos: 'Scramble!', resetSound: 'Back to normal', start: 'Start', fxTitle: 'Voice magic', fx_normal: 'Normal', fx_robot: 'Robot', fx_mouse: 'Mouse', fx_bear: 'Bear', fx_echo: 'Echo', fx_reverse: 'Backwards', reset: 'Start over', resetSure: 'Tap again to erase everything', welcome: 'Welcome back! Carry on playing', localOnly: 'Saved only on this device', help: 'How to play', ok: 'Got it!', langTitle: 'Language', tempo: 'Speed', slower: 'Slower', faster: 'Faster', tapStop: 'Tap again to stop', recFull: 'Too many sounds. Delete one first', rec: 'Record', play: 'Play', song: 'Song', hold: 'Tap: count 4, then record', holdSub: 'Voices, noises, anything!', mine: 'My sounds', mineEmpty: 'Nothing yet. Try the mic!', drawer: 'Sound drawer', drawerSub: 'Play without recording', playThis: 'Play this sound', listening: 'Listening', keep: 'Record to tape!', ready: 'Get ready…', recNow: 'Recording!', cancel: 'Cancel', toSong: 'Make a song', addRec: 'Record another', save: 'Done! Save', seno: 'Ready, go!', stop: 'Stop', recording: 'Recording…', nothing: "I didn't hear anything", noMic: "Can't use the mic", again: 'Press it again', kept: 'Saved on tape!', full: 'The tapes are full', rackEmpty: 'Press the star: count 4,\nthen 2 bars are recorded', deckEmpty: 'No tapes yet\nPress the star in "Play"', saved: 'Saved!', saving: 'Saving…', sound: 'Sound', del: 'Delete', muteOn: 'Mute', muteOff: 'Unmute', vol: 'Volume', back: 'Back',
     names: { drum: 'Drums', mokkin: 'Xylophone', piano: 'Piano', bass: 'Bass', frog: 'Frog', robot: 'Robot', guitar: 'Guitar', trumpet: 'Trumpet', organ: 'Organ', cat: 'Cat', spring: 'Boing', laser: 'Laser', drop: 'Drop', suzu: 'Bells' } },
-  zh: { lang: '中文', fxTitle: '变声魔法', fx_normal: '原声', fx_robot: '机器人', fx_mouse: '老鼠', fx_bear: '熊', fx_echo: '回声', fx_reverse: '倒放', reset: '从头开始', resetSure: '再按一次就全部删除', welcome: '欢迎回来！可以接着玩', localOnly: '只保存在这台设备上', help: '怎么玩', ok: '知道了！', langTitle: '语言', tempo: '速度', slower: '慢一点', faster: '快一点', tapStop: '再按一次就停止', recFull: '声音太多了，先删掉一个吧', rec: '录音', play: '演奏', song: '歌曲', hold: '按一下：数4下后录音', holdSub: '说话、杂音，什么都可以', mine: '我的声音', mineEmpty: '还没有。按一下麦克风吧！', drawer: '声音抽屉', drawerSub: '不录音也能玩', playThis: '用这个声音演奏', listening: '正在听', keep: '录到磁带上！', ready: '准备…', recNow: '录音中！', cancel: '取消', toSong: '做成歌曲', addRec: '再录一个', save: '完成！保存', seno: '预备，开始！', stop: '停止', recording: '录音中…', nothing: '什么也没听到', noMic: '无法使用麦克风', again: '请再按一次', kept: '留在磁带上了！', full: '磁带满了', rackEmpty: '按星星：数4下\n然后录2小节', deckEmpty: '还没有磁带\n在“演奏”里按星星', saved: '保存好了！', saving: '保存中…', sound: '声音', del: '删除', muteOn: '静音', muteOff: '取消静音', vol: '音量', back: '返回',
+  zh: { lang: '中文', synth: '旋钮合成器', k_pitch: '音高', k_thick: '厚度', k_bright: '亮度', k_reso: '怪味', k_mywa: '哇呜', k_attack: '开头', k_release: '结尾', k_lfoRate: '摇摆速度', k_lfoDepth: '摇摆深度', k_arp: '琶音', k_wave: '波形', k_pat: '顺序', w_sawtooth: '锯齿', w_square: '方形', w_triangle: '三角', w_sine: '圆滑', p_up: '上行', p_down: '下行', p_random: '随机', s_reverb: '空间感', b_src: '声音的来源', b_col: '声音的颜色', b_mov: '声音的动作', chaos: '乱七八糟', resetSound: '恢复原样', start: '开始', fxTitle: '变声魔法', fx_normal: '原声', fx_robot: '机器人', fx_mouse: '老鼠', fx_bear: '熊', fx_echo: '回声', fx_reverse: '倒放', reset: '从头开始', resetSure: '再按一次就全部删除', welcome: '欢迎回来！可以接着玩', localOnly: '只保存在这台设备上', help: '怎么玩', ok: '知道了！', langTitle: '语言', tempo: '速度', slower: '慢一点', faster: '快一点', tapStop: '再按一次就停止', recFull: '声音太多了，先删掉一个吧', rec: '录音', play: '演奏', song: '歌曲', hold: '按一下：数4下后录音', holdSub: '说话、杂音，什么都可以', mine: '我的声音', mineEmpty: '还没有。按一下麦克风吧！', drawer: '声音抽屉', drawerSub: '不录音也能玩', playThis: '用这个声音演奏', listening: '正在听', keep: '录到磁带上！', ready: '准备…', recNow: '录音中！', cancel: '取消', toSong: '做成歌曲', addRec: '再录一个', save: '完成！保存', seno: '预备，开始！', stop: '停止', recording: '录音中…', nothing: '什么也没听到', noMic: '无法使用麦克风', again: '请再按一次', kept: '留在磁带上了！', full: '磁带满了', rackEmpty: '按星星：数4下\n然后录2小节', deckEmpty: '还没有磁带\n在“演奏”里按星星', saved: '保存好了！', saving: '保存中…', sound: '声音', del: '删除', muteOn: '静音', muteOff: '取消静音', vol: '音量', back: '返回',
     names: { drum: '鼓', mokkin: '木琴', piano: '钢琴', bass: '贝斯', frog: '青蛙', robot: '机器人', guitar: '吉他', trumpet: '小号', organ: '风琴', cat: '猫咪', spring: '弹簧', laser: '激光', drop: '水滴', suzu: '铃铛' } },
-  ko: { lang: '한국어', fxTitle: '목소리 변신', fx_normal: '그대로', fx_robot: '로봇', fx_mouse: '생쥐', fx_bear: '곰', fx_echo: '메아리', fx_reverse: '거꾸로', reset: '처음부터 만들기', resetSure: '한 번 더 누르면 모두 지워져', welcome: '어서 와! 이어서 놀 수 있어', localOnly: '이 기기에만 저장돼', help: '사용법', ok: '알겠어!', langTitle: '언어', tempo: '빠르기', slower: '느리게', faster: '빠르게', tapStop: '한 번 더 누르면 멈춰', recFull: '소리가 너무 많아. 하나 지워 줘', rec: '녹음', play: '연주', song: '노래', hold: '누르면 4번 세고 녹음', holdSub: '목소리, 물건 소리, 뭐든지 OK', mine: '내 소리', mineEmpty: '아직 없어. 마이크를 눌러 봐!', drawer: '소리 서랍', drawerSub: '녹음 안 해도 놀 수 있어', playThis: '이 소리로 연주', listening: '듣고 있어', keep: '테이프에 녹음!', ready: '준비…', recNow: '녹음 중!', cancel: '취소', toSong: '노래 만들기', addRec: '하나 더 녹음', save: '완성! 저장', seno: '하나 둘 셋!', stop: '멈춰', recording: '녹음 중…', nothing: '아무것도 안 들렸어', noMic: '마이크를 쓸 수 없어', again: '다시 눌러 줘', kept: '테이프에 남겼어!', full: '테이프가 꽉 찼어', rackEmpty: '별을 누르면 4번 세고\n2마디를 녹음해', deckEmpty: '아직 테이프가 없어\n"연주"에서 별을 눌러 봐', saved: '저장했어!', saving: '저장 중…', sound: '소리', del: '지우기', muteOn: '소리 끄기', muteOff: '소리 켜기', vol: '크기', back: '뒤로',
+  ko: { lang: '한국어', synth: '빙글빙글 신스', k_pitch: '높이', k_thick: '두께', k_bright: '밝기', k_reso: '개성', k_mywa: '와우', k_attack: '시작', k_release: '끝', k_lfoRate: '흔들 빠르기', k_lfoDepth: '흔들 깊이', k_arp: '삐로삐로', k_wave: '모양', k_pat: '순서', w_sawtooth: '톱니', w_square: '네모', w_triangle: '세모', w_sine: '동그라미', p_up: '올라가기', p_down: '내려가기', p_random: '뒤죽박죽', s_reverb: '울림', b_src: '소리의 바탕', b_col: '소리의 색', b_mov: '소리의 움직임', chaos: '엉망진창', resetSound: '원래대로', start: '시작', fxTitle: '목소리 변신', fx_normal: '그대로', fx_robot: '로봇', fx_mouse: '생쥐', fx_bear: '곰', fx_echo: '메아리', fx_reverse: '거꾸로', reset: '처음부터 만들기', resetSure: '한 번 더 누르면 모두 지워져', welcome: '어서 와! 이어서 놀 수 있어', localOnly: '이 기기에만 저장돼', help: '사용법', ok: '알겠어!', langTitle: '언어', tempo: '빠르기', slower: '느리게', faster: '빠르게', tapStop: '한 번 더 누르면 멈춰', recFull: '소리가 너무 많아. 하나 지워 줘', rec: '녹음', play: '연주', song: '노래', hold: '누르면 4번 세고 녹음', holdSub: '목소리, 물건 소리, 뭐든지 OK', mine: '내 소리', mineEmpty: '아직 없어. 마이크를 눌러 봐!', drawer: '소리 서랍', drawerSub: '녹음 안 해도 놀 수 있어', playThis: '이 소리로 연주', listening: '듣고 있어', keep: '테이프에 녹음!', ready: '준비…', recNow: '녹음 중!', cancel: '취소', toSong: '노래 만들기', addRec: '하나 더 녹음', save: '완성! 저장', seno: '하나 둘 셋!', stop: '멈춰', recording: '녹음 중…', nothing: '아무것도 안 들렸어', noMic: '마이크를 쓸 수 없어', again: '다시 눌러 줘', kept: '테이프에 남겼어!', full: '테이프가 꽉 찼어', rackEmpty: '별을 누르면 4번 세고\n2마디를 녹음해', deckEmpty: '아직 테이프가 없어\n"연주"에서 별을 눌러 봐', saved: '저장했어!', saving: '저장 중…', sound: '소리', del: '지우기', muteOn: '소리 끄기', muteOff: '소리 켜기', vol: '크기', back: '뒤로',
     names: { drum: '드럼', mokkin: '실로폰', piano: '피아노', bass: '베이스', frog: '개구리', robot: '로봇', guitar: '기타', trumpet: '트럼펫', organ: '오르간', cat: '고양이', spring: '띠용', laser: '레이저', drop: '물방울', suzu: '방울' } },
-  uk: { lang: 'Українська', fxTitle: 'Чарівний голос', fx_normal: 'Звичайний', fx_robot: 'Робот', fx_mouse: 'Мишка', fx_bear: 'Ведмідь', fx_echo: 'Луна', fx_reverse: 'Задом наперед', reset: 'Почати спочатку', resetSure: 'Натисни ще раз — і все зітреться', welcome: 'З поверненням! Грай далі', localOnly: 'Зберігається лише на цьому пристрої', help: 'Як грати', ok: 'Зрозуміло!', langTitle: 'Мова', tempo: 'Швидкість', slower: 'Повільніше', faster: 'Швидше', tapStop: 'Натисни ще раз, щоб зупинити', recFull: 'Забагато звуків. Спочатку видали один', rec: 'Запис', play: 'Гра', song: 'Пісня', hold: 'Натисни: рахуємо 4 — і запис', holdSub: 'Голос, звуки — що завгодно!', mine: 'Мої звуки', mineEmpty: 'Ще нічого немає. Натисни мікрофон!', drawer: 'Шухляда звуків', drawerSub: 'Можна грати й без запису', playThis: 'Грати цим звуком', listening: 'Слухаю', keep: 'Запис на касету!', ready: 'Готуйся…', recNow: 'Записую!', cancel: 'Скасувати', toSong: 'Зробити пісню', addRec: 'Записати ще', save: 'Готово! Зберегти', seno: 'Три-чотири!', stop: 'Стоп', recording: 'Записую…', nothing: 'Нічого не чути', noMic: 'Мікрофон недоступний', again: 'Натисни ще раз', kept: 'Записано на касету!', full: 'Касет уже забагато', rackEmpty: 'Натисни зірку: рахуємо до 4,\nпотім записуємо 2 такти', deckEmpty: 'Ще немає касет\nНатисни зірку в «Грі»', saved: 'Збережено!', saving: 'Зберігаю…', sound: 'Звук', del: 'Видалити', muteOn: 'Вимкнути звук', muteOff: 'Увімкнути звук', vol: 'Гучність', back: 'Назад',
+  uk: { lang: 'Українська', synth: 'Крутисинт', k_pitch: 'Висота', k_thick: 'Товщина', k_bright: 'Яскравість', k_reso: 'Дивність', k_mywa: 'Вау', k_attack: 'Початок', k_release: 'Кінець', k_lfoRate: 'Швидкість хвилі', k_lfoDepth: 'Глибина хвилі', k_arp: 'Арпеджіо', k_wave: 'Форма', k_pat: 'Порядок', w_sawtooth: 'Пилка', w_square: 'Квадрат', w_triangle: 'Трикутник', w_sine: 'Кругла', p_up: 'Вгору', p_down: 'Вниз', p_random: 'Навмання', s_reverb: 'Простір', b_src: 'Основа звуку', b_col: 'Колір звуку', b_mov: 'Рух звуку', chaos: 'Мішанина!', resetSound: 'Як було', start: 'Почати', fxTitle: 'Чарівний голос', fx_normal: 'Звичайний', fx_robot: 'Робот', fx_mouse: 'Мишка', fx_bear: 'Ведмідь', fx_echo: 'Луна', fx_reverse: 'Задом наперед', reset: 'Почати спочатку', resetSure: 'Натисни ще раз — і все зітреться', welcome: 'З поверненням! Грай далі', localOnly: 'Зберігається лише на цьому пристрої', help: 'Як грати', ok: 'Зрозуміло!', langTitle: 'Мова', tempo: 'Швидкість', slower: 'Повільніше', faster: 'Швидше', tapStop: 'Натисни ще раз, щоб зупинити', recFull: 'Забагато звуків. Спочатку видали один', rec: 'Запис', play: 'Гра', song: 'Пісня', hold: 'Натисни: рахуємо 4 — і запис', holdSub: 'Голос, звуки — що завгодно!', mine: 'Мої звуки', mineEmpty: 'Ще нічого немає. Натисни мікрофон!', drawer: 'Шухляда звуків', drawerSub: 'Можна грати й без запису', playThis: 'Грати цим звуком', listening: 'Слухаю', keep: 'Запис на касету!', ready: 'Готуйся…', recNow: 'Записую!', cancel: 'Скасувати', toSong: 'Зробити пісню', addRec: 'Записати ще', save: 'Готово! Зберегти', seno: 'Три-чотири!', stop: 'Стоп', recording: 'Записую…', nothing: 'Нічого не чути', noMic: 'Мікрофон недоступний', again: 'Натисни ще раз', kept: 'Записано на касету!', full: 'Касет уже забагато', rackEmpty: 'Натисни зірку: рахуємо до 4,\nпотім записуємо 2 такти', deckEmpty: 'Ще немає касет\nНатисни зірку в «Грі»', saved: 'Збережено!', saving: 'Зберігаю…', sound: 'Звук', del: 'Видалити', muteOn: 'Вимкнути звук', muteOff: 'Увімкнути звук', vol: 'Гучність', back: 'Назад',
     names: { drum: 'Барабани', mokkin: 'Ксилофон', piano: 'Піаніно', bass: 'Бас', frog: 'Жаба', robot: 'Робот', guitar: 'Гітара', trumpet: 'Труба', organ: 'Орган', cat: 'Кіт', spring: 'Пружина', laser: 'Лазер', drop: 'Крапля', suzu: 'Дзвіночки' } }
 };
 var LANGS = ['ja', 'en', 'zh', 'ko', 'uk'];
 /* ---------- in-app guide (one per screen) ---------- */
 var HELP = {
-  ja: { rec: [['mic', 'マイクを おすと「4・3・2・1」と かぞえるよ。そのあと ろくおんが はじまるよ'], ['meter', 'こえや ものおとを だしてね。メーターが うごいていれば きこえているよ'], ['stop', 'もういちど おすと とまるよ。4びょう たつと じどうで とまるよ'], ['pads', 'とったおとか ひきだしのおとを えらんで「このおとで えんそう」へ']],
+  ja: { synth: [["keys", "けんばんを おさえると おとが なるよ。おさえたまま つまみを まわしてみよう"], ["knob", "つまみは ゆびで うえ・したに うごかすと まわるよ。りょうてで ふたつ いっしょにも まわせるよ"], ["stairs", "「ピロピロ」を まわすと、おさえた おとが じどうで ピロピロ なるよ"], ["chaos", "「ぐちゃぐちゃ」で へんな おとに、「もとにもどす」で ふつうの おとに もどるよ"]],
+        rec: [['mic', 'マイクを おすと「4・3・2・1」と かぞえるよ。そのあと ろくおんが はじまるよ'], ['meter', 'こえや ものおとを だしてね。メーターが うごいていれば きこえているよ'], ['stop', 'もういちど おすと とまるよ。4びょう たつと じどうで とまるよ'], ['pads', 'とったおとか ひきだしのおとを えらんで「このおとで えんそう」へ']],
         play: [['pads', 'いたや たいこを たたいて あそぼう'], ['star', 'ほしボタンを おすと 4つ かぞえて、2しょうせつ ろくおん。テープに なるよ'], ['turtle', 'カメと ウサギで はやさを かえられるよ'], ['tape', 'テープが できたら「きょく」へ すすもう']],
         song: [['play', '「せーの！」で ぜんぶの テープが いっしょに なるよ'], ['spk', 'スピーカーで おとを けしたり だしたり。よこの つまみで おおきさを かえるよ'], ['grid', 'マスを タップすると おとを たしたり けしたり できるよ'], ['down', '「できた！ ほぞん」で きょくを ファイルに ほぞんするよ']] },
-  en: { rec: [['mic', 'Tap the mic and it counts "4, 3, 2, 1". Then recording starts'], ['meter', 'Make a sound with your voice or anything. If the meter moves, I can hear you'], ['stop', 'Tap again to stop. It stops by itself after 4 seconds'], ['pads', 'Pick a sound you recorded or one from the drawer, then "Play this sound"']],
+  en: { synth: [["keys", "Press a key to play. Keep holding it and turn a knob"], ["knob", "Drag a knob up or down with your finger. You can turn two at once with both hands"], ["stairs", "Turn \"Arpeggio\" and the keys you hold play by themselves"], ["chaos", "\"Scramble!\" makes a crazy sound. \"Back to normal\" brings the nice sound back"]],
+        rec: [['mic', 'Tap the mic and it counts "4, 3, 2, 1". Then recording starts'], ['meter', 'Make a sound with your voice or anything. If the meter moves, I can hear you'], ['stop', 'Tap again to stop. It stops by itself after 4 seconds'], ['pads', 'Pick a sound you recorded or one from the drawer, then "Play this sound"']],
         play: [['pads', 'Tap the bars or drums and play'], ['star', 'Press the star: it counts 4, then records 2 bars onto a tape'], ['turtle', 'Use the turtle and the rabbit to change the speed'], ['tape', 'When you have tapes, go to "Song"']],
         song: [['play', 'Press "Ready, go!" and all tapes play together'], ['spk', 'The speaker turns a tape on or off. The slider changes its volume'], ['grid', 'Tap a square to add or remove a sound'], ['down', '"Done! Save" saves your song as a file']] },
-  zh: { rec: [['mic', '按一下麦克风，会数“4、3、2、1”，然后开始录音'], ['meter', '用声音或任何东西发出声响。音量表在动，就是听到了'], ['stop', '再按一次就停止。4秒后会自动停止'], ['pads', '选一个录好的声音或抽屉里的声音，然后点“用这个声音演奏”']],
+  zh: { synth: [["keys", "按住琴键就会发声。按着不放，转一转旋钮吧"], ["knob", "用手指上下拖动旋钮就能转。两只手可以同时转两个"], ["stairs", "转“琶音”，按住的音会自动叮叮咚咚地响"], ["chaos", "“乱七八糟”变成怪声音，“恢复原样”回到普通的声音"]],
+        rec: [['mic', '按一下麦克风，会数“4、3、2、1”，然后开始录音'], ['meter', '用声音或任何东西发出声响。音量表在动，就是听到了'], ['stop', '再按一次就停止。4秒后会自动停止'], ['pads', '选一个录好的声音或抽屉里的声音，然后点“用这个声音演奏”']],
         play: [['pads', '敲一敲木条或鼓来玩吧'], ['star', '按星星按钮会数4下，然后录2小节，变成一盘磁带'], ['turtle', '用乌龟和兔子来改变速度'], ['tape', '有了磁带就去“歌曲”吧']],
         song: [['play', '按“预备，开始！”，所有磁带一起播放'], ['spk', '喇叭可以打开或关掉声音，旁边的滑块调整音量'], ['grid', '点一下格子可以加上或去掉声音'], ['down', '按“完成！保存”把歌曲存成文件']] },
-  ko: { rec: [['mic', '마이크를 누르면 "4, 3, 2, 1" 세고 녹음이 시작돼'], ['meter', '목소리나 아무 소리나 내 봐. 미터가 움직이면 잘 들리는 거야'], ['stop', '한 번 더 누르면 멈춰. 4초가 지나면 저절로 멈춰'], ['pads', '녹음한 소리나 서랍 소리를 골라서 "이 소리로 연주"로 가']],
+  ko: { synth: [["keys", "건반을 누르면 소리가 나. 누른 채로 손잡이를 돌려 봐"], ["knob", "손잡이는 손가락으로 위아래로 움직이면 돌아가. 두 손으로 두 개를 같이 돌릴 수도 있어"], ["stairs", "\"삐로삐로\"를 돌리면 누른 음이 저절로 삐로삐로 울려"], ["chaos", "\"엉망진창\"은 이상한 소리로, \"원래대로\"는 보통 소리로 돌아가"]],
+        rec: [['mic', '마이크를 누르면 "4, 3, 2, 1" 세고 녹음이 시작돼'], ['meter', '목소리나 아무 소리나 내 봐. 미터가 움직이면 잘 들리는 거야'], ['stop', '한 번 더 누르면 멈춰. 4초가 지나면 저절로 멈춰'], ['pads', '녹음한 소리나 서랍 소리를 골라서 "이 소리로 연주"로 가']],
         play: [['pads', '나무판이나 북을 두드리며 놀아 봐'], ['star', '별 버튼을 누르면 4번 세고 2마디를 녹음해서 테이프가 돼'], ['turtle', '거북이와 토끼로 빠르기를 바꿀 수 있어'], ['tape', '테이프가 생기면 "노래"로 가자']],
         song: [['play', '"하나 둘 셋!"을 누르면 모든 테이프가 같이 나와'], ['spk', '스피커로 소리를 끄거나 켜. 옆의 슬라이더로 크기를 바꿔'], ['grid', '칸을 누르면 소리를 넣거나 뺄 수 있어'], ['down', '"완성! 저장"을 누르면 노래를 파일로 저장해']] },
-  uk: { rec: [['mic', 'Натисни мікрофон — порахуємо «4, 3, 2, 1», і почнеться запис'], ['meter', 'Видай звук голосом чи будь-чим. Якщо шкала рухається — я тебе чую'], ['stop', 'Натисни ще раз, щоб зупинити. Через 4 секунди запис зупиниться сам'], ['pads', 'Вибери записаний звук або звук із шухляди й натисни «Грати цим звуком»']],
+  uk: { synth: [["keys", "Натисни клавішу — і пролунає звук. Тримай її та крути ручку"], ["knob", "Тягни ручку пальцем угору чи вниз. Обома руками можна крутити дві одразу"], ["stairs", "Покрути «Арпеджіо» — і затиснуті ноти заграють самі"], ["chaos", "«Мішанина!» робить дивний звук, «Як було» повертає звичайний"]],
+        rec: [['mic', 'Натисни мікрофон — порахуємо «4, 3, 2, 1», і почнеться запис'], ['meter', 'Видай звук голосом чи будь-чим. Якщо шкала рухається — я тебе чую'], ['stop', 'Натисни ще раз, щоб зупинити. Через 4 секунди запис зупиниться сам'], ['pads', 'Вибери записаний звук або звук із шухляди й натисни «Грати цим звуком»']],
         play: [['pads', 'Стукай по пластинках чи барабанах і грай'], ['star', 'Натисни зірку: порахуємо до 4 і запишемо 2 такти на касету'], ['turtle', 'Черепаха й зайчик змінюють швидкість'], ['tape', 'Коли з’являться касети, переходь до «Пісні»']],
         song: [['play', 'Натисни «Три-чотири!» — і всі касети заграють разом'], ['spk', 'Динамік вмикає чи вимикає касету, а повзунок змінює гучність'], ['grid', 'Торкнися клітинки, щоб додати чи прибрати звук'], ['down', '«Готово! Зберегти» зберігає пісню у файл']] }
 };
@@ -384,6 +494,10 @@ var IC = {
   echo: 'M4 40l13-21 8 12 6-9 13 18zM30 12a5 5 0 0 1 0 6M35 9a10 10 0 0 1 0 12',
   reverse: 'M38 16H12l7-7M12 16l7 7M10 32h26l-7-7M36 32l-7 7',
   trash: 'M10 14h28M18 14V9h12v5M14 14l2 26h16l2-26',
+  knob: c(24, 26, 15) + 'M24 26l-8-9M24 5v4M9 11l3 3M39 11l-3 3',
+  keys: 'M4 12h40v26H4zM12 12v26M20 12v26M28 12v26M36 12v26M10 12v14h4V12M26 12v14h4V12M34 12v14h4V12',
+  stairs: 'M6 40h8v-8h8v-8h8v-8h8v-8h6',
+  chaos: 'M6 12c10 0 16 24 36 24M6 36c10 0 16-24 36-24M36 6l6 6-6 6M36 30l6 6-6 6',
   meter: 'M8 40V32M16 40V26M24 40V20M32 40V14M40 40V8',
   stop: 'M14 14h20v20H14z',
   star: 'M24 5l5.9 12 13.1 1.9-9.5 9.3 2.2 13.1L24 35.1 12.3 41.3l2.2-13.1L5 18.9 18.1 17z',
@@ -1133,6 +1247,490 @@ function resetAll() {
   closeSheet(); go('rec');
 }
 
+
+/* =====================================================================
+   ぐりぐりシンセ (synth mode)
+   - every knob writes straight into AudioParams of all sounding voices
+   - shared modulation sources (ConstantSource / LFO) are summed into the
+     params, so held notes and arpeggio notes follow the knobs instantly
+   ===================================================================== */
+var SY = {
+  ready: false, voices: [], held: {}, heldOrder: [], kp: {}, kn: {}, anim: null,
+  arp: { timer: null, idx: 0, dir: 1, next: 0, lastFlash: 0 },
+  lfoPhase: 0, lastT: 0, wave: 'sawtooth', pat: 'up', delay: false, reverb: false, nodes: null
+};
+var SY_TC = 0.015;
+var SY_KNOBS = [
+  // id, block, icon, default (0..1)
+  ['pitch', 'src', 'kPitch', 0.5],
+  ['thick', 'src', 'kThick', 0.25],
+  ['bright', 'col', 'kBright', 0.55],
+  ['reso', 'col', 'kReso', 0.15],
+  ['mywa', 'col', 'kMywa', 0.35],
+  ['attack', 'mov', 'kAttack', 0.05],
+  ['release', 'mov', 'kRelease', 0.2],
+  ['lfoRate', 'mov', 'kLfoRate', 0.4],
+  ['lfoDepth', 'mov', 'kLfoDepth', 0],
+  ['arp', 'mov', 'kArp', 0]
+];
+var SY_WAVES = [['sawtooth', 'wSaw'], ['square', 'wSquare'], ['triangle', 'wTri'], ['sine', 'wSine']];
+var SY_PATS = [['up', 'pUp'], ['down', 'pDown'], ['random', 'pRand']];
+var SYV = {};
+SY_KNOBS.forEach(function (k) { SYV[k[0]] = k[3]; });
+
+/* ---- knob value → sound (ranges are deliberately extreme, no dead zones) ---- */
+function syMap(id, v) {
+  switch (id) {
+    case 'pitch': return (v - 0.5) * 4800;                       // ±2 octaves, cents
+    case 'thick': return 3 + v * 57;                             // unison spread, cents
+    case 'bright': return -3600 + v * 7400;                      // filter cents around 1 kHz (≈125 Hz … ≈9 kHz)
+    case 'reso': return 0.7 + Math.pow(v, 1.2) * 15.3;           // Q, capped so it never screams
+    case 'mywa': return v * 5200;                                // filter envelope amount, cents
+    case 'attack': return 0.004 + Math.pow(v, 2) * 1.6;          // s
+    case 'release': return 0.04 + Math.pow(v, 2) * 3.2;          // s
+    case 'lfoRate': return 0.25 * Math.pow(64, v);               // 0.25 … 16 Hz
+    case 'lfoDepth': return v;                                   // 0 … 1 (scaled below)
+    case 'arp': return v < 0.04 ? 0 : 3 + (v - 0.04) / 0.96 * 15; // notes per second, 0 = off
+  }
+  return v;
+}
+function satCurve() {
+  var n = 1024, c = new Float32Array(n), k = 1.8, norm = Math.tanh(k);
+  for (var i = 0; i < n; i++) { var x = i / (n - 1) * 2 - 1; c[i] = Math.tanh(k * x) / norm; }
+  return c;
+}
+function irBuffer(ac, sec) {
+  var sr = ac.sampleRate, len = Math.round(sr * sec), b = ac.createBuffer(2, len, sr);
+  for (var ch = 0; ch < 2; ch++) {
+    var d = b.getChannelData(ch), lp = 0;
+    for (var i = 0; i < len; i++) {
+      var x = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6);
+      lp += (x - lp) * (0.35 + 0.5 * (1 - i / len));    // darker tail
+      d[i] = lp;
+    }
+  }
+  return b;
+}
+function syInit() {
+  if (SY.ready || !ensureAudio()) return SY.ready;
+  var ac = ctx, n = {};
+  function cs(val) { var c = ac.createConstantSource(); c.offset.value = val; c.start(); return c; }
+  n.pitch = cs(syMap('pitch', SYV.pitch));
+  n.cut = cs(syMap('bright', SYV.bright));
+  n.q = cs(syMap('reso', SYV.reso));
+  n.lfo = ac.createOscillator(); n.lfo.type = 'sine'; n.lfo.frequency.value = syMap('lfoRate', SYV.lfoRate); n.lfo.start();
+  n.lfoPitch = ac.createGain(); n.lfoPitch.gain.value = SYV.lfoDepth * 700;
+  n.lfoFilt = ac.createGain(); n.lfoFilt.gain.value = SYV.lfoDepth * 2600;
+  n.lfo.connect(n.lfoPitch); n.lfo.connect(n.lfoFilt);
+  n.curve = satCurve();
+  n.bus = ac.createGain(); n.bus.gain.value = 1;
+  n.out = ac.createGain(); n.out.gain.value = 0.5;                  // synth master cap
+  // loudness for small speakers + a hard ceiling so extreme knob settings never clip
+  n.comp = ac.createDynamicsCompressor(); n.comp.threshold.value = -20; n.comp.knee.value = 8; n.comp.ratio.value = 5; n.comp.attack.value = 0.004; n.comp.release.value = 0.2;
+  n.make = ac.createGain(); n.make.gain.value = 1.6;
+  n.lim = ac.createDynamicsCompressor(); n.lim.threshold.value = -6; n.lim.knee.value = 0; n.lim.ratio.value = 20; n.lim.attack.value = 0.001; n.lim.release.value = 0.08;
+  n.sum = ac.createGain();
+  n.sum.connect(n.comp); n.comp.connect(n.make); n.make.connect(n.lim); n.lim.connect(n.out);
+  n.bus.connect(n.sum);
+  n.dWet = ac.createGain(); n.dWet.gain.value = 0;
+  n.delay = ac.createDelay(1.5); n.delay.delayTime.value = 0.32;
+  n.fb = ac.createGain(); n.fb.gain.value = 0.38;
+  n.dLp = ac.createBiquadFilter(); n.dLp.type = 'lowpass'; n.dLp.frequency.value = 3200;
+  n.bus.connect(n.dWet); n.dWet.connect(n.delay); n.delay.connect(n.dLp); n.dLp.connect(n.fb); n.fb.connect(n.delay); n.dLp.connect(n.sum);
+  n.rWet = ac.createGain(); n.rWet.gain.value = 0;
+  n.conv = ac.createConvolver(); n.conv.buffer = irBuffer(ac, 2.4);
+  n.bus.connect(n.rWet); n.rWet.connect(n.conv); n.conv.connect(n.sum);
+  n.an = ac.createAnalyser(); n.an.fftSize = 2048; n.out.connect(n.an);
+  n.out.connect(master);                                            // master → compressor → limiter (shared app output chain)
+  SY.nodes = n; SY.ready = true;
+  SY.driftTimer = setInterval(syDrift, 260);
+  return true;
+}
+function syParam(p, v) { try { p.setTargetAtTime(v, ctx.currentTime, SY_TC); } catch (err) {} }
+function syOscDetune(vo, i) { return (i - 1) * syMap('thick', SYV.thick) + vo.drift[i]; }
+/* apply one knob to everything that is sounding right now */
+function syApply(id) {
+  if (!SY.ready) return;
+  var n = SY.nodes, v = SYV[id];
+  if (id === 'pitch') syParam(n.pitch.offset, syMap(id, v));
+  else if (id === 'bright') syParam(n.cut.offset, syMap(id, v));
+  else if (id === 'reso') syParam(n.q.offset, syMap(id, v));
+  else if (id === 'lfoRate') syParam(n.lfo.frequency, syMap(id, v));
+  else if (id === 'lfoDepth') { syParam(n.lfoPitch.gain, v * 700); syParam(n.lfoFilt.gain, v * 2600); }
+  else if (id === 'thick') SY.voices.forEach(function (vo) { vo.osc.forEach(function (o, i) { syParam(o.detune, syOscDetune(vo, i)); }); });
+  else if (id === 'mywa') SY.voices.forEach(function (vo) { syParam(vo.envAmt.gain, syMap('mywa', v)); });
+  else if (id === 'attack') SY.voices.forEach(function (vo) {      // a voice still rising follows the new attack
+    if (vo.off || ctx.currentTime > vo.atkEnd) return;
+    var g = vo.vca.gain, now = ctx.currentTime, a = syMap('attack', v);
+    g.cancelScheduledValues(now); g.setTargetAtTime(vo.peak, now, Math.max(0.003, a / 4)); vo.atkEnd = now + a;
+  });
+  else if (id === 'arp') syArpUpdate();
+}
+function syDrift() {
+  if (!SY.ready) return;
+  SY.voices.forEach(function (vo) {
+    vo.osc.forEach(function (o, i) {
+      vo.drift[i] = (Math.random() * 2 - 1) * 3.5;
+      try { o.detune.setTargetAtTime(syOscDetune(vo, i), ctx.currentTime, 0.25); } catch (err) {}
+    });
+  });
+}
+function syNoteOn(midi, gate) {
+  if (!syInit()) return null;
+  var ac = ctx, n = SY.nodes, now = ac.currentTime + 0.005;
+  while (SY.voices.length >= 10) syKill(SY.voices[0]);
+  var vo = { midi: midi, osc: [], drift: [0, 0, 0], off: false, peak: 0.42 };
+  var f = 440 * Math.pow(2, (midi - 69) / 12);
+  var mix = ac.createGain(); mix.gain.value = 0.36;
+  for (var i = 0; i < 3; i++) {
+    var o = ac.createOscillator(); o.type = SY.wave; o.frequency.value = f;
+    vo.drift[i] = (Math.random() * 2 - 1) * 3.5;
+    o.detune.value = syOscDetune(vo, i);
+    n.pitch.connect(o.detune); n.lfoPitch.connect(o.detune);
+    o.connect(mix); o.start(now); vo.osc.push(o);
+  }
+  var drive = ac.createWaveShaper(); drive.curve = n.curve; drive.oversample = '2x';
+  mix.connect(drive);
+  var f1 = ac.createBiquadFilter(), f2 = ac.createBiquadFilter();
+  [f1, f2].forEach(function (fl) {
+    fl.type = 'lowpass'; fl.frequency.value = 1000; fl.detune.value = 0;
+    n.cut.connect(fl.detune); n.lfoFilt.connect(fl.detune);
+  });
+  f1.Q.value = 0.54; f2.Q.value = 0; n.q.connect(f2.Q);          // resonance on the 2nd stage only (24 dB/oct)
+  drive.connect(f1); f1.connect(f2);
+  // filter envelope: 0→1→sustain, scaled live by the "ミュワッ" knob
+  var env = ac.createConstantSource(); env.offset.value = 0; env.start(now);
+  var envAmt = ac.createGain(); envAmt.gain.value = syMap('mywa', SYV.mywa);
+  env.connect(envAmt); envAmt.connect(f1.detune); envAmt.connect(f2.detune);
+  env.offset.setValueAtTime(0, now); env.offset.linearRampToValueAtTime(1, now + 0.008);
+  env.offset.setTargetAtTime(0.22, now + 0.01, 0.16);
+  var vca = ac.createGain(); vca.gain.value = 0;
+  var atk = syMap('attack', SYV.attack);
+  vca.gain.setValueAtTime(0, now);
+  vca.gain.linearRampToValueAtTime(0.02, now + 0.004);           // minimum fade: no click
+  vca.gain.setTargetAtTime(vo.peak, now + 0.004, Math.max(0.003, atk / 4));
+  f2.connect(vca); vca.connect(n.bus);
+  vo.mix = mix; vo.drive = drive; vo.f1 = f1; vo.f2 = f2; vo.env = env; vo.envAmt = envAmt; vo.vca = vca; vo.atkEnd = now + atk;
+  SY.voices.push(vo);
+  if (gate) syNoteOff(vo, now + gate);
+  return vo;
+}
+function syNoteOff(vo, when) {
+  if (!vo || vo.off) return;
+  vo.off = true;
+  var t0 = Math.max(when || 0, ctx.currentTime), rel = syMap('release', SYV.release), g = vo.vca.gain;
+  try {
+    if (g.cancelAndHoldAtTime) g.cancelAndHoldAtTime(t0); else { g.cancelScheduledValues(t0); g.setValueAtTime(g.value, t0); }
+    g.setTargetAtTime(0, t0, Math.max(0.006, rel / 5));
+    vo.env.offset.setTargetAtTime(0, t0, Math.max(0.02, rel / 4));
+  } catch (err) {}
+  var end = t0 + rel + 0.15;
+  vo.osc.forEach(function (o) { try { o.stop(end); } catch (err) {} });
+  try { vo.env.stop(end); } catch (err) {}
+  vo.dead = setTimeout(function () { syCleanup(vo); }, (end - ctx.currentTime) * 1000 + 80);
+}
+function syKill(vo) {
+  if (!vo) return;
+  var now = ctx.currentTime;
+  try { vo.vca.gain.cancelScheduledValues(now); vo.vca.gain.setTargetAtTime(0, now, 0.005); } catch (err) {}
+  vo.osc.forEach(function (o) { try { o.stop(now + 0.05); } catch (err) {} });
+  try { vo.env.stop(now + 0.05); } catch (err) {}
+  vo.off = true; clearTimeout(vo.dead);
+  SY.voices = SY.voices.filter(function (x) { return x !== vo; });
+  setTimeout(function () { syCleanup(vo); }, 120);
+}
+function syCleanup(vo) {
+  SY.voices = SY.voices.filter(function (x) { return x !== vo; });
+  try { vo.vca.disconnect(); vo.f2.disconnect(); vo.f1.disconnect(); vo.drive.disconnect(); vo.mix.disconnect(); vo.envAmt.disconnect(); } catch (err) {}
+  var n = SY.nodes;
+  vo.osc.forEach(function (o) { try { n.pitch.disconnect(o.detune); n.lfoPitch.disconnect(o.detune); o.disconnect(); } catch (err) {} });
+  [vo.f1, vo.f2].forEach(function (fl) { try { n.cut.disconnect(fl.detune); n.lfoFilt.disconnect(fl.detune); } catch (err) {} });
+  try { n.q.disconnect(vo.f2.Q); } catch (err) {}
+}
+function syAllOff() {
+  SY.held = {}; SY.heldOrder = []; SY.kp = {}; SY.kn = {};
+  syArpStop();
+  if (SY.ready) SY.voices.slice().forEach(function (vo) { syNoteOff(vo); });
+  var keys = document.querySelectorAll('.skey.down'); for (var i = 0; i < keys.length; i++) keys[i].classList.remove('down');
+  var kn = document.querySelectorAll('.knob.drag'); for (var j = 0; j < kn.length; j++) kn[j].classList.remove('drag');
+}
+
+/* ---- held keys & arpeggiator ---- */
+function syKeyDown(midi) {
+  if (SY.held[midi]) return;
+  SY.held[midi] = { vo: null }; SY.heldOrder.push(midi);
+  if (syMap('arp', SYV.arp) > 0) { syArpUpdate(); return; }
+  SY.held[midi].vo = syNoteOn(midi);
+}
+function syKeyUp(midi) {
+  var h = SY.held[midi]; if (!h) return;
+  delete SY.held[midi]; SY.heldOrder = SY.heldOrder.filter(function (m) { return m !== midi; });
+  if (h.vo) syNoteOff(h.vo);
+  if (!SY.heldOrder.length) syArpStop();
+}
+function syArpNotes() {
+  var base = SY.heldOrder.slice().sort(function (a, b) { return a - b; }), notes = base.slice();
+  base.forEach(function (m) { notes.push(m + 12); });                // two octaves of the held notes
+  return notes;
+}
+function syArpUpdate() {
+  var rate = syMap('arp', SYV.arp);
+  if (rate <= 0) {                                                  // arp turned off: held keys become normal notes
+    syArpStop();
+    SY.heldOrder.forEach(function (m) { if (!SY.held[m].vo || SY.held[m].vo.off) SY.held[m].vo = syNoteOn(m); });
+    return;
+  }
+  SY.heldOrder.forEach(function (m) { if (SY.held[m].vo) { syNoteOff(SY.held[m].vo); SY.held[m].vo = null; } });
+  if (!SY.heldOrder.length || SY.arp.timer) return;
+  SY.arp.next = ctx.currentTime + 0.02;
+  SY.arp.timer = setInterval(syArpTick, 20); syArpTick();
+}
+function syArpTick() {
+  if (!SY.heldOrder.length) { syArpStop(); return; }
+  var rate = syMap('arp', SYV.arp); if (rate <= 0) { syArpUpdate(); return; }
+  while (SY.arp.next < ctx.currentTime + 0.06) {
+    var notes = syArpNotes(), m;
+    if (SY.pat === 'random') m = notes[Math.floor(Math.random() * notes.length)];
+    else {
+      var i = SY.arp.idx % notes.length;
+      m = SY.pat === 'down' ? notes[notes.length - 1 - i] : notes[i];
+      SY.arp.idx++;
+    }
+    var step = 1 / rate;                                            // read every step: the knob acts immediately
+    syNoteOn(m, step * 0.62);
+    SY.arp.flashAt = SY.arp.next;
+    SY.arp.next += step;
+  }
+}
+function syArpStop() { if (SY.arp.timer) clearInterval(SY.arp.timer); SY.arp.timer = null; SY.arp.idx = 0; }
+
+/* ---- UI ---- */
+var SY_IC = {
+  kPitch: 'M24 6v36M14 16l10-10 10 10M14 32l10 10 10-10',
+  kThick: 'M4 14c5-6 9 6 14 0s9-6 14 0 9 6 12 0M4 24c5-6 9 6 14 0s9-6 14 0 9 6 12 0M4 34c5-6 9 6 14 0s9-6 14 0 9 6 12 0',
+  kBright: 'M14 8v4M5 17h4M8 10l3 3M20 10l-3 3' + c(14, 18, 5) + 'M20 38h18a6 6 0 0 0 0-12 9 9 0 0 0-17-2 7 7 0 0 0-1 14z',
+  kReso: 'M3 34h8l4-22 5 30 5-24 4 16 4-8h12',
+  kMywa: 'M4 38c8 0 8-28 14-28s6 18 12 18 6-8 14-8',
+  kAttack: 'M4 40h8l26-30h6',
+  kRelease: 'M4 10h6l28 30h6',
+  kLfoRate: 'M3 24c3-10 6-10 9 0s6 10 9 0 6-10 9 0 6 10 9 0 4-8 6-4',
+  kLfoDepth: 'M3 24c6-26 12-26 18 0s12 26 18 0 5-12 7-8',
+  kArp: 'M6 40h8v-8h8v-8h8v-8h8v-8h6M14 32v-4M22 24v-4M30 16v-4',
+  wSaw: 'M4 34l12-20v20l12-20v20l12-20v20',
+  wSquare: 'M4 34V14h10v20h10V14h10v20h10',
+  wTri: 'M4 32l8-16 10 20 10-20 10 20',
+  wSine: 'M4 24c4-14 9-14 13 0s9 14 13 0 9-14 13 0',
+  pUp: 'M8 40l10-10 8 6 14-24M32 12h8v8',
+  pDown: 'M8 8l10 10 8-6 14 24M32 36h8v-8',
+  pRand: 'M6 30l8-12 8 18 8-24 8 14 6-6' + c(10, 10, 2) + c(38, 38, 2),
+  sDelay: 'M4 40l13-21 8 12 6-9 13 18zM30 12a5 5 0 0 1 0 6M35 9a10 10 0 0 1 0 12',
+  sReverb: 'M10 24h2M16 16a11 11 0 0 1 0 16M22 10a19 19 0 0 1 0 28M28 4a27 27 0 0 1 0 40',
+  chaos: 'M6 12c10 0 16 24 36 24M6 36c10 0 16-24 36-24M36 6l6 6-6 6M36 30l6 6-6 6',
+  undo: 'M12 18h18a10 10 0 0 1 0 20H16M12 18l8-8M12 18l8 8',
+  knob: c(24, 26, 15) + 'M24 26l-8-9M24 5v4M9 11l3 3M39 11l-3 3'
+};
+function sysvg(name, size, sw) {
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="' + (sw || 3.6) + '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + SY_IC[name] + '"/></svg>';
+}
+function syKnobHTML(k) {
+  return '<div class="kcell"><span class="kicon">' + sysvg(k[2], 26, 3.4) + '</span>' +
+    '<button class="knob" data-knob="' + k[0] + '" role="slider" aria-label="' + esc(t('k_' + k[0])) + '" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + Math.round(SYV[k[0]] * 100) + '" style="--v:' + SYV[k[0]] + '">' +
+    '<span class="kring"></span><span class="kcap"><span class="kptr"></span></span></button>' +
+    '<span class="klab">' + esc(t('k_' + k[0])) + '</span></div>';
+}
+function syBlock(block, title, extra) {
+  return '<div class="sblock b-' + block + '"><div class="stitle">' + esc(title) + '</div><div class="srow">' + (extra || '') +
+    SY_KNOBS.filter(function (k) { return k[1] === block; }).map(syKnobHTML).join('') + '</div></div>';
+}
+function syWhiteCount() {
+  var w = window.innerWidth;
+  return w < 560 ? 8 : 15;
+}
+function syKeysHTML() {
+  var whites = syWhiteCount(), start = whites === 8 ? 60 : 48, html = '', wi = 0, m = start;
+  var isBlack = function (x) { return [1, 3, 6, 8, 10].indexOf(x % 12) >= 0; };
+  while (wi < whites) {
+    if (!isBlack(m)) {
+      html += '<div class="skey white" data-midi="' + m + '" style="left:calc(' + wi + ' * var(--kw))"></div>';
+      if (isBlack(m + 1) && wi < whites - 1) html += '<div class="skey black" data-midi="' + (m + 1) + '" style="left:calc(' + (wi + 1) + ' * var(--kw) - var(--kw) * .32)"></div>';
+      wi++;
+    }
+    m++;
+  }
+  return '<div class="skeys" id="skeys" style="--n:' + whites + '">' + html + '</div>';
+}
+function renderSynth() {
+  var waveBtns = '<div class="wbtns" role="group" aria-label="' + esc(t('k_wave')) + '"><span class="kicon">' + sysvg('wSaw', 20, 3.4) + '</span>' +
+    SY_WAVES.map(function (w) { return '<button class="wbtn' + (SY.wave === w[0] ? ' on' : '') + '" data-wave="' + w[0] + '" aria-pressed="' + (SY.wave === w[0]) + '" aria-label="' + esc(t('w_' + w[0])) + '">' + sysvg(w[1], 26, 3.4) + '</button>'; }).join('') +
+    '<span class="klab">' + esc(t('k_wave')) + '</span></div>';
+  var patBtns = '<div class="wbtns pats" role="group" aria-label="' + esc(t('k_pat')) + '"><span class="kicon">' + sysvg('kArp', 20, 3.4) + '</span>' +
+    SY_PATS.map(function (p) { return '<button class="wbtn' + (SY.pat === p[0] ? ' on' : '') + '" data-pat="' + p[0] + '" aria-pressed="' + (SY.pat === p[0]) + '" aria-label="' + esc(t('p_' + p[0])) + '">' + sysvg(p[1], 24, 3.4) + '</button>'; }).join('') +
+    '<span class="klab">' + esc(t('k_pat')) + '</span></div>';
+  $('s-synth').innerHTML =
+    '<div class="synth"><div class="cheek"></div><div class="spanel">' +
+      '<div class="stop">' +
+        '<div class="slogo"><b>OTO KOBO</b><small>' + esc(t('synth')) + '</small></div>' +
+        '<div class="lamps" aria-hidden="true"><i id="lampLvl"></i><i id="lampLfo"></i><i id="lampArp"></i></div>' +
+        '<div class="sfx"><button class="sw' + (SY.delay ? ' on' : '') + '" data-sfx="delay" aria-pressed="' + SY.delay + '" aria-label="' + esc(t('fx_echo')) + '"><span class="led"></span>' + sysvg('sDelay', 24, 3.2) + '<span>' + esc(t('fx_echo')) + '</span></button>' +
+        '<button class="sw' + (SY.reverb ? ' on' : '') + '" data-sfx="reverb" aria-pressed="' + SY.reverb + '" aria-label="' + esc(t('s_reverb')) + '"><span class="led"></span>' + sysvg('sReverb', 24, 3.2) + '<span>' + esc(t('s_reverb')) + '</span></button></div>' +
+      '</div>' +
+      '<div class="sblocks">' + syBlock('src', t('b_src'), waveBtns) + syBlock('col', t('b_col')) + syBlock('mov', t('b_mov')) + '</div>' +
+      '<div class="sbottom"><div class="skeybed">' + syKeysHTML() + '</div>' +
+        '<div class="sbig"><button class="bigbtn chaos" id="syChaos">' + sysvg('chaos', 30, 4) + '<span>' + esc(t('chaos')) + '</span></button>' +
+        '<button class="bigbtn plain" id="syReset">' + sysvg('undo', 30, 4) + '<span>' + esc(t('resetSound')) + '</span></button></div></div>' +
+    '</div><div class="cheek"></div></div>' +
+    (ctx && ctx.state === 'running' ? '' : '<div class="sstart" id="syStart"><button class="playbig" id="syStartBtn" aria-label="' + esc(t('start')) + '"><svg width="90" height="90" viewBox="0 0 48 48" aria-hidden="true"><path d="M15 9l26 15-26 15z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg></button></div>');
+  // the pattern buttons belong next to the arpeggio knob
+  var mov = document.querySelector('.b-mov .srow'); if (mov) mov.insertAdjacentHTML('beforeend', patBtns);
+  syBind();
+}
+function knobSet(el, id, v) {
+  v = Math.max(0, Math.min(1, v));
+  if (SYV[id] === v) return;
+  SYV[id] = v;
+  if (el) { el.style.setProperty('--v', v.toFixed(4)); el.setAttribute('aria-valuenow', Math.round(v * 100)); }
+  syApply(id);
+}
+function syBind() {
+  var root = $('s-synth');
+  var st = $('syStartBtn');
+  if (st) st.addEventListener('click', function () { if (syInit()) { var o = $('syStart'); if (o) o.remove(); } });
+  if (st && ctx) { var pr = ctx.resume(); if (pr && pr.then) pr.then(function () { if (ctx.state === 'running') { var o = $('syStart'); if (o) o.remove(); } }, function () {}); }
+  // knobs: one finger per knob, tracked by pointerId (two hands → two knobs at once)
+  root.querySelectorAll('.knob').forEach(function (kb) {
+    kb.parentNode.addEventListener('pointerdown', function (ev) {      // the whole cell (icon + knob + name) is the handle
+      ev.preventDefault(); syInit();
+      try { kb.parentNode.setPointerCapture(ev.pointerId); } catch (err) {}
+      var id = kb.getAttribute('data-knob');
+      SY.kn[ev.pointerId] = { el: kb, id: id, y: ev.clientY, x: ev.clientX, v: SYV[id] };
+      kb.classList.add('drag');
+      if (SY.anim) SY.anim.skip[id] = true;
+    });
+    kb.addEventListener('keydown', function (ev) {
+      var id = kb.getAttribute('data-knob'), d = { ArrowUp: 0.05, ArrowRight: 0.05, ArrowDown: -0.05, ArrowLeft: -0.05 }[ev.key];
+      if (d) { ev.preventDefault(); syInit(); knobSet(kb, id, SYV[id] + d); }
+    });
+  });
+  // keyboard: each finger plays its own key and can glide
+  var keys = $('skeys');
+  keys.addEventListener('pointerdown', function (ev) {
+    ev.preventDefault(); if (!syInit()) return;
+    var o = $('syStart'); if (o) o.remove();
+    try { keys.setPointerCapture(ev.pointerId); } catch (err) {}
+    syKeyPointer(ev.pointerId, ev.clientX, ev.clientY);
+  });
+  root.querySelectorAll('[data-wave]').forEach(function (b) { b.addEventListener('click', function () { sySetWave(b.getAttribute('data-wave')); }); });
+  root.querySelectorAll('[data-pat]').forEach(function (b) { b.addEventListener('click', function () {
+    SY.pat = b.getAttribute('data-pat'); SY.arp.idx = 0;
+    root.querySelectorAll('[data-pat]').forEach(function (x) { var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
+  }); });
+  root.querySelectorAll('[data-sfx]').forEach(function (b) { b.addEventListener('click', function () {
+    if (!syInit()) return;
+    var k = b.getAttribute('data-sfx'); SY[k] = !SY[k];
+    b.classList.toggle('on', SY[k]); b.setAttribute('aria-pressed', SY[k]);
+    syParam(k === 'delay' ? SY.nodes.dWet.gain : SY.nodes.rWet.gain, SY[k] ? (k === 'delay' ? 0.4 : 0.6) : 0);
+  }); });
+  $('syChaos').addEventListener('click', function () { syInit(); syAnimateTo('chaos'); });
+  $('syReset').addEventListener('click', function () { syInit(); syAnimateTo('reset'); });
+}
+function syKeyAt(x, y) {
+  var keys = document.querySelectorAll('#skeys .skey.black'), all = [];
+  for (var i = 0; i < keys.length; i++) all.push(keys[i]);
+  var wh = document.querySelectorAll('#skeys .skey.white'); for (var j = 0; j < wh.length; j++) all.push(wh[j]);
+  for (var k = 0; k < all.length; k++) { var r = all[k].getBoundingClientRect(); if (x >= r.left && x < r.right && y >= r.top && y <= r.bottom) return all[k]; }
+  return null;
+}
+function syKeyPointer(pid, x, y) {
+  var el = syKeyAt(x, y), midi = el ? +el.getAttribute('data-midi') : null, cur = SY.kp[pid];
+  if (cur && cur.midi === midi) return;
+  if (cur) { cur.el.classList.remove('down'); syKeyUp(cur.midi); delete SY.kp[pid]; }
+  if (el && !SY.held[midi]) { el.classList.add('down'); SY.kp[pid] = { el: el, midi: midi }; syKeyDown(midi); }
+}
+function syPointerMove(ev) {
+  var k = SY.kn[ev.pointerId];
+  if (k) {
+    var dy = k.y - ev.clientY, dx = ev.clientX - k.x;
+    var range = Math.max(140, Math.min(260, window.innerHeight * 0.35));
+    knobSet(k.el, k.id, k.v + (dy + dx * 0.35) / range);
+    return;
+  }
+  if (SY.kp[ev.pointerId] !== undefined || (ev.buttons && S.screen === 'synth' && ev.target.closest && ev.target.closest('#skeys'))) syKeyPointer(ev.pointerId, ev.clientX, ev.clientY);
+}
+function syPointerUp(ev) {
+  var k = SY.kn[ev.pointerId];
+  if (k) { k.el.classList.remove('drag'); delete SY.kn[ev.pointerId]; }
+  var kp = SY.kp[ev.pointerId];
+  if (kp) { kp.el.classList.remove('down'); syKeyUp(kp.midi); delete SY.kp[ev.pointerId]; }
+}
+window.addEventListener('pointermove', syPointerMove);
+window.addEventListener('pointerup', syPointerUp);
+window.addEventListener('pointercancel', syPointerUp);
+function sySetWave(w) {
+  if (SY_WAVES.every(function (x) { return x[0] !== w; })) return;
+  SY.wave = w;
+  SY.voices.forEach(function (vo) { vo.osc.forEach(function (o) { o.type = w; }); });   // live switch: no gap
+  document.querySelectorAll('[data-wave]').forEach(function (b) { var on = b.getAttribute('data-wave') === w; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+}
+/* ぐちゃぐちゃ / もとにもどす: the knobs visibly turn, and the sound follows every frame */
+function syAnimateTo(kind) {
+  var target = {}, from = {};
+  SY_KNOBS.forEach(function (k) {
+    from[k[0]] = SYV[k[0]];
+    if (kind === 'reset') target[k[0]] = k[3];
+    else {
+      var r = Math.random();
+      if (k[0] === 'pitch') r = 0.5 + (r - 0.5) * 0.7;
+      if (k[0] === 'attack' || k[0] === 'release') r = r * 0.6;     // keep it playable
+      if (k[0] === 'arp') r = Math.random() < 0.5 ? 0 : 0.2 + r * 0.8;
+      target[k[0]] = r;
+    }
+  });
+  if (kind === 'reset') { sySetWave('sawtooth'); if (SY.delay) toggleSfx('delay'); if (SY.reverb) toggleSfx('reverb'); }
+  else {
+    sySetWave(SY_WAVES[Math.floor(Math.random() * 4)][0]);
+    if (Math.random() < 0.5) toggleSfx('delay'); if (Math.random() < 0.35) toggleSfx('reverb');
+  }
+  var t0 = performance.now(), dur = 650;
+  SY.anim = { skip: {} };
+  var a = SY.anim;
+  document.querySelectorAll('.knob').forEach(function (k) { k.classList.add('spin'); });
+  (function step() {
+    if (SY.anim !== a) return;
+    var p = Math.min(1, (performance.now() - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+    SY_KNOBS.forEach(function (k) {
+      if (a.skip[k[0]]) return;
+      knobSet(document.querySelector('.knob[data-knob="' + k[0] + '"]'), k[0], from[k[0]] + (target[k[0]] - from[k[0]]) * e);
+    });
+    if (p < 1) requestAnimationFrame(step);
+    else { SY.anim = null; document.querySelectorAll('.knob.spin').forEach(function (k) { k.classList.remove('spin'); }); }
+  })();
+}
+function toggleSfx(k) { var b = document.querySelector('[data-sfx="' + k + '"]'); if (b) b.click(); else if (SY.ready) { SY[k] = !SY[k]; syParam(k === 'delay' ? SY.nodes.dWet.gain : SY.nodes.rWet.gain, SY[k] ? (k === 'delay' ? 0.4 : 0.6) : 0); } }
+/* lamps blink with the sound */
+function syFrame() {
+  if (S.screen !== 'synth' || !SY.ready) return;
+  var n = SY.nodes, now = ctx.currentTime, dt = Math.min(0.1, now - (SY.lastT || now)); SY.lastT = now;
+  SY.lfoPhase += dt * syMap('lfoRate', SYV.lfoRate);
+  var lv = $('lampLvl'), lf = $('lampLfo'), la = $('lampArp');
+  if (lv) {
+    var b = SY._b || (SY._b = new Float32Array(n.an.fftSize)); n.an.getFloatTimeDomainData(b);
+    var pk = peakOfArr(b); SY.lv = Math.max(pk, (SY.lv || 0) * 0.85);
+    lv.style.opacity = (0.15 + Math.min(1, SY.lv * 2.5) * 0.85).toFixed(2);
+  }
+  if (lf) lf.style.opacity = (0.15 + (0.5 + 0.5 * Math.sin(SY.lfoPhase * Math.PI * 2)) * (0.25 + 0.6 * Math.min(1, SYV.lfoDepth * 3))).toFixed(2);
+  if (la) la.style.opacity = (SY.arp.timer && SY.arp.flashAt && now - SY.arp.flashAt >= 0 && now - SY.arp.flashAt < 0.06) ? '1' : '0.15';
+}
+document.addEventListener('contextmenu', function (ev) { if (S.screen === 'synth') ev.preventDefault(); });
+var syResizeT = null;
+window.addEventListener('resize', function () {
+  if (S.screen !== 'synth') return;
+  clearTimeout(syResizeT);
+  syResizeT = setTimeout(function () {
+    var k = $('skeys'); if (!k || +k.style.getPropertyValue('--n') === syWhiteCount()) return;
+    syAllOff(); renderSynth();
+  }, 200);
+});
+
 /* ---------- export ---------- */
 async function saveSong() {
   if (!S.tracks.length) { toast(t('deckEmpty').split('\n')[0]); return; }
@@ -1184,7 +1782,8 @@ function renderNav() {
   $('nav').innerHTML = steps.map(function (st, i) {
     return (i ? '<svg class="arrow" width="30" height="18" viewBox="0 0 34 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10h26M22 4l6 6-6 6"/></svg>' : '') +
       '<button class="step press' + (S.screen === st[0] ? ' on' : '') + '" data-go="' + st[0] + '"' + (S.screen === st[0] ? ' aria-current="step"' : '') + '><span class="n">' + (i + 1) + '</span>' + svg(st[1], 24) + '<span>' + esc(t(st[0])) + '</span></button>';
-  }).join('');
+  }).join('') +
+    '<button class="step synthstep press' + (S.screen === 'synth' ? ' on' : '') + '" data-go="synth" aria-label="' + esc(t('synth')) + '"' + (S.screen === 'synth' ? ' aria-current="page"' : '') + '>' + svg('knob', 26, 3.4) + '<span>' + esc(t('synth')) + '</span></button>';
   $('langBtn').setAttribute('aria-label', t('langTitle') + ': ' + t('lang'));
   $('helpBtn').setAttribute('aria-label', t('help'));
   document.documentElement.lang = lang;
@@ -1344,7 +1943,9 @@ function toggleSong() {
 }
 
 function go(screen) {
+  if (['rec', 'play', 'song', 'synth'].indexOf(screen) < 0) return;
   if (S.screen === 'rec' && screen !== 'rec') releaseMic();
+  if (S.screen === 'synth' && screen !== 'synth') syAllOff();
   cancelTake();
   S.screen = screen;
   stopTransport(); S.songPlaying = false;
@@ -1353,10 +1954,12 @@ function go(screen) {
 }
 function renderAll() {
   renderNav();
-  ['rec', 'play', 'song'].forEach(function (k) { $('s-' + k).classList.toggle('on', S.screen === k); $('s-' + k).innerHTML = ''; });
+  if (S.screen === 'synth') syAllOff();
+  ['rec', 'play', 'song', 'synth'].forEach(function (k) { $('s-' + k).classList.toggle('on', S.screen === k); $('s-' + k).innerHTML = ''; });
   if (S.screen === 'rec') renderRec();
   if (S.screen === 'play') renderPlay();
   if (S.screen === 'song') renderSong();
+  if (S.screen === 'synth') renderSynth();
 }
 
 /* ---------- global events ---------- */
@@ -1440,11 +2043,12 @@ document.addEventListener('click', function () { persist(); });
 document.addEventListener('input', function () { persist(); });
 document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && !$('overlay').hidden) closeSheet(); });
 window.addEventListener('pagehide', releaseMic);
-document.addEventListener('visibilitychange', function () { if (document.hidden) { releaseMic(); cancelTake(); stopTransport(); S.songPlaying = false; if (S.screen === 'song') renderSong(); } else if (S.screen === 'play') startTransport(true); });
+document.addEventListener('visibilitychange', function () { if (document.hidden) { syAllOff(); releaseMic(); cancelTake(); stopTransport(); S.songPlaying = false; if (S.screen === 'song') renderSong(); } else if (S.screen === 'play') startTransport(true); });
 
 /* ---------- animation loop ---------- */
 var lastStep = -2;
 function frame() {
+  syFrame();
   if (S.screen === 'rec') {
     updateMicUI(false);
     var mt = $('meter');
@@ -1514,7 +2118,7 @@ if (location.protocol === 'file:' || location.hash === '#debug') {
   DBG.state = S; DBG.go = go; DBG.hitPad = hitPad; DBG.starPress = starPress; DBG.addTrack = addTrack; DBG.renderAll = function () { renderAll(); }; Object.defineProperty(DBG, 'take', { get: function () { return take; } }); DBG.curStep = curStep; DBG.saveSong = saveSong;
   Object.defineProperty(DBG, 'T0', { get: function () { return T0; } });
   Object.defineProperty(DBG, 'master', { get: function () { return master; } });
-  DBG.LOOP = LOOP; DBG.STEP = STEP; DBG.applyFx = applyFx; DBG.flush = doPersist;
+  DBG.LOOP = LOOP; DBG.STEP = STEP; DBG.applyFx = applyFx; DBG.SY = SY; DBG.SYV = SYV; DBG.syMap = syMap; DBG.flush = doPersist;
   window.__okDebug = DBG;
 }
 
