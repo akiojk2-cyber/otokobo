@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>OTO KOBO おと工房</title>
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-4MmupKQ/9fEdeC7Re/U0HJixFzOjZqaMWGENQ6MA5dw='; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-tB2ENm0ccgisk8jRR3LNPSg9RYu3blxMTmbylnq/4BA='; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;background:#47291a;touch-action:manipulation;-webkit-text-size-adjust:100%}
@@ -42,7 +42,17 @@ main{flex:1;min-height:0;position:relative}
 /* REC */
 #s-rec{gap:36px}
 .mic-col{flex:0 0 38%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}
-.mic-wrap{position:relative;width:min(36vh,330px);aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+.mic-row{display:flex;align-items:center;justify-content:center;gap:clamp(8px,1.6vw,20px)}
+.synth-entry{display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0}
+.se-face{position:relative;width:clamp(84px,13vh,120px);aspect-ratio:1;border-radius:24%;display:flex;align-items:center;justify-content:center;background:#26272b;background-image:linear-gradient(180deg,rgba(255,255,255,.07),rgba(0,0,0,.3));box-shadow:0 0 0 5px #7a4a26,0 0 0 7px #3a220f,0 10px 18px rgba(0,0,0,.55),inset 0 2px 0 rgba(255,255,255,.1)}
+.se-ring{position:absolute;inset:16%;border-radius:50%;background:conic-gradient(from 225deg,#ffb04a 0deg,#ffd27a 190deg,rgba(255,255,255,.1) 190deg 270deg,transparent 270deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px))}
+.se-knob{position:absolute;inset:24%;border-radius:50%;transform:rotate(55deg);background:radial-gradient(circle at 38% 30%,#fffaf0,#efe3c8 45%,#cdbb94);box-shadow:0 5px 10px rgba(0,0,0,.6),inset 0 -3px 5px rgba(120,90,40,.35)}
+.se-knob .kptr{position:absolute;left:50%;top:8%;width:4px;height:36%;margin-left:-2px;border-radius:2px;background:#2b2320}
+.synth-entry:active .se-knob{transform:rotate(120deg)}
+.se-knob{transition:transform .25s}
+.synth-entry:hover .se-knob{transform:rotate(90deg)}
+.se-lab{font-size:15px;font-weight:800;color:#fbf1df;white-space:nowrap;padding:4px 12px;border-radius:12px;background:rgba(0,0,0,.3)}
+.mic-wrap{position:relative;width:min(32vh,290px);aspect-ratio:1;display:flex;align-items:center;justify-content:center}
 .ring{position:absolute;border-radius:50%;border:4px solid rgba(255,90,74,.3);transition:transform .06s}
 .mic{position:relative;width:64%;aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;touch-action:none}
 .mic .core{width:84%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 35%,#ff7a62,#e2412c 70%);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:inset 0 -10px 0 rgba(120,20,0,.3),0 0 40px rgba(255,90,74,.5);transition:transform .1s}
@@ -239,7 +249,9 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
   .preset{flex:none;height:72px;font-size:12px}
   .go{position:sticky;bottom:0;z-index:2;margin-top:4px}
   .mic-col{flex:0 0 auto;gap:10px}
-  .mic-wrap{width:min(26vh,210px)}
+  .mic-wrap{width:min(26vh,200px)}
+  .se-face{width:clamp(70px,11vh,96px)}
+  .se-lab{font-size:13px;padding:3px 8px}
   .mic-label{font-size:19px}
   .cards{max-height:none;grid-template-columns:repeat(2,minmax(0,1fr))}
   .card{height:76px;gap:8px;padding:0 10px}
@@ -1792,8 +1804,9 @@ function renderNav() {
 function renderRec() {
   $('s-rec').innerHTML =
     '<div class="mic-col">' +
-      '<div class="mic-wrap"><div class="ring" id="ring1" style="inset:0"></div><div class="ring" id="ring2" style="inset:12%"></div>' +
+      '<div class="mic-row"><div class="mic-wrap"><div class="ring" id="ring1" style="inset:0"></div><div class="ring" id="ring2" style="inset:12%"></div>' +
       '<button class="mic brass" id="micBtn" aria-label="' + esc(t('hold')) + '"><div class="core">' + svg('mic', 96, 3.2) + '</div></button><div class="cnum mic-num" id="micCount" aria-live="assertive"></div></div>' +
+      '<button class="synth-entry press" data-go="synth"><span class="se-face"><span class="se-knob" aria-hidden="true"><span class="kptr"></span></span><span class="se-ring" aria-hidden="true"></span></span><span class="se-lab">' + esc(t('synth')) + '</span></button></div>' +
       '<div class="meter" id="meter" aria-hidden="true">' + new Array(15).join('<i></i>') + '</div>' +
       '<div style="text-align:center"><div class="mic-label" id="micLabel">' + esc(t('hold')) + '</div><div class="muted-text" style="margin-top:4px">' + esc(t('holdSub')) + '</div></div>' +
     '</div>' +
