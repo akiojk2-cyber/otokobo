@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>OTO KOBO おと工房</title>
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-tB2ENm0ccgisk8jRR3LNPSg9RYu3blxMTmbylnq/4BA='; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-0Vh8wcUCan/a5t18oGVw2Fn+yxNvIFnAhpy/qS/tzQ0='; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;background:#47291a;touch-action:manipulation;-webkit-text-size-adjust:100%}
@@ -351,6 +351,18 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
 .bigbtn:active{transform:translateY(3px)}
 .bigbtn.chaos{background:linear-gradient(160deg,#ff8a4a,#e2412c);color:#fff}
 .bigbtn.plain{background:linear-gradient(160deg,#f2e7cc,#cdbb94);color:#2b2320}
+.skeybed{position:relative}
+.robobtn{display:flex;align-items:center;gap:6px;height:44px;padding:0 14px 0 8px;border-radius:12px;background:#3a3b40;color:#cfc3a6;font-size:13px;font-weight:800;box-shadow:inset 0 -3px 0 rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.1);--lv:0}
+.robobtn .reye{fill:#6b6252}.robobtn .rmouth{fill:#6b6252;transform-box:fill-box;transform-origin:center}.robobtn .rant{fill:#6b6252}
+.robobtn.on{background:#5b3f9a;color:#fff;box-shadow:0 0 0 2px #b79cff,0 0 18px rgba(160,120,255,.6),inset 0 -3px 0 rgba(0,0,0,.35)}
+.robobtn.on .reye{fill:#9effc8;opacity:calc(.35 + var(--lv) * .65);filter:drop-shadow(0 0 3px #9effc8)}
+.robobtn.on .rmouth{fill:#ffd27a;transform:scaleY(calc(.5 + var(--lv) * 2.2))}
+.robobtn.on .rant{fill:#ff6b3c;opacity:calc(.4 + var(--lv) * .6)}
+.robohint{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:8px;max-width:94%;padding:6px 14px 6px 8px;border-radius:14px;background:rgba(24,22,30,.9);border:2px solid #8a6cc4;color:#f2e7cc;font-size:14px;font-weight:800;pointer-events:none;box-shadow:0 6px 14px rgba(0,0,0,.5);white-space:nowrap}
+.robohint[hidden]{display:none}
+.robohint .rh-warn{display:none}
+.robohint.warn{border-color:#e2412c}.robohint.warn .rh-ok{display:none}.robohint.warn .rh-warn{display:inline}
+.nomic{display:flex;justify-content:center}
 .sstart{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:rgba(20,12,6,.72);border-radius:18px}
 .playbig{width:min(40vh,200px);height:min(40vh,200px);border-radius:50%;color:#fff;background:radial-gradient(circle at 40% 35%,#ff8a62,#e2412c 70%);box-shadow:0 0 0 10px rgba(255,255,255,.12),0 0 60px rgba(255,90,74,.7),inset 0 -10px 0 rgba(120,20,0,.3);display:flex;align-items:center;justify-content:center;padding-left:8%}
 .synthstep{margin-left:10px}
@@ -370,6 +382,9 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
   #s-synth .sbottom{min-height:64px}
   #s-synth .sblock{padding-bottom:3px}
   .stop .sw span:last-child{display:none}
+  .robobtn{height:32px;padding:0 10px 0 6px}
+  .robobtn .rface{width:24px;height:24px}
+  .robohint{font-size:12px;top:4px;padding:4px 10px 4px 6px}
   .sw{height:32px}
   .slogo small{display:none}
 }
@@ -380,6 +395,11 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
   #s-synth .slogo{flex-direction:column;align-items:flex-start;gap:2px}
   #s-synth .slogo b{font-size:16px;letter-spacing:2px;white-space:nowrap}
   #s-synth .sw span:last-child{display:none}
+  #s-synth .robobtn span{display:none}
+  #s-synth .robohint{font-size:12px;white-space:normal;left:8px;right:8px;transform:none;max-width:none}
+  #s-synth .lamps{display:none}
+  #s-synth .sfx{margin-left:auto;gap:6px}
+  #s-synth .sw{padding:0 8px 0 7px}
   #s-synth .bigbtn{font-size:15px;padding:0 6px;gap:4px;white-space:nowrap}
   #s-synth .bigbtn svg{width:22px;height:22px}
   #s-synth .sbig{flex-basis:132px}
@@ -429,37 +449,37 @@ input[type=range]::-moz-range-thumb{width:22px;height:34px;border:0;border-radiu
 
 /* ---------- i18n ---------- */
 var T = {
-  ja: { lang: 'にほんご', synth: 'ぐりぐりシンセ', k_pitch: 'たかさ', k_thick: 'ぶあつさ', k_bright: 'あかるさ', k_reso: 'くせ', k_mywa: 'ミュワッ', k_attack: 'はじまり', k_release: 'おわり', k_lfoRate: 'ゆれのはやさ', k_lfoDepth: 'ゆれのふかさ', k_arp: 'ピロピロ', k_wave: 'かたち', k_pat: 'ならびかた', w_sawtooth: 'のこぎり', w_square: 'しかく', w_triangle: 'さんかく', w_sine: 'まる', p_up: 'あがる', p_down: 'さがる', p_random: 'ばらばら', s_reverb: 'ひろがり', b_src: 'おとのもと', b_col: 'おとのいろ', b_mov: 'おとのうごき', chaos: 'ぐちゃぐちゃ', resetSound: 'もとにもどす', start: 'はじめる', fxTitle: 'こえの へんしん', fx_normal: 'ふつう', fx_robot: 'ロボット', fx_mouse: 'ねずみ', fx_bear: 'くま', fx_echo: 'やまびこ', fx_reverse: 'さかさま', reset: 'はじめから つくる', resetSure: 'もういちど おすと ぜんぶ けすよ', welcome: 'おかえり！ つづきから あそべるよ', localOnly: 'このiPad・スマホの なかだけに ほぞんしているよ', help: 'つかいかた', ok: 'わかった！', langTitle: 'ことば', tempo: 'はやさ', slower: 'ゆっくり', faster: 'はやく', tapStop: 'もういちど おすと とまるよ', recFull: 'おとが いっぱいだよ。いらないのを けしてね', rec: 'ろくおん', play: 'えんそう', song: 'きょく', hold: 'おすと 4つ かぞえて ろくおん', holdSub: 'こえ・ものおと・なんでも OK', mine: 'とったおと', mineEmpty: 'まだ ないよ。マイクを おしてみて！', drawer: 'ひきだしのおと', drawerSub: 'ろくおんしなくても あそべるよ', playThis: 'このおとで えんそう', listening: 'きいてるよ', keep: 'テープに ろくおん！', ready: 'よーい…', recNow: 'ろくおんちゅう！', cancel: 'やめる', toSong: 'きょくにする', addRec: 'もう1ぽん ろくおん', save: 'できた！ ほぞん', seno: 'せーの！', stop: 'ストップ', recording: 'ろくおんちゅう…', nothing: 'なにも きこえなかったよ', noMic: 'マイクが つかえないよ', again: 'もういちど おしてね', kept: 'テープに のこしたよ！', full: 'テープが いっぱいだよ', rackEmpty: '⭐ を おすと 4つ かぞえて\n2しょうせつ ろくおん するよ', deckEmpty: 'まだ テープが ないよ\n「えんそう」で ⭐ を おしてね', saved: 'ほぞんしたよ！', saving: 'ほぞんちゅう…', sound: 'おと', del: 'けす', muteOn: 'おとをけす', muteOff: 'おとをだす', vol: 'おおきさ', back: 'もどる',
+  ja: { lang: 'にほんご', robot: 'ロボットごえ', robotHint: 'iPadを くちに ちかづけて、けんばんを おしながら しゃべってね', robotHowl: 'キーンと なりそうだから おとを さげたよ', synth: 'ぐりぐりシンセ', k_pitch: 'たかさ', k_thick: 'ぶあつさ', k_bright: 'あかるさ', k_reso: 'くせ', k_mywa: 'ミュワッ', k_attack: 'はじまり', k_release: 'おわり', k_lfoRate: 'ゆれのはやさ', k_lfoDepth: 'ゆれのふかさ', k_arp: 'ピロピロ', k_wave: 'かたち', k_pat: 'ならびかた', w_sawtooth: 'のこぎり', w_square: 'しかく', w_triangle: 'さんかく', w_sine: 'まる', p_up: 'あがる', p_down: 'さがる', p_random: 'ばらばら', s_reverb: 'ひろがり', b_src: 'おとのもと', b_col: 'おとのいろ', b_mov: 'おとのうごき', chaos: 'ぐちゃぐちゃ', resetSound: 'もとにもどす', start: 'はじめる', fxTitle: 'こえの へんしん', fx_normal: 'ふつう', fx_robot: 'ロボット', fx_mouse: 'ねずみ', fx_bear: 'くま', fx_echo: 'やまびこ', fx_reverse: 'さかさま', reset: 'はじめから つくる', resetSure: 'もういちど おすと ぜんぶ けすよ', welcome: 'おかえり！ つづきから あそべるよ', localOnly: 'このiPad・スマホの なかだけに ほぞんしているよ', help: 'つかいかた', ok: 'わかった！', langTitle: 'ことば', tempo: 'はやさ', slower: 'ゆっくり', faster: 'はやく', tapStop: 'もういちど おすと とまるよ', recFull: 'おとが いっぱいだよ。いらないのを けしてね', rec: 'ろくおん', play: 'えんそう', song: 'きょく', hold: 'おすと 4つ かぞえて ろくおん', holdSub: 'こえ・ものおと・なんでも OK', mine: 'とったおと', mineEmpty: 'まだ ないよ。マイクを おしてみて！', drawer: 'ひきだしのおと', drawerSub: 'ろくおんしなくても あそべるよ', playThis: 'このおとで えんそう', listening: 'きいてるよ', keep: 'テープに ろくおん！', ready: 'よーい…', recNow: 'ろくおんちゅう！', cancel: 'やめる', toSong: 'きょくにする', addRec: 'もう1ぽん ろくおん', save: 'できた！ ほぞん', seno: 'せーの！', stop: 'ストップ', recording: 'ろくおんちゅう…', nothing: 'なにも きこえなかったよ', noMic: 'マイクが つかえないよ', again: 'もういちど おしてね', kept: 'テープに のこしたよ！', full: 'テープが いっぱいだよ', rackEmpty: '⭐ を おすと 4つ かぞえて\n2しょうせつ ろくおん するよ', deckEmpty: 'まだ テープが ないよ\n「えんそう」で ⭐ を おしてね', saved: 'ほぞんしたよ！', saving: 'ほぞんちゅう…', sound: 'おと', del: 'けす', muteOn: 'おとをけす', muteOff: 'おとをだす', vol: 'おおきさ', back: 'もどる',
     names: { drum: 'ドラム', mokkin: 'もっきん', piano: 'ピアノ', bass: 'ベース', frog: 'カエル', robot: 'ロボット', guitar: 'ギター', trumpet: 'ラッパ', organ: 'オルガン', cat: 'ネコ', spring: 'ビヨーン', laser: 'レーザー', drop: 'しずく', suzu: 'すず' } },
-  en: { lang: 'English', synth: 'Knob Synth', k_pitch: 'Pitch', k_thick: 'Thick', k_bright: 'Bright', k_reso: 'Quirk', k_mywa: 'Wow', k_attack: 'Start', k_release: 'End', k_lfoRate: 'Wobble speed', k_lfoDepth: 'Wobble depth', k_arp: 'Arpeggio', k_wave: 'Shape', k_pat: 'Pattern', w_sawtooth: 'Saw', w_square: 'Square', w_triangle: 'Triangle', w_sine: 'Round', p_up: 'Up', p_down: 'Down', p_random: 'Random', s_reverb: 'Space', b_src: 'Sound source', b_col: 'Sound colour', b_mov: 'Sound motion', chaos: 'Scramble!', resetSound: 'Back to normal', start: 'Start', fxTitle: 'Voice magic', fx_normal: 'Normal', fx_robot: 'Robot', fx_mouse: 'Mouse', fx_bear: 'Bear', fx_echo: 'Echo', fx_reverse: 'Backwards', reset: 'Start over', resetSure: 'Tap again to erase everything', welcome: 'Welcome back! Carry on playing', localOnly: 'Saved only on this device', help: 'How to play', ok: 'Got it!', langTitle: 'Language', tempo: 'Speed', slower: 'Slower', faster: 'Faster', tapStop: 'Tap again to stop', recFull: 'Too many sounds. Delete one first', rec: 'Record', play: 'Play', song: 'Song', hold: 'Tap: count 4, then record', holdSub: 'Voices, noises, anything!', mine: 'My sounds', mineEmpty: 'Nothing yet. Try the mic!', drawer: 'Sound drawer', drawerSub: 'Play without recording', playThis: 'Play this sound', listening: 'Listening', keep: 'Record to tape!', ready: 'Get ready…', recNow: 'Recording!', cancel: 'Cancel', toSong: 'Make a song', addRec: 'Record another', save: 'Done! Save', seno: 'Ready, go!', stop: 'Stop', recording: 'Recording…', nothing: "I didn't hear anything", noMic: "Can't use the mic", again: 'Press it again', kept: 'Saved on tape!', full: 'The tapes are full', rackEmpty: 'Press the star: count 4,\nthen 2 bars are recorded', deckEmpty: 'No tapes yet\nPress the star in "Play"', saved: 'Saved!', saving: 'Saving…', sound: 'Sound', del: 'Delete', muteOn: 'Mute', muteOff: 'Unmute', vol: 'Volume', back: 'Back',
+  en: { lang: 'English', robot: 'Robot voice', robotHint: 'Hold the iPad close to your mouth, press a key and talk', robotHowl: 'It started to squeal, so I turned it down', synth: 'Knob Synth', k_pitch: 'Pitch', k_thick: 'Thick', k_bright: 'Bright', k_reso: 'Quirk', k_mywa: 'Wow', k_attack: 'Start', k_release: 'End', k_lfoRate: 'Wobble speed', k_lfoDepth: 'Wobble depth', k_arp: 'Arpeggio', k_wave: 'Shape', k_pat: 'Pattern', w_sawtooth: 'Saw', w_square: 'Square', w_triangle: 'Triangle', w_sine: 'Round', p_up: 'Up', p_down: 'Down', p_random: 'Random', s_reverb: 'Space', b_src: 'Sound source', b_col: 'Sound colour', b_mov: 'Sound motion', chaos: 'Scramble!', resetSound: 'Back to normal', start: 'Start', fxTitle: 'Voice magic', fx_normal: 'Normal', fx_robot: 'Robot', fx_mouse: 'Mouse', fx_bear: 'Bear', fx_echo: 'Echo', fx_reverse: 'Backwards', reset: 'Start over', resetSure: 'Tap again to erase everything', welcome: 'Welcome back! Carry on playing', localOnly: 'Saved only on this device', help: 'How to play', ok: 'Got it!', langTitle: 'Language', tempo: 'Speed', slower: 'Slower', faster: 'Faster', tapStop: 'Tap again to stop', recFull: 'Too many sounds. Delete one first', rec: 'Record', play: 'Play', song: 'Song', hold: 'Tap: count 4, then record', holdSub: 'Voices, noises, anything!', mine: 'My sounds', mineEmpty: 'Nothing yet. Try the mic!', drawer: 'Sound drawer', drawerSub: 'Play without recording', playThis: 'Play this sound', listening: 'Listening', keep: 'Record to tape!', ready: 'Get ready…', recNow: 'Recording!', cancel: 'Cancel', toSong: 'Make a song', addRec: 'Record another', save: 'Done! Save', seno: 'Ready, go!', stop: 'Stop', recording: 'Recording…', nothing: "I didn't hear anything", noMic: "Can't use the mic", again: 'Press it again', kept: 'Saved on tape!', full: 'The tapes are full', rackEmpty: 'Press the star: count 4,\nthen 2 bars are recorded', deckEmpty: 'No tapes yet\nPress the star in "Play"', saved: 'Saved!', saving: 'Saving…', sound: 'Sound', del: 'Delete', muteOn: 'Mute', muteOff: 'Unmute', vol: 'Volume', back: 'Back',
     names: { drum: 'Drums', mokkin: 'Xylophone', piano: 'Piano', bass: 'Bass', frog: 'Frog', robot: 'Robot', guitar: 'Guitar', trumpet: 'Trumpet', organ: 'Organ', cat: 'Cat', spring: 'Boing', laser: 'Laser', drop: 'Drop', suzu: 'Bells' } },
-  zh: { lang: '中文', synth: '旋钮合成器', k_pitch: '音高', k_thick: '厚度', k_bright: '亮度', k_reso: '怪味', k_mywa: '哇呜', k_attack: '开头', k_release: '结尾', k_lfoRate: '摇摆速度', k_lfoDepth: '摇摆深度', k_arp: '琶音', k_wave: '波形', k_pat: '顺序', w_sawtooth: '锯齿', w_square: '方形', w_triangle: '三角', w_sine: '圆滑', p_up: '上行', p_down: '下行', p_random: '随机', s_reverb: '空间感', b_src: '声音的来源', b_col: '声音的颜色', b_mov: '声音的动作', chaos: '乱七八糟', resetSound: '恢复原样', start: '开始', fxTitle: '变声魔法', fx_normal: '原声', fx_robot: '机器人', fx_mouse: '老鼠', fx_bear: '熊', fx_echo: '回声', fx_reverse: '倒放', reset: '从头开始', resetSure: '再按一次就全部删除', welcome: '欢迎回来！可以接着玩', localOnly: '只保存在这台设备上', help: '怎么玩', ok: '知道了！', langTitle: '语言', tempo: '速度', slower: '慢一点', faster: '快一点', tapStop: '再按一次就停止', recFull: '声音太多了，先删掉一个吧', rec: '录音', play: '演奏', song: '歌曲', hold: '按一下：数4下后录音', holdSub: '说话、杂音，什么都可以', mine: '我的声音', mineEmpty: '还没有。按一下麦克风吧！', drawer: '声音抽屉', drawerSub: '不录音也能玩', playThis: '用这个声音演奏', listening: '正在听', keep: '录到磁带上！', ready: '准备…', recNow: '录音中！', cancel: '取消', toSong: '做成歌曲', addRec: '再录一个', save: '完成！保存', seno: '预备，开始！', stop: '停止', recording: '录音中…', nothing: '什么也没听到', noMic: '无法使用麦克风', again: '请再按一次', kept: '留在磁带上了！', full: '磁带满了', rackEmpty: '按星星：数4下\n然后录2小节', deckEmpty: '还没有磁带\n在“演奏”里按星星', saved: '保存好了！', saving: '保存中…', sound: '声音', del: '删除', muteOn: '静音', muteOff: '取消静音', vol: '音量', back: '返回',
+  zh: { lang: '中文', robot: '机器人声', robotHint: '把iPad靠近嘴巴，按着琴键说话吧', robotHowl: '好像要啸叫了，所以把声音调小了', synth: '旋钮合成器', k_pitch: '音高', k_thick: '厚度', k_bright: '亮度', k_reso: '怪味', k_mywa: '哇呜', k_attack: '开头', k_release: '结尾', k_lfoRate: '摇摆速度', k_lfoDepth: '摇摆深度', k_arp: '琶音', k_wave: '波形', k_pat: '顺序', w_sawtooth: '锯齿', w_square: '方形', w_triangle: '三角', w_sine: '圆滑', p_up: '上行', p_down: '下行', p_random: '随机', s_reverb: '空间感', b_src: '声音的来源', b_col: '声音的颜色', b_mov: '声音的动作', chaos: '乱七八糟', resetSound: '恢复原样', start: '开始', fxTitle: '变声魔法', fx_normal: '原声', fx_robot: '机器人', fx_mouse: '老鼠', fx_bear: '熊', fx_echo: '回声', fx_reverse: '倒放', reset: '从头开始', resetSure: '再按一次就全部删除', welcome: '欢迎回来！可以接着玩', localOnly: '只保存在这台设备上', help: '怎么玩', ok: '知道了！', langTitle: '语言', tempo: '速度', slower: '慢一点', faster: '快一点', tapStop: '再按一次就停止', recFull: '声音太多了，先删掉一个吧', rec: '录音', play: '演奏', song: '歌曲', hold: '按一下：数4下后录音', holdSub: '说话、杂音，什么都可以', mine: '我的声音', mineEmpty: '还没有。按一下麦克风吧！', drawer: '声音抽屉', drawerSub: '不录音也能玩', playThis: '用这个声音演奏', listening: '正在听', keep: '录到磁带上！', ready: '准备…', recNow: '录音中！', cancel: '取消', toSong: '做成歌曲', addRec: '再录一个', save: '完成！保存', seno: '预备，开始！', stop: '停止', recording: '录音中…', nothing: '什么也没听到', noMic: '无法使用麦克风', again: '请再按一次', kept: '留在磁带上了！', full: '磁带满了', rackEmpty: '按星星：数4下\n然后录2小节', deckEmpty: '还没有磁带\n在“演奏”里按星星', saved: '保存好了！', saving: '保存中…', sound: '声音', del: '删除', muteOn: '静音', muteOff: '取消静音', vol: '音量', back: '返回',
     names: { drum: '鼓', mokkin: '木琴', piano: '钢琴', bass: '贝斯', frog: '青蛙', robot: '机器人', guitar: '吉他', trumpet: '小号', organ: '风琴', cat: '猫咪', spring: '弹簧', laser: '激光', drop: '水滴', suzu: '铃铛' } },
-  ko: { lang: '한국어', synth: '빙글빙글 신스', k_pitch: '높이', k_thick: '두께', k_bright: '밝기', k_reso: '개성', k_mywa: '와우', k_attack: '시작', k_release: '끝', k_lfoRate: '흔들 빠르기', k_lfoDepth: '흔들 깊이', k_arp: '삐로삐로', k_wave: '모양', k_pat: '순서', w_sawtooth: '톱니', w_square: '네모', w_triangle: '세모', w_sine: '동그라미', p_up: '올라가기', p_down: '내려가기', p_random: '뒤죽박죽', s_reverb: '울림', b_src: '소리의 바탕', b_col: '소리의 색', b_mov: '소리의 움직임', chaos: '엉망진창', resetSound: '원래대로', start: '시작', fxTitle: '목소리 변신', fx_normal: '그대로', fx_robot: '로봇', fx_mouse: '생쥐', fx_bear: '곰', fx_echo: '메아리', fx_reverse: '거꾸로', reset: '처음부터 만들기', resetSure: '한 번 더 누르면 모두 지워져', welcome: '어서 와! 이어서 놀 수 있어', localOnly: '이 기기에만 저장돼', help: '사용법', ok: '알겠어!', langTitle: '언어', tempo: '빠르기', slower: '느리게', faster: '빠르게', tapStop: '한 번 더 누르면 멈춰', recFull: '소리가 너무 많아. 하나 지워 줘', rec: '녹음', play: '연주', song: '노래', hold: '누르면 4번 세고 녹음', holdSub: '목소리, 물건 소리, 뭐든지 OK', mine: '내 소리', mineEmpty: '아직 없어. 마이크를 눌러 봐!', drawer: '소리 서랍', drawerSub: '녹음 안 해도 놀 수 있어', playThis: '이 소리로 연주', listening: '듣고 있어', keep: '테이프에 녹음!', ready: '준비…', recNow: '녹음 중!', cancel: '취소', toSong: '노래 만들기', addRec: '하나 더 녹음', save: '완성! 저장', seno: '하나 둘 셋!', stop: '멈춰', recording: '녹음 중…', nothing: '아무것도 안 들렸어', noMic: '마이크를 쓸 수 없어', again: '다시 눌러 줘', kept: '테이프에 남겼어!', full: '테이프가 꽉 찼어', rackEmpty: '별을 누르면 4번 세고\n2마디를 녹음해', deckEmpty: '아직 테이프가 없어\n"연주"에서 별을 눌러 봐', saved: '저장했어!', saving: '저장 중…', sound: '소리', del: '지우기', muteOn: '소리 끄기', muteOff: '소리 켜기', vol: '크기', back: '뒤로',
+  ko: { lang: '한국어', robot: '로봇 목소리', robotHint: 'iPad를 입 가까이 대고, 건반을 누르면서 말해 봐', robotHowl: '삐- 소리가 날 것 같아서 소리를 줄였어', synth: '빙글빙글 신스', k_pitch: '높이', k_thick: '두께', k_bright: '밝기', k_reso: '개성', k_mywa: '와우', k_attack: '시작', k_release: '끝', k_lfoRate: '흔들 빠르기', k_lfoDepth: '흔들 깊이', k_arp: '삐로삐로', k_wave: '모양', k_pat: '순서', w_sawtooth: '톱니', w_square: '네모', w_triangle: '세모', w_sine: '동그라미', p_up: '올라가기', p_down: '내려가기', p_random: '뒤죽박죽', s_reverb: '울림', b_src: '소리의 바탕', b_col: '소리의 색', b_mov: '소리의 움직임', chaos: '엉망진창', resetSound: '원래대로', start: '시작', fxTitle: '목소리 변신', fx_normal: '그대로', fx_robot: '로봇', fx_mouse: '생쥐', fx_bear: '곰', fx_echo: '메아리', fx_reverse: '거꾸로', reset: '처음부터 만들기', resetSure: '한 번 더 누르면 모두 지워져', welcome: '어서 와! 이어서 놀 수 있어', localOnly: '이 기기에만 저장돼', help: '사용법', ok: '알겠어!', langTitle: '언어', tempo: '빠르기', slower: '느리게', faster: '빠르게', tapStop: '한 번 더 누르면 멈춰', recFull: '소리가 너무 많아. 하나 지워 줘', rec: '녹음', play: '연주', song: '노래', hold: '누르면 4번 세고 녹음', holdSub: '목소리, 물건 소리, 뭐든지 OK', mine: '내 소리', mineEmpty: '아직 없어. 마이크를 눌러 봐!', drawer: '소리 서랍', drawerSub: '녹음 안 해도 놀 수 있어', playThis: '이 소리로 연주', listening: '듣고 있어', keep: '테이프에 녹음!', ready: '준비…', recNow: '녹음 중!', cancel: '취소', toSong: '노래 만들기', addRec: '하나 더 녹음', save: '완성! 저장', seno: '하나 둘 셋!', stop: '멈춰', recording: '녹음 중…', nothing: '아무것도 안 들렸어', noMic: '마이크를 쓸 수 없어', again: '다시 눌러 줘', kept: '테이프에 남겼어!', full: '테이프가 꽉 찼어', rackEmpty: '별을 누르면 4번 세고\n2마디를 녹음해', deckEmpty: '아직 테이프가 없어\n"연주"에서 별을 눌러 봐', saved: '저장했어!', saving: '저장 중…', sound: '소리', del: '지우기', muteOn: '소리 끄기', muteOff: '소리 켜기', vol: '크기', back: '뒤로',
     names: { drum: '드럼', mokkin: '실로폰', piano: '피아노', bass: '베이스', frog: '개구리', robot: '로봇', guitar: '기타', trumpet: '트럼펫', organ: '오르간', cat: '고양이', spring: '띠용', laser: '레이저', drop: '물방울', suzu: '방울' } },
-  uk: { lang: 'Українська', synth: 'Крутисинт', k_pitch: 'Висота', k_thick: 'Товщина', k_bright: 'Яскравість', k_reso: 'Дивність', k_mywa: 'Вау', k_attack: 'Початок', k_release: 'Кінець', k_lfoRate: 'Швидкість хвилі', k_lfoDepth: 'Глибина хвилі', k_arp: 'Арпеджіо', k_wave: 'Форма', k_pat: 'Порядок', w_sawtooth: 'Пилка', w_square: 'Квадрат', w_triangle: 'Трикутник', w_sine: 'Кругла', p_up: 'Вгору', p_down: 'Вниз', p_random: 'Навмання', s_reverb: 'Простір', b_src: 'Основа звуку', b_col: 'Колір звуку', b_mov: 'Рух звуку', chaos: 'Мішанина!', resetSound: 'Як було', start: 'Почати', fxTitle: 'Чарівний голос', fx_normal: 'Звичайний', fx_robot: 'Робот', fx_mouse: 'Мишка', fx_bear: 'Ведмідь', fx_echo: 'Луна', fx_reverse: 'Задом наперед', reset: 'Почати спочатку', resetSure: 'Натисни ще раз — і все зітреться', welcome: 'З поверненням! Грай далі', localOnly: 'Зберігається лише на цьому пристрої', help: 'Як грати', ok: 'Зрозуміло!', langTitle: 'Мова', tempo: 'Швидкість', slower: 'Повільніше', faster: 'Швидше', tapStop: 'Натисни ще раз, щоб зупинити', recFull: 'Забагато звуків. Спочатку видали один', rec: 'Запис', play: 'Гра', song: 'Пісня', hold: 'Натисни: рахуємо 4 — і запис', holdSub: 'Голос, звуки — що завгодно!', mine: 'Мої звуки', mineEmpty: 'Ще нічого немає. Натисни мікрофон!', drawer: 'Шухляда звуків', drawerSub: 'Можна грати й без запису', playThis: 'Грати цим звуком', listening: 'Слухаю', keep: 'Запис на касету!', ready: 'Готуйся…', recNow: 'Записую!', cancel: 'Скасувати', toSong: 'Зробити пісню', addRec: 'Записати ще', save: 'Готово! Зберегти', seno: 'Три-чотири!', stop: 'Стоп', recording: 'Записую…', nothing: 'Нічого не чути', noMic: 'Мікрофон недоступний', again: 'Натисни ще раз', kept: 'Записано на касету!', full: 'Касет уже забагато', rackEmpty: 'Натисни зірку: рахуємо до 4,\nпотім записуємо 2 такти', deckEmpty: 'Ще немає касет\nНатисни зірку в «Грі»', saved: 'Збережено!', saving: 'Зберігаю…', sound: 'Звук', del: 'Видалити', muteOn: 'Вимкнути звук', muteOff: 'Увімкнути звук', vol: 'Гучність', back: 'Назад',
+  uk: { lang: 'Українська', robot: 'Голос робота', robotHint: 'Тримай iPad біля рота, натисни клавішу й говори', robotHowl: 'Почало свистіти, тож я зробив тихіше', synth: 'Крутисинт', k_pitch: 'Висота', k_thick: 'Товщина', k_bright: 'Яскравість', k_reso: 'Дивність', k_mywa: 'Вау', k_attack: 'Початок', k_release: 'Кінець', k_lfoRate: 'Швидкість хвилі', k_lfoDepth: 'Глибина хвилі', k_arp: 'Арпеджіо', k_wave: 'Форма', k_pat: 'Порядок', w_sawtooth: 'Пилка', w_square: 'Квадрат', w_triangle: 'Трикутник', w_sine: 'Кругла', p_up: 'Вгору', p_down: 'Вниз', p_random: 'Навмання', s_reverb: 'Простір', b_src: 'Основа звуку', b_col: 'Колір звуку', b_mov: 'Рух звуку', chaos: 'Мішанина!', resetSound: 'Як було', start: 'Почати', fxTitle: 'Чарівний голос', fx_normal: 'Звичайний', fx_robot: 'Робот', fx_mouse: 'Мишка', fx_bear: 'Ведмідь', fx_echo: 'Луна', fx_reverse: 'Задом наперед', reset: 'Почати спочатку', resetSure: 'Натисни ще раз — і все зітреться', welcome: 'З поверненням! Грай далі', localOnly: 'Зберігається лише на цьому пристрої', help: 'Як грати', ok: 'Зрозуміло!', langTitle: 'Мова', tempo: 'Швидкість', slower: 'Повільніше', faster: 'Швидше', tapStop: 'Натисни ще раз, щоб зупинити', recFull: 'Забагато звуків. Спочатку видали один', rec: 'Запис', play: 'Гра', song: 'Пісня', hold: 'Натисни: рахуємо 4 — і запис', holdSub: 'Голос, звуки — що завгодно!', mine: 'Мої звуки', mineEmpty: 'Ще нічого немає. Натисни мікрофон!', drawer: 'Шухляда звуків', drawerSub: 'Можна грати й без запису', playThis: 'Грати цим звуком', listening: 'Слухаю', keep: 'Запис на касету!', ready: 'Готуйся…', recNow: 'Записую!', cancel: 'Скасувати', toSong: 'Зробити пісню', addRec: 'Записати ще', save: 'Готово! Зберегти', seno: 'Три-чотири!', stop: 'Стоп', recording: 'Записую…', nothing: 'Нічого не чути', noMic: 'Мікрофон недоступний', again: 'Натисни ще раз', kept: 'Записано на касету!', full: 'Касет уже забагато', rackEmpty: 'Натисни зірку: рахуємо до 4,\nпотім записуємо 2 такти', deckEmpty: 'Ще немає касет\nНатисни зірку в «Грі»', saved: 'Збережено!', saving: 'Зберігаю…', sound: 'Звук', del: 'Видалити', muteOn: 'Вимкнути звук', muteOff: 'Увімкнути звук', vol: 'Гучність', back: 'Назад',
     names: { drum: 'Барабани', mokkin: 'Ксилофон', piano: 'Піаніно', bass: 'Бас', frog: 'Жаба', robot: 'Робот', guitar: 'Гітара', trumpet: 'Труба', organ: 'Орган', cat: 'Кіт', spring: 'Пружина', laser: 'Лазер', drop: 'Крапля', suzu: 'Дзвіночки' } }
 };
 var LANGS = ['ja', 'en', 'zh', 'ko', 'uk'];
 /* ---------- in-app guide (one per screen) ---------- */
 var HELP = {
-  ja: { synth: [["keys", "けんばんを おさえると おとが なるよ。おさえたまま つまみを まわしてみよう"], ["knob", "つまみは ゆびで うえ・したに うごかすと まわるよ。りょうてで ふたつ いっしょにも まわせるよ"], ["stairs", "「ピロピロ」を まわすと、おさえた おとが じどうで ピロピロ なるよ"], ["chaos", "「ぐちゃぐちゃ」で へんな おとに、「もとにもどす」で ふつうの おとに もどるよ"]],
+  ja: { synth: [["keys", "けんばんを おさえると おとが なるよ。おさえたまま つまみを まわしてみよう"], ["knob", "つまみは ゆびで うえ・したに うごかすと まわるよ。りょうてで ふたつ いっしょにも まわせるよ"], ["stairs", "「ピロピロ」を まわすと、おさえた おとが じどうで ピロピロ なるよ"], ["chaos", "「ぐちゃぐちゃ」で へんな おとに、「もとにもどす」で ふつうの おとに もどるよ"], ["robot", "「ロボットごえ」を おすと、しゃべった こえが ロボットの こえに なるよ。けんばんで たかさが かわるよ"]],
         rec: [['mic', 'マイクを おすと「4・3・2・1」と かぞえるよ。そのあと ろくおんが はじまるよ'], ['meter', 'こえや ものおとを だしてね。メーターが うごいていれば きこえているよ'], ['stop', 'もういちど おすと とまるよ。4びょう たつと じどうで とまるよ'], ['pads', 'とったおとか ひきだしのおとを えらんで「このおとで えんそう」へ']],
         play: [['pads', 'いたや たいこを たたいて あそぼう'], ['star', 'ほしボタンを おすと 4つ かぞえて、2しょうせつ ろくおん。テープに なるよ'], ['turtle', 'カメと ウサギで はやさを かえられるよ'], ['tape', 'テープが できたら「きょく」へ すすもう']],
         song: [['play', '「せーの！」で ぜんぶの テープが いっしょに なるよ'], ['spk', 'スピーカーで おとを けしたり だしたり。よこの つまみで おおきさを かえるよ'], ['grid', 'マスを タップすると おとを たしたり けしたり できるよ'], ['down', '「できた！ ほぞん」で きょくを ファイルに ほぞんするよ']] },
-  en: { synth: [["keys", "Press a key to play. Keep holding it and turn a knob"], ["knob", "Drag a knob up or down with your finger. You can turn two at once with both hands"], ["stairs", "Turn \"Arpeggio\" and the keys you hold play by themselves"], ["chaos", "\"Scramble!\" makes a crazy sound. \"Back to normal\" brings the nice sound back"]],
+  en: { synth: [["keys", "Press a key to play. Keep holding it and turn a knob"], ["knob", "Drag a knob up or down with your finger. You can turn two at once with both hands"], ["stairs", "Turn \"Arpeggio\" and the keys you hold play by themselves"], ["chaos", "\"Scramble!\" makes a crazy sound. \"Back to normal\" brings the nice sound back"], ["robot", "Press \"Robot voice\" and your voice becomes a robot. The keys change its pitch"]],
         rec: [['mic', 'Tap the mic and it counts "4, 3, 2, 1". Then recording starts'], ['meter', 'Make a sound with your voice or anything. If the meter moves, I can hear you'], ['stop', 'Tap again to stop. It stops by itself after 4 seconds'], ['pads', 'Pick a sound you recorded or one from the drawer, then "Play this sound"']],
         play: [['pads', 'Tap the bars or drums and play'], ['star', 'Press the star: it counts 4, then records 2 bars onto a tape'], ['turtle', 'Use the turtle and the rabbit to change the speed'], ['tape', 'When you have tapes, go to "Song"']],
         song: [['play', 'Press "Ready, go!" and all tapes play together'], ['spk', 'The speaker turns a tape on or off. The slider changes its volume'], ['grid', 'Tap a square to add or remove a sound'], ['down', '"Done! Save" saves your song as a file']] },
-  zh: { synth: [["keys", "按住琴键就会发声。按着不放，转一转旋钮吧"], ["knob", "用手指上下拖动旋钮就能转。两只手可以同时转两个"], ["stairs", "转“琶音”，按住的音会自动叮叮咚咚地响"], ["chaos", "“乱七八糟”变成怪声音，“恢复原样”回到普通的声音"]],
+  zh: { synth: [["keys", "按住琴键就会发声。按着不放，转一转旋钮吧"], ["knob", "用手指上下拖动旋钮就能转。两只手可以同时转两个"], ["stairs", "转“琶音”，按住的音会自动叮叮咚咚地响"], ["chaos", "“乱七八糟”变成怪声音，“恢复原样”回到普通的声音"], ["robot", "按“机器人声”，说的话会变成机器人的声音。琴键可以改变音高"]],
         rec: [['mic', '按一下麦克风，会数“4、3、2、1”，然后开始录音'], ['meter', '用声音或任何东西发出声响。音量表在动，就是听到了'], ['stop', '再按一次就停止。4秒后会自动停止'], ['pads', '选一个录好的声音或抽屉里的声音，然后点“用这个声音演奏”']],
         play: [['pads', '敲一敲木条或鼓来玩吧'], ['star', '按星星按钮会数4下，然后录2小节，变成一盘磁带'], ['turtle', '用乌龟和兔子来改变速度'], ['tape', '有了磁带就去“歌曲”吧']],
         song: [['play', '按“预备，开始！”，所有磁带一起播放'], ['spk', '喇叭可以打开或关掉声音，旁边的滑块调整音量'], ['grid', '点一下格子可以加上或去掉声音'], ['down', '按“完成！保存”把歌曲存成文件']] },
-  ko: { synth: [["keys", "건반을 누르면 소리가 나. 누른 채로 손잡이를 돌려 봐"], ["knob", "손잡이는 손가락으로 위아래로 움직이면 돌아가. 두 손으로 두 개를 같이 돌릴 수도 있어"], ["stairs", "\"삐로삐로\"를 돌리면 누른 음이 저절로 삐로삐로 울려"], ["chaos", "\"엉망진창\"은 이상한 소리로, \"원래대로\"는 보통 소리로 돌아가"]],
+  ko: { synth: [["keys", "건반을 누르면 소리가 나. 누른 채로 손잡이를 돌려 봐"], ["knob", "손잡이는 손가락으로 위아래로 움직이면 돌아가. 두 손으로 두 개를 같이 돌릴 수도 있어"], ["stairs", "\"삐로삐로\"를 돌리면 누른 음이 저절로 삐로삐로 울려"], ["chaos", "\"엉망진창\"은 이상한 소리로, \"원래대로\"는 보통 소리로 돌아가"], ["robot", "\"로봇 목소리\"를 누르면 말한 목소리가 로봇 목소리가 돼. 건반으로 높이가 바뀌어"]],
         rec: [['mic', '마이크를 누르면 "4, 3, 2, 1" 세고 녹음이 시작돼'], ['meter', '목소리나 아무 소리나 내 봐. 미터가 움직이면 잘 들리는 거야'], ['stop', '한 번 더 누르면 멈춰. 4초가 지나면 저절로 멈춰'], ['pads', '녹음한 소리나 서랍 소리를 골라서 "이 소리로 연주"로 가']],
         play: [['pads', '나무판이나 북을 두드리며 놀아 봐'], ['star', '별 버튼을 누르면 4번 세고 2마디를 녹음해서 테이프가 돼'], ['turtle', '거북이와 토끼로 빠르기를 바꿀 수 있어'], ['tape', '테이프가 생기면 "노래"로 가자']],
         song: [['play', '"하나 둘 셋!"을 누르면 모든 테이프가 같이 나와'], ['spk', '스피커로 소리를 끄거나 켜. 옆의 슬라이더로 크기를 바꿔'], ['grid', '칸을 누르면 소리를 넣거나 뺄 수 있어'], ['down', '"완성! 저장"을 누르면 노래를 파일로 저장해']] },
-  uk: { synth: [["keys", "Натисни клавішу — і пролунає звук. Тримай її та крути ручку"], ["knob", "Тягни ручку пальцем угору чи вниз. Обома руками можна крутити дві одразу"], ["stairs", "Покрути «Арпеджіо» — і затиснуті ноти заграють самі"], ["chaos", "«Мішанина!» робить дивний звук, «Як було» повертає звичайний"]],
+  uk: { synth: [["keys", "Натисни клавішу — і пролунає звук. Тримай її та крути ручку"], ["knob", "Тягни ручку пальцем угору чи вниз. Обома руками можна крутити дві одразу"], ["stairs", "Покрути «Арпеджіо» — і затиснуті ноти заграють самі"], ["chaos", "«Мішанина!» робить дивний звук, «Як було» повертає звичайний"], ["robot", "Натисни «Голос робота» — і твій голос стане роботом. Клавіші змінюють висоту"]],
         rec: [['mic', 'Натисни мікрофон — порахуємо «4, 3, 2, 1», і почнеться запис'], ['meter', 'Видай звук голосом чи будь-чим. Якщо шкала рухається — я тебе чую'], ['stop', 'Натисни ще раз, щоб зупинити. Через 4 секунди запис зупиниться сам'], ['pads', 'Вибери записаний звук або звук із шухляди й натисни «Грати цим звуком»']],
         play: [['pads', 'Стукай по пластинках чи барабанах і грай'], ['star', 'Натисни зірку: порахуємо до 4 і запишемо 2 такти на касету'], ['turtle', 'Черепаха й зайчик змінюють швидкість'], ['tape', 'Коли з’являться касети, переходь до «Пісні»']],
         song: [['play', 'Натисни «Три-чотири!» — і всі касети заграють разом'], ['spk', 'Динамік вмикає чи вимикає касету, а повзунок змінює гучність'], ['grid', 'Торкнися клітинки, щоб додати чи прибрати звук'], ['down', '«Готово! Зберегти» зберігає пісню у файл']] }
@@ -1344,6 +1364,8 @@ function syInit() {
   n.sum = ac.createGain();
   n.sum.connect(n.comp); n.comp.connect(n.make); n.make.connect(n.lim); n.lim.connect(n.out);
   n.bus.connect(n.sum);
+  n.voiceOut = ac.createGain(); n.dry = ac.createGain(); n.dry.gain.value = 1;
+  n.voiceOut.connect(n.dry); n.dry.connect(n.bus);
   n.dWet = ac.createGain(); n.dWet.gain.value = 0;
   n.delay = ac.createDelay(1.5); n.delay.delayTime.value = 0.32;
   n.fb = ac.createGain(); n.fb.gain.value = 0.38;
@@ -1421,7 +1443,7 @@ function syNoteOn(midi, gate) {
   vca.gain.setValueAtTime(0, now);
   vca.gain.linearRampToValueAtTime(0.02, now + 0.004);           // minimum fade: no click
   vca.gain.setTargetAtTime(vo.peak, now + 0.004, Math.max(0.003, atk / 4));
-  f2.connect(vca); vca.connect(n.bus);
+  f2.connect(vca); vca.connect(n.voiceOut);
   vo.mix = mix; vo.drive = drive; vo.f1 = f1; vo.f2 = f2; vo.env = env; vo.envAmt = envAmt; vo.vca = vca; vo.atkEnd = now + atk;
   SY.voices.push(vo);
   if (gate) syNoteOff(vo, now + gate);
@@ -1465,6 +1487,168 @@ function syAllOff() {
   if (SY.ready) SY.voices.slice().forEach(function (vo) { syNoteOff(vo); });
   var keys = document.querySelectorAll('.skey.down'); for (var i = 0; i < keys.length; i++) keys[i].classList.remove('down');
   var kn = document.querySelectorAll('.knob.drag'); for (var j = 0; j < kn.length; j++) kn[j].classList.remove('drag');
+}
+
+
+/* =====================================================================
+   ロボットごえ (real-time vocoder)
+   modulator = microphone, carrier = the synth voices (so every knob
+   still shapes the robot voice). Everything is plain Web Audio nodes:
+   band-pass → rectify → low-pass gives each band's envelope, which then
+   drives the gain of the same band of the carrier. Nothing is recorded.
+   ===================================================================== */
+var RB = { on: false, busy: false, stream: null, src: null, nodes: null, base: 0.55, duck: 1, duckUntil: 0,
+  tonal: 0, tonalBin: -1, loud: 0, calm: 0, lv: 0, warnUntil: 0 };
+var RB_BANDS = 16, RB_LO = 120, RB_HI = 7200;
+function rbCurve(fn) { var n = 2049, c = new Float32Array(n); for (var i = 0; i < n; i++) c[i] = fn(i / (n - 1) * 2 - 1); return c; }
+function rbBuild() {
+  if (RB.nodes) return RB.nodes;
+  var ac = ctx, n = SY.nodes, r = {};
+  var absC = rbCurve(function (x) { return Math.abs(x); });
+  var satC = rbCurve(function (x) { return Math.tanh(3 * Math.max(0, x - 0.08) / 0.92) / Math.tanh(3); });
+  function follower(src, cutoff) {               // |x| → smooth envelope
+    var rect = ac.createWaveShaper(); rect.curve = absC;
+    var lp1 = ac.createBiquadFilter(); lp1.type = 'lowpass'; lp1.frequency.value = cutoff; lp1.Q.value = 0.5;
+    var lp2 = ac.createBiquadFilter(); lp2.type = 'lowpass'; lp2.frequency.value = cutoff; lp2.Q.value = 0.5;
+    src.connect(rect); rect.connect(lp1); lp1.connect(lp2); return lp2;
+  }
+  r.modIn = ac.createGain(); r.modIn.gain.value = 3;                       // mic level into the analysis bank
+  r.modHp = ac.createBiquadFilter(); r.modHp.type = 'highpass'; r.modHp.frequency.value = 90;
+  r.modIn.connect(r.modHp);
+  r.micAn = ac.createAnalyser(); r.micAn.fftSize = 2048; r.micAn.smoothingTimeConstant = 0.5; r.modHp.connect(r.micAn);
+  r.carIn = ac.createGain(); r.carIn.gain.value = 1;                       // synth voices arrive here
+  r.sum = ac.createGain(); r.sum.gain.value = 1;
+  r.bands = [];
+  var ratio = Math.pow(RB_HI / RB_LO, 1 / (RB_BANDS - 1));
+  var bwOct = Math.log(ratio) / Math.LN2, Q = Math.sqrt(Math.pow(2, bwOct)) / (Math.pow(2, bwOct) - 1);
+  for (var i = 0; i < RB_BANDS; i++) {
+    var f = RB_LO * Math.pow(ratio, i);
+    var mb = ac.createBiquadFilter(); mb.type = 'bandpass'; mb.frequency.value = f; mb.Q.value = Q * 1.1;
+    r.modHp.connect(mb);
+    var env = follower(mb, 28);
+    var k = ac.createGain(); k.gain.value = 26 * (1 + i * 0.12);           // more gain for the (quieter) high bands
+    env.connect(k);
+    var cb1 = ac.createBiquadFilter(); cb1.type = 'bandpass'; cb1.frequency.value = f; cb1.Q.value = Q * 1.1;
+    var cb2 = ac.createBiquadFilter(); cb2.type = 'bandpass'; cb2.frequency.value = f; cb2.Q.value = Q * 1.1;
+    var vca = ac.createGain(); vca.gain.value = 0;
+    k.connect(vca.gain);
+    r.carIn.connect(cb1); cb1.connect(cb2); cb2.connect(vca); vca.connect(r.sum);
+    r.bands.push({ mb: mb, cb1: cb1, cb2: cb2, vca: vca, k: k });
+  }
+  // consonants: hiss shaped by the mic's high band, only while a key is held
+  var nb = ac.createBuffer(1, ac.sampleRate * 2, ac.sampleRate), nd = nb.getChannelData(0);
+  for (var j = 0; j < nd.length; j++) nd[j] = Math.random() * 2 - 1;
+  r.noise = ac.createBufferSource(); r.noise.buffer = nb; r.noise.loop = true; r.noise.start();
+  r.noiseHp = ac.createBiquadFilter(); r.noiseHp.type = 'highpass'; r.noiseHp.frequency.value = 5000;
+  r.noiseVca = ac.createGain(); r.noiseVca.gain.value = 0;
+  r.noiseGate = ac.createGain(); r.noiseGate.gain.value = 0;
+  r.noiseLp = ac.createBiquadFilter(); r.noiseLp.type = 'lowpass'; r.noiseLp.frequency.value = 5000; n.cut.connect(r.noiseLp.detune);   // あかるさ also darkens the hiss
+  r.noise.connect(r.noiseHp); r.noiseHp.connect(r.noiseLp); r.noiseLp.connect(r.noiseVca); r.noiseVca.connect(r.noiseGate); r.noiseGate.connect(r.sum);
+  var mHi = ac.createBiquadFilter(); mHi.type = 'highpass'; mHi.frequency.value = 4500; r.modHp.connect(mHi);
+  var hiEnv = follower(mHi, 40), hiK = ac.createGain(); hiK.gain.value = 9; hiEnv.connect(hiK); hiK.connect(r.noiseVca.gain);
+  var carEnv = follower(r.carIn, 12), carK = ac.createGain(); carK.gain.value = 40;
+  var gateSh = ac.createWaveShaper(); gateSh.curve = satC;               // 0…1: "is a key sounding?"
+  carEnv.connect(carK); carK.connect(gateSh); gateSh.connect(r.noiseGate.gain);
+  // own ceiling: compressor + hard limiter + output cap, then into the synth bus (delay, reverb, comp, limiter)
+  r.comp = ac.createDynamicsCompressor(); r.comp.threshold.value = -26; r.comp.knee.value = 6; r.comp.ratio.value = 4; r.comp.attack.value = 0.003; r.comp.release.value = 0.15;
+  r.make = ac.createGain(); r.make.gain.value = 2.2;
+  r.lim = ac.createDynamicsCompressor(); r.lim.threshold.value = -8; r.lim.knee.value = 0; r.lim.ratio.value = 20; r.lim.attack.value = 0.001; r.lim.release.value = 0.06;
+  r.out = ac.createGain(); r.out.gain.value = 0;                           // robot voice volume (faded, ducked on howling)
+  r.sum.connect(r.comp); r.comp.connect(r.make); r.make.connect(r.lim); r.lim.connect(r.out); r.out.connect(n.bus);
+  r.outAn = ac.createAnalyser(); r.outAn.fftSize = 1024; r.out.connect(r.outAn);
+  RB.nodes = r;
+  return r;
+}
+function rbFade(param, target, dur) {          // explicit ramp: dependable on/off fades in every browser
+  var now = ctx.currentTime, v = param.value;
+  param.cancelScheduledValues(now); param.setValueAtTime(v, now); param.linearRampToValueAtTime(target, now + dur);
+}
+function rbUI() {
+  var b = $('syRobot'), h = $('roboHint');
+  if (b) { b.classList.toggle('on', RB.on); b.setAttribute('aria-pressed', RB.on); }
+  if (h) h.hidden = !RB.on;
+}
+async function robotOn() {
+  if (RB.on || RB.busy) return;
+  if (!syInit()) return;
+  if (FRAMED || !window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { rbNoMic(); return; }
+  RB.busy = true;
+  try {
+    setSession('play-and-record');
+    RB.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: false } });
+  } catch (err) {
+    console.warn('robot mic', err); RB.busy = false; setSession('auto'); rbNoMic(); return;
+  }
+  RB.busy = false;
+  if (S.screen !== 'synth' || document.hidden) { rbStopStream(); return; }
+  if (ctx.state !== 'running') { try { await ctx.resume(); } catch (err) {} }
+  var r = rbBuild(), n = SY.nodes, now = ctx.currentTime;
+  RB.src = ctx.createMediaStreamSource(RB.stream); RB.src.connect(r.modIn);
+  n.voiceOut.connect(r.carIn);
+  RB.on = true; RB.base = 0.55; RB.duck = 1; RB.calm = 0; RB.tonal = 0; RB.loud = 0;
+  rbFade(n.dry.gain, 0, 0.2);                                       // synth sound → robot voice
+  rbFade(r.out.gain, RB.base, 0.4);
+  rbUI();
+}
+function robotOff() {
+  if (!RB.on) { rbStopStream(); return; }
+  RB.on = false;
+  var r = RB.nodes, n = SY.nodes, now = ctx.currentTime;
+  rbFade(r.out.gain, 0, 0.15);
+  rbFade(n.dry.gain, 1, 0.3);
+  rbUI();
+  setTimeout(function () {
+    if (RB.on) return;
+    try { n.voiceOut.disconnect(r.carIn); } catch (err) {}
+    rbStopStream();
+  }, 300);
+}
+function rbStopStream() {
+  try { if (RB.src) RB.src.disconnect(); } catch (err) {}
+  if (RB.stream) RB.stream.getTracks().forEach(function (tr) { tr.stop(); });
+  RB.src = null; RB.stream = null;
+  setSession('auto');
+}
+function rbNoMic() {
+  openSheet('<div class="nomic" aria-hidden="true"><svg viewBox="0 0 120 120" width="120" height="120"><circle cx="60" cy="60" r="54" fill="#fbf1df"/>' +
+    '<path d="M60 26a12 12 0 0 1 12 12v18a12 12 0 0 1-24 0V38a12 12 0 0 1 12-12zM38 54a22 22 0 0 0 44 0M60 76v12M48 88h24" fill="none" stroke="#3b2312" stroke-width="6" stroke-linecap="round"/>' +
+    '<path d="M28 28l64 64" stroke="#e2412c" stroke-width="8" stroke-linecap="round"/></svg></div>' +
+    '<h2 id="sheetTitle" style="justify-content:center"><span>' + esc(t('noMic')) + '</span></h2>' +
+    '<button class="sheet-ok brass press" data-close="1">' + esc(t('ok')) + '</button>');
+}
+/* howling guard: a frequency that stays loud and peaky in the mic, or a mic that
+   never goes quiet while the robot is talking, pulls the robot volume down at once */
+function rbFrame() {
+  if (!RB.on || !RB.nodes) return;
+  var r = RB.nodes, now = ctx.currentTime;
+  var fb = RB._f || (RB._f = new Float32Array(r.micAn.frequencyBinCount));
+  r.micAn.getFloatFrequencyData(fb);
+  var bw = ctx.sampleRate / r.micAn.fftSize, lo = Math.floor(250 / bw), hi = Math.min(fb.length - 1, Math.floor(6000 / bw));
+  var mx = -200, mi = 0, tot = 0;
+  for (var i = lo; i <= hi; i++) { var v = fb[i]; if (v > mx) { mx = v; mi = i; } tot += Math.pow(10, v / 10); }
+  var near = 0; for (var q = Math.max(lo, mi - 2); q <= Math.min(hi, mi + 2); q++) near += Math.pow(10, fb[q] / 10);
+  var purity = tot > 0 ? near / tot : 0;
+  var tb = RB._t || (RB._t = new Float32Array(r.micAn.fftSize)); r.micAn.getFloatTimeDomainData(tb);
+  var pk = peakOfArr(tb) / 3;                                         // undo the analysis gain
+  RB.lv = Math.max(Math.min(1, pk * 6), RB.lv * 0.82);
+  var b = $('syRobot'); if (b) b.style.setProperty('--lv', RB.lv.toFixed(2));
+  var robotLoud = SY.voices.some(function (vo) { return !vo.off; });
+  // tonal ringing
+  if (mx > -34 && purity > 0.55 && (RB.tonalBin < 0 || Math.abs(mi - RB.tonalBin) <= 2)) RB.tonal++; else RB.tonal = Math.max(0, RB.tonal - 2);
+  RB.tonalBin = mx > -32 ? mi : -1;
+  // a loop that never stops (speech always has gaps)
+  if (robotLoud && pk > 0.08) RB.loud++; else RB.loud = Math.max(0, RB.loud - 4);
+  var howl = RB.tonal > 18 || RB.loud > 360;
+  if (howl) {
+    var hard = RB.tonal > 18;
+    RB.duck = hard ? 0.12 : 0.6; RB.duckUntil = now + 1.6; RB.warnUntil = now + 3;
+    if (hard) RB.base = Math.max(0.35, RB.base - 0.1); RB.calm = 0; RB.tonal = 0; RB.loud = 0;
+    r.out.gain.cancelScheduledValues(now); r.out.gain.setTargetAtTime(RB.base * RB.duck, now, 0.015);
+  } else if (now > RB.duckUntil) {
+    if (RB.duck < 1) { RB.duck = 1; r.out.gain.setTargetAtTime(RB.base, now, 0.6); }
+    if (++RB.calm > 300 && RB.base < 0.8) { RB.base = Math.min(0.8, RB.base + 0.05); RB.calm = 0; r.out.gain.setTargetAtTime(RB.base, now, 0.8); }
+  }
+  var h = $('roboHint'); if (h) h.classList.toggle('warn', now < RB.warnUntil);
 }
 
 /* ---- held keys & arpeggiator ---- */
@@ -1584,10 +1768,11 @@ function renderSynth() {
         '<div class="slogo"><b>OTO KOBO</b><small>' + esc(t('synth')) + '</small></div>' +
         '<div class="lamps" aria-hidden="true"><i id="lampLvl"></i><i id="lampLfo"></i><i id="lampArp"></i></div>' +
         '<div class="sfx"><button class="sw' + (SY.delay ? ' on' : '') + '" data-sfx="delay" aria-pressed="' + SY.delay + '" aria-label="' + esc(t('fx_echo')) + '"><span class="led"></span>' + sysvg('sDelay', 24, 3.2) + '<span>' + esc(t('fx_echo')) + '</span></button>' +
-        '<button class="sw' + (SY.reverb ? ' on' : '') + '" data-sfx="reverb" aria-pressed="' + SY.reverb + '" aria-label="' + esc(t('s_reverb')) + '"><span class="led"></span>' + sysvg('sReverb', 24, 3.2) + '<span>' + esc(t('s_reverb')) + '</span></button></div>' +
+        '<button class="sw' + (SY.reverb ? ' on' : '') + '" data-sfx="reverb" aria-pressed="' + SY.reverb + '" aria-label="' + esc(t('s_reverb')) + '"><span class="led"></span>' + sysvg('sReverb', 24, 3.2) + '<span>' + esc(t('s_reverb')) + '</span></button>' +
+        '<button class="robobtn' + (RB.on ? ' on' : '') + '" id="syRobot" aria-pressed="' + RB.on + '" aria-label="' + esc(t('robot')) + '"><svg class="rface" viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><path d="M24 4v6M5 19v11M43 19v11" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><circle cx="24" cy="4" r="2.6" class="rant"/><rect x="9" y="10" width="30" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="3.4"/><circle class="reye" cx="18" cy="21" r="3.8"/><circle class="reye" cx="30" cy="21" r="3.8"/><rect class="rmouth" x="16.5" y="28.5" width="15" height="4" rx="2"/></svg><span>' + esc(t('robot')) + '</span></button></div>' +
       '</div>' +
       '<div class="sblocks">' + syBlock('src', t('b_src'), waveBtns) + syBlock('col', t('b_col')) + syBlock('mov', t('b_mov')) + '</div>' +
-      '<div class="sbottom"><div class="skeybed">' + syKeysHTML() + '</div>' +
+      '<div class="sbottom"><div class="skeybed">' + syKeysHTML() + '<div class="robohint" id="roboHint"' + (RB.on ? '' : ' hidden') + ' role="status"><svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="24" y="8" width="20" height="32" rx="3"/><path d="M4 22c3-3 10-3 13 0-3 4-10 4-13 0zM4 22h13M19 16a8 8 0 0 1 0 12"/></svg><span class="rh-ok">' + esc(t('robotHint')) + '</span><span class="rh-warn">' + esc(t('robotHowl')) + '</span></div></div>' +
         '<div class="sbig"><button class="bigbtn chaos" id="syChaos">' + sysvg('chaos', 30, 4) + '<span>' + esc(t('chaos')) + '</span></button>' +
         '<button class="bigbtn plain" id="syReset">' + sysvg('undo', 30, 4) + '<span>' + esc(t('resetSound')) + '</span></button></div></div>' +
     '</div><div class="cheek"></div></div>' +
@@ -1642,6 +1827,7 @@ function syBind() {
     b.classList.toggle('on', SY[k]); b.setAttribute('aria-pressed', SY[k]);
     syParam(k === 'delay' ? SY.nodes.dWet.gain : SY.nodes.rWet.gain, SY[k] ? (k === 'delay' ? 0.4 : 0.6) : 0);
   }); });
+  $('syRobot').addEventListener('click', function () { if (RB.on) robotOff(); else robotOn(); });
   $('syChaos').addEventListener('click', function () { syInit(); syAnimateTo('chaos'); });
   $('syReset').addEventListener('click', function () { syInit(); syAnimateTo('reset'); });
 }
@@ -1721,6 +1907,7 @@ function toggleSfx(k) { var b = document.querySelector('[data-sfx="' + k + '"]')
 /* lamps blink with the sound */
 function syFrame() {
   if (S.screen !== 'synth' || !SY.ready) return;
+  rbFrame();
   var n = SY.nodes, now = ctx.currentTime, dt = Math.min(0.1, now - (SY.lastT || now)); SY.lastT = now;
   SY.lfoPhase += dt * syMap('lfoRate', SYV.lfoRate);
   var lv = $('lampLvl'), lf = $('lampLfo'), la = $('lampArp');
@@ -1958,7 +2145,7 @@ function toggleSong() {
 function go(screen) {
   if (['rec', 'play', 'song', 'synth'].indexOf(screen) < 0) return;
   if (S.screen === 'rec' && screen !== 'rec') releaseMic();
-  if (S.screen === 'synth' && screen !== 'synth') syAllOff();
+  if (S.screen === 'synth' && screen !== 'synth') { syAllOff(); robotOff(); }
   cancelTake();
   S.screen = screen;
   stopTransport(); S.songPlaying = false;
@@ -2056,7 +2243,8 @@ document.addEventListener('click', function () { persist(); });
 document.addEventListener('input', function () { persist(); });
 document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && !$('overlay').hidden) closeSheet(); });
 window.addEventListener('pagehide', releaseMic);
-document.addEventListener('visibilitychange', function () { if (document.hidden) { syAllOff(); releaseMic(); cancelTake(); stopTransport(); S.songPlaying = false; if (S.screen === 'song') renderSong(); } else if (S.screen === 'play') startTransport(true); });
+window.addEventListener('pagehide', function () { robotOff(); rbStopStream(); });
+document.addEventListener('visibilitychange', function () { if (document.hidden) { syAllOff(); robotOff(); releaseMic(); cancelTake(); stopTransport(); S.songPlaying = false; if (S.screen === 'song') renderSong(); } else if (S.screen === 'play') startTransport(true); });
 
 /* ---------- animation loop ---------- */
 var lastStep = -2;
@@ -2131,7 +2319,7 @@ if (location.protocol === 'file:' || location.hash === '#debug') {
   DBG.state = S; DBG.go = go; DBG.hitPad = hitPad; DBG.starPress = starPress; DBG.addTrack = addTrack; DBG.renderAll = function () { renderAll(); }; Object.defineProperty(DBG, 'take', { get: function () { return take; } }); DBG.curStep = curStep; DBG.saveSong = saveSong;
   Object.defineProperty(DBG, 'T0', { get: function () { return T0; } });
   Object.defineProperty(DBG, 'master', { get: function () { return master; } });
-  DBG.LOOP = LOOP; DBG.STEP = STEP; DBG.applyFx = applyFx; DBG.SY = SY; DBG.SYV = SYV; DBG.syMap = syMap; DBG.flush = doPersist;
+  DBG.LOOP = LOOP; DBG.STEP = STEP; DBG.applyFx = applyFx; DBG.SY = SY; DBG.RB = RB; DBG.robotOn = robotOn; DBG.robotOff = robotOff; DBG.SYV = SYV; DBG.syMap = syMap; DBG.flush = doPersist;
   window.__okDebug = DBG;
 }
 
